@@ -105,6 +105,7 @@ $scale: 2;
 
         button {
             font-size: calc(#{$scale} * 2.5vh);
+            width: calc(#{$scale} * 5vh);
         }
     }
 
@@ -113,7 +114,6 @@ $scale: 2;
         width: calc((#{$scale} * 5vh * 3) + (#{$scale} * 0.25rem * 6));
 
         button {
-            width: calc(#{$scale} * 5vh);
             height: calc(#{$scale} * 5vh);
         }
     }

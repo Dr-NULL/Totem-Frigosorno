@@ -1,0 +1,134 @@
+$scale: 2;
+
+:host {
+    width: fit-content;
+    height: fit-content;
+}
+
+.keyboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+
+    > mat-form-field {
+        box-sizing: border-box;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        width: 100%;
+    }
+
+    > * > div {
+        padding: calc(#{$scale} * 0.25rem);
+        box-sizing: border-box;
+    } 
+
+    button {
+        padding: 0;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+
+        > * {
+            padding: 0;
+            margin: 0;
+        }
+    }
+}
+
+.num {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+
+    > * {
+        width: fit-content;
+    }
+
+    .line {
+        width: 100%;
+        margin: 0!important;
+        padding: 0!important;
+    }
+}
+
+.act {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        width: 100%;
+    }
+}
+
+
+@media screen and (orientation: portrait) {
+    .keyboard {
+        flex-flow: column wrap;
+
+        button {
+            font-size: calc(#{$scale} * 2.5vw);
+            height: calc(#{$scale} * 5vw);
+        }
+    }
+
+    .num {
+        min-width: calc(64px * #{$scale} * 1.875);
+        width: calc((#{$scale} * 5vw * 3) + (#{$scale} * 0.25rem * 6));
+
+        button {
+            width: calc(#{$scale} * 5vw);
+        }
+    }
+
+    .act {
+        flex-flow: row nowrap;
+        min-width: calc(64px * #{$scale} * 1.875);
+        width: calc((#{$scale} * 5vw * 3) + (#{$scale} * 0.25rem * 6));
+
+        > div {
+            width: 50%;
+        }
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .keyboard {
+        flex-flow: row wrap;
+        min-width: calc(64px * #{$scale} * 2.515);
+        width: calc((#{$scale} * 5vh * 3) + (#{$scale} * 0.25rem * 6) + (#{$scale} * 5vh) + (#{$scale} * 0.25rem * 2));
+
+        button {
+            font-size: calc(#{$scale} * 2.5vh);
+        }
+    }
+
+    .num {
+        min-width: calc(64px * #{$scale} * 1.875);
+        width: calc((#{$scale} * 5vh * 3) + (#{$scale} * 0.25rem * 6));
+
+        button {
+            width: calc(#{$scale} * 5vh);
+            height: calc(#{$scale} * 5vh);
+        }
+    }
+
+    .act {
+        flex-flow: column nowrap;
+        height: calc((#{$scale} * 5vh * 4) + (#{$scale} * 0.25rem * 8));
+
+        > div {
+            width: 100%;
+            height: 100%;
+        }
+
+        button {
+            height: 100%;
+        }
+    }
+}

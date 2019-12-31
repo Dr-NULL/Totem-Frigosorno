@@ -10,13 +10,15 @@ import { AppMaterialModule } from './app-material.module';
 
 // Components
 import { IndexComponent } from './components/pages/index/index.component';
-import { NumpadComponent } from './components/shared/numpad/numpad.component';
+import { TicketComponent } from './components/pages/cliente/ticket/ticket.component';
+import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IndexComponent,
-    NumpadComponent
+    TicketComponent,
+    MetodoComponent
   ],
   imports: [
     // System Modules

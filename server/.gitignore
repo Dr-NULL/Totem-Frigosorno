@@ -1,0 +1,7 @@
+# Node Dependencies
+node_modules
+dist
+
+# Config JSON
+ormconfig.json
+appconfig.json

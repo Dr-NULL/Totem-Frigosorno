@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NumpadComponent } from './numpad.component';
+import { MetodoComponent } from './metodo.component';
 
-describe('NumpadComponent', () => {
-  let component: NumpadComponent;
-  let fixture: ComponentFixture<NumpadComponent>;
+describe('MetodoComponent', () => {
+  let component: MetodoComponent;
+  let fixture: ComponentFixture<MetodoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NumpadComponent ]
+      declarations: [ MetodoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NumpadComponent);
+    fixture = TestBed.createComponent(MetodoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

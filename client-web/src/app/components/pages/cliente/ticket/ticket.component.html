@@ -1,0 +1,82 @@
+<div class="keyboard">
+  <mat-form-field>
+    <input h="rawInput" type="text" matInput placeholder="RUT:" readonly />
+  </mat-form-field>
+
+  <div class="num">
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('1')">
+        <span>1</span>
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('2')">
+        <span>2</span>
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('3')">
+        <span>3</span>
+      </button>
+    </div>
+
+    <div class="line"></div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('4')">
+        <span>4</span>
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('5')">
+        <span>5</span>
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('6')">
+        <span>6</span>
+      </button>
+    </div>
+
+    <div class="line"></div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('7')">
+        <span>7</span>
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('8')">
+        <span>8</span>
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('9')">
+        <span>9</span>
+      </button>
+    </div>
+
+    <div class="line"></div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('k')">
+        <span>k</span>
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="onKeyPress('0')">
+        <span>0</span>
+      </button>
+    </div>
+
+    <div>
+      <button mat-raised-button color="warn" (click)="onDelete()">
+        <i class="fas fa-backspace"></i>
+      </button>
+    </div>
+  </div>
+  <div class="act">
+    <div>
+      <button h="rawBtnPrint" mat-raised-button color="accent" (click)="onPrint()">
+        <i class="fas fa-print"></i>
+      </button>
+    </div>
+  </div>
+</div>

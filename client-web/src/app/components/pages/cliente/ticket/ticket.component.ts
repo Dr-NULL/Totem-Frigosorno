@@ -1,18 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { RutService } from '../../../services/rut/rut.service';
-import { HtmlElem } from '../../../decorators';
+import { RutService } from '../../../../services/rut/rut.service';
+import { HtmlElem } from '../../../../decorators';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-numpad',
-  templateUrl: './numpad.component.html',
-  styleUrls: ['./numpad.component.scss']
+  selector: 'app-ticket',
+  templateUrl: './ticket.component.html',
+  styleUrls: ['./ticket.component.scss']
 })
-export class NumpadComponent implements OnInit {
+export class TicketComponent implements OnInit {
   @HtmlElem()
   rawBtnPrint: HTMLButtonElement;
-
-  @HtmlElem()
-  rawBtnRegister: HTMLButtonElement;
 
   @HtmlElem()
   rawInput: HTMLInputElement;
@@ -40,7 +38,8 @@ export class NumpadComponent implements OnInit {
   valueChange = new EventEmitter<string>();
 
   constructor(
-    private rutServ: RutService
+    private rutServ: RutService,
+    private routerCtrl: Router
   ) { }
 
   ngOnInit() {
@@ -75,20 +74,26 @@ export class NumpadComponent implements OnInit {
   }
 
   onValidation() {
-    if (this.value === null) {
-      this.rawBtnPrint.disabled = true;
-      this.rawBtnRegister.disabled = true;
-
-      return;
-    }
-
     this.value = this.rutServ.format(this.value);
+
     if (this.rutServ.isValid(this.value)) {
-      this.rawBtnPrint.disabled = false;
-      this.rawBtnRegister.disabled = false;
-    } else {
-      this.rawBtnPrint.disabled = true;
-      this.rawBtnRegister.disabled = true;
+      this.onPrintRut();
     }
+  }
+
+  onPrint() {
+    console.clear();
+    console.log('IMPRIMIR VOUCHER!!!! /(°-°)7');
+
+    this.value = '';
+    this.routerCtrl.navigate(['cliente/metodo']);
+  }
+
+  onPrintRut() {
+    console.clear();
+    console.log(`IMPRIMIR VOUCHER PARA ${this.value}!!!! /(°-°)7`);
+
+    this.value = '';
+    this.routerCtrl.navigate(['cliente/metodo']);
   }
 }

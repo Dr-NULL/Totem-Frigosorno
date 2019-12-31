@@ -1,8 +1,11 @@
 $scale: 2;
 
 :host {
-    width: fit-content;
-    height: fit-content;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .keyboard {
@@ -23,7 +26,7 @@ $scale: 2;
     > * > div {
         padding: calc(#{$scale} * 0.25rem);
         box-sizing: border-box;
-    } 
+    }
 
     button {
         padding: 0;
@@ -72,8 +75,9 @@ $scale: 2;
         flex-flow: column wrap;
 
         button {
-            font-size: calc(#{$scale} * 2.5vw);
-            height: calc(#{$scale} * 5vw);
+          min-height: 64px;
+          height: calc(#{$scale} * 5vw);
+          font-size: calc(#{$scale} * 3vw);
         }
     }
 
@@ -92,7 +96,7 @@ $scale: 2;
         width: calc((#{$scale} * 5vw * 3) + (#{$scale} * 0.25rem * 6));
 
         > div {
-            width: 50%;
+            width: 100%;
         }
     }
 }

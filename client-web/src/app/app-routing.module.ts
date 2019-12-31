@@ -2,13 +2,23 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Components
-import { IndexComponent } from './components/pages/index/index.component';
+import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
+import { TicketComponent } from './components/pages/cliente/ticket/ticket.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: IndexComponent
-  }
+    redirectTo: 'cliente/metodo',
+    pathMatch: 'full'
+  },
+  {
+    path: 'cliente/metodo',
+    component: MetodoComponent
+  },
+  {
+    path: 'cliente/ticket',
+    component: TicketComponent
+  },
 ];
 
 @NgModule({

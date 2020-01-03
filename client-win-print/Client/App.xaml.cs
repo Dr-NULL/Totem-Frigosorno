@@ -13,5 +13,8 @@ namespace Client {
     public partial class App : Application {
         App() {
         }
+
+        private void Application_Startup(object sender, StartupEventArgs e) {
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Client.View {
     public partial class Snack : Window {
         Tool.WinFade Anime;
         
-        public Snack(string msg) {
+        public Snack(string msg, int? ms = null) {
             InitializeComponent();
             // Posicionar en pantalla
             Rectangle screen = Screen.PrimaryScreen.WorkingArea;
@@ -33,6 +33,18 @@ namespace Client.View {
             // Configuración visual
             this.LblMsg.Content = msg;
             this.Anime = new Tool.WinFade(this, 150);
+
+            // Configurar Temporizador
+            if (ms != null) {
+                Task.Run(async () => {
+                    await Task.Delay(TimeSpan.FromMilliseconds((int)ms));
+                    Tool.WinAsync.UIInvoke(() => {
+                        this.Close();
+                    });
+                });
+
+                this.Show();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {

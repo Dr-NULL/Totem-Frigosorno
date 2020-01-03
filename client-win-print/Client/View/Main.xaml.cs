@@ -17,24 +17,26 @@ namespace Client.View {
     /// Lógica de interacción para FrmMain.xaml
     /// </summary>
     public partial class Main : Window {
-        public Main() {
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e) {
+            // Instanciar demonio
+            Http.Daemon.Deploy();
+
+            // Leer impresoras existentes
             List<string> data = Tool.Impresora.GetPrinters();
-            data.ForEach(item => { 
+            data.ForEach(item => {
                 this.LstPrint.Items.Add(item);
             });
 
+            // Configuración de elementos visuales
             this.BtnSave.IsEnabled = false;
             string printer = Tool.Config.printerName;
             this.LstPrint.SelectionMode = SelectionMode.Single;
 
+            // Localizar Impresora actual
             if (printer != null) {
                 for (int i = 0; i < data.Count; i++) {
                     if (printer == data[i]) {
                         this.LstPrint.SelectedIndex = i;
-                        this.BtnSave.IsEnabled = true;
                         break;
                     }
                 }
@@ -46,18 +48,9 @@ namespace Client.View {
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e) {
+            this.BtnSave.IsEnabled = false;
             Tool.Config.printerName = this.LstPrint.SelectedItem.ToString();
-            Snack snack = new Snack("Cambios guardados correctamente!");
-            snack.Show();
-
-            // Cerrar Snack automáticamente
-            Task.Run(async () => {
-                await Task.Delay(1500);
-
-                Tool.WinAsync.UIInvoke(() => {
-                    snack.Close();
-                });
-            });
+            new Snack("Cambios guardados correctamente!", 1500);
         }
     }
 }

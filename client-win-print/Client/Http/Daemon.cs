@@ -32,7 +32,7 @@ namespace Client.Http {
             try {
                 // Configurar HTTP Listener
                 api = new HttpListener();
-                api.Prefixes.Add("http://localhost:8888/printer");
+                api.Prefixes.Add("http://localhost:8888/printer/");
                 api.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
                 // Levantar HTTP Listener
@@ -40,15 +40,22 @@ namespace Client.Http {
                 api.BeginGetContext(new AsyncCallback(GetRequest), api);
 
                 // Mantener proceso con vida
+                Tool.WinAsync.UIInvoke(() => {
+                    new View.Snack(
+                        "Demonio Inicializado y a la espera.",
+                        5000
+                    );
+                });
                 while (IsListening) { }
             
             } catch (Exception err) {
                 // Mostrar mensaje de Error
-                new View.Snack(
-                    err.Message,
-                    5000
-                );
-                await Task.Delay(5500);
+                Tool.WinAsync.UIInvoke(() => { 
+                    new View.Snack(
+                        err.Message,
+                        5000
+                    );
+                });
             }
         }
 

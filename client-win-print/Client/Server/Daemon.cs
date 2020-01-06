@@ -8,7 +8,7 @@ using System.Web;
 using System.Windows;
 using System.Net;
 
-namespace Client.Http {
+namespace Client.Server {
     class Daemon {
         private static Task Rest;
         private static HttpListener api;
@@ -20,32 +20,21 @@ namespace Client.Http {
         }
 
         private async static void Listen() {
-            // Levantar Mensaje de Inicio
-            Tool.WinAsync.UIInvoke(() => {
-                new View.Snack(
-                    "Iniciando Demonio...", 
-                    1500
-                );
-            });
-
             await Task.Delay(2000);
             try {
                 // Configurar HTTP Listener
                 api = new HttpListener();
-                api.Prefixes.Add("http://localhost:8888/printer/");
+                api.Prefixes.Add("http://localhost:8888/");
                 api.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
                 // Levantar HTTP Listener
                 api.Start();
-                api.BeginGetContext(new AsyncCallback(GetRequest), api);
+                api.BeginGetContext(
+                    new AsyncCallback(GetRequest),
+                    api
+                );
 
                 // Mantener proceso con vida
-                Tool.WinAsync.UIInvoke(() => {
-                    new View.Snack(
-                        "Demonio Inicializado y a la espera.",
-                        5000
-                    );
-                });
                 while (IsListening) { }
             
             } catch (Exception err) {
@@ -60,7 +49,27 @@ namespace Client.Http {
         }
 
         private static void GetRequest(IAsyncResult result) {
+            // Instanciar Contexto de la Llamada
+            HttpListenerContext context = api.EndGetContext(result);
+            HttpListenerRequest req = context.Request;
+            HttpListenerResponse res = context.Response;
 
+            // Configurar Headers
+            res.AppendHeader("Access-Control-Allow-Headers", "Content-Type, Accept, set-cookie, access-control-allow-origin");
+            res.AppendHeader("Access-Control-Allow-Methods", "GET, POST");
+            res.AppendHeader("Access-Control-Allow-Origin", "*");
+            res.ContentType = "application/vnd.api+json";
+
+            // Buscar el Endpoint asociado
+            Routing routing = new Routing();
+            routing.ReadRequest(req, res);
+
+            // Cerrar Conexión
+            res.Close();
+            api.BeginGetContext(
+                new AsyncCallback(GetRequest),
+                api
+            );
         }
     }
 }

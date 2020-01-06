@@ -1,28 +1,30 @@
-﻿using System;
+﻿using Client.Tool;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Client.View {
     /// <summary>
     /// Lógica de interacción para FrmMain.xaml
     /// </summary>
     public partial class Main : Window {
+        private System.Windows.Forms.NotifyIcon TrayIcon;
+
         private void Window_Loaded(object sender, RoutedEventArgs e) {
-            // Instanciar demonio
-            Http.Daemon.Deploy();
+            // Instanciar Demonio
+            Server.Daemon.Deploy();
+
+            // Ocultar Formulario
+            this.TrayIcon = new System.Windows.Forms.NotifyIcon();
+            this.TrayIcon.DoubleClick += new EventHandler(TrayIcon_DoubleClick);
+            this.TrayIcon.Icon = new System.Drawing.Icon(AppDomain.CurrentDomain.BaseDirectory + "icon.ico");
+            this.TrayIcon.Visible = true;
+            this.Visibility = Visibility.Hidden;
 
             // Leer impresoras existentes
-            List<string> data = Tool.Impresora.GetPrinters();
+            List<string> data = Tool.Printer.Impresora.GetPrinters();
             data.ForEach(item => {
                 this.LstPrint.Items.Add(item);
             });
@@ -51,6 +53,27 @@ namespace Client.View {
             this.BtnSave.IsEnabled = false;
             Tool.Config.printerName = this.LstPrint.SelectedItem.ToString();
             new Snack("Cambios guardados correctamente!", 1500);
+        }
+
+        private async void TrayIcon_DoubleClick(object sender, EventArgs e) {
+            this.Visibility = Visibility.Visible;
+            await Task.Delay(150);
+            this.WindowState = WindowState.Normal;
+            this.Topmost = true;
+            this.Focus();
+            this.Topmost = false;
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e) {
+            if (this.WindowState == WindowState.Minimized) {
+                this.Visibility = Visibility.Hidden;
+                this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                this.ShowInTaskbar = false;
+                this.TrayIcon.Visible = true;
+            } else {
+                this.ShowInTaskbar = true;
+                this.TrayIcon.Visible = false;
+            }
         }
     }
 }

@@ -1,6 +1,11 @@
-<a routerLink="/cliente/ticket" mat-raised-button color="primary">
+<button mat-raised-button color="primary" (click)="onPrint()">
   <i class="fas fa-print"></i>
   <span>Ticket</span>
+</button>
+
+<a routerLink="/cliente/print-rut" mat-raised-button color="primary">
+  <i class="fas fa-print"></i>
+  <span>Ticket con RUT</span>
 </a>
 
 <a routerLink="/cliente/registro" mat-raised-button color="accent">

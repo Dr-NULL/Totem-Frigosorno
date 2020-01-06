@@ -6,7 +6,7 @@ const urlServer = '';
 const urlClient = 'http://localhost:4200';
 
 const opt = {
-  withCredentials: true,
+  // withCredentials: true,
   headers: new HttpHeaders({
     'content-type': 'application/vnd.api+json',
     'Access-Control-Allow-Origin': urlClient,

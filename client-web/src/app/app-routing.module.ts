@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Components
 import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
-import { TicketComponent } from './components/pages/cliente/ticket/ticket.component';
+import { PrintRutComponent } from './components/pages/cliente/print-rut/print-rut.component';
 
 const routes: Routes = [
   {
@@ -16,8 +16,8 @@ const routes: Routes = [
     component: MetodoComponent
   },
   {
-    path: 'cliente/ticket',
-    component: TicketComponent
+    path: 'cliente/print-rut',
+    component: PrintRutComponent
   },
 ];
 

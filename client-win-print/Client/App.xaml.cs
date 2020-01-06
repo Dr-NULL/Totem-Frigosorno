@@ -15,6 +15,7 @@ namespace Client {
         }
 
         private void Application_Startup(object sender, StartupEventArgs e) {
+
         }
     }
 }

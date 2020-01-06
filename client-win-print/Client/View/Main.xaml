@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:Client.View"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
+        StateChanged="Window_StateChanged"
         Width="380" 
         Height="503.936" 
         Title="Tótem Impresión" 
         WindowStartupLocation="CenterScreen"
-        Background="{ StaticResource bg-dark }">
+        Background="{ StaticResource bg-dark }" ResizeMode="CanMinimize" ShowInTaskbar="False" WindowState="Minimized">
     <Grid>
         <Label 
             Height="55" 

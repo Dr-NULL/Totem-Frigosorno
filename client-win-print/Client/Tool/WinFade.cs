@@ -27,11 +27,12 @@ namespace Client.Tool {
             this.Win = window;
 
             // Setting
+            this.Win.Visibility = Visibility.Visible;
             this.Win.Opacity = 0;
-            this.Win.Closing += Win_Closing;
+            this.Win.Closing += new System.ComponentModel.CancelEventHandler(Win_Closing);
             this.FadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(ms));
             this.FadeOut = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(ms));
-            this.FadeOut.Completed += FadeIn_Completed;
+            this.FadeOut.Completed += FadeOut_Completed;
 
             this.Win.BeginAnimation(
                 UIElement.OpacityProperty,
@@ -39,7 +40,7 @@ namespace Client.Tool {
             );
         }
 
-        private void FadeIn_Completed(object sender, EventArgs e) {
+        private void FadeOut_Completed(object sender, EventArgs e) {
             this.Win.Close();
         }
 

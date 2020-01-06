@@ -25,25 +25,27 @@ namespace Client.View {
         
         public Snack(string msg, int? ms = null) {
             InitializeComponent();
+
             // Posicionar en pantalla
             Rectangle screen = Screen.PrimaryScreen.WorkingArea;
             this.Top = screen.Height - 128;
             this.Left = (screen.Width / 2) - (this.Width / 2) + screen.X;
 
             // Configuración visual
+            this.Topmost = true;
             this.LblMsg.Content = msg;
             this.Anime = new Tool.WinFade(this, 150);
 
             // Configurar Temporizador
             if (ms != null) {
+                this.Show();
+
                 Task.Run(async () => {
                     await Task.Delay(TimeSpan.FromMilliseconds((int)ms));
                     Tool.WinAsync.UIInvoke(() => {
                         this.Close();
                     });
                 });
-
-                this.Show();
             }
         }
 

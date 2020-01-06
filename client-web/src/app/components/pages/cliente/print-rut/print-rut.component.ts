@@ -4,11 +4,11 @@ import { HtmlElem } from '../../../../decorators';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-ticket',
-  templateUrl: './ticket.component.html',
-  styleUrls: ['./ticket.component.scss']
+  selector: 'app-print-rut',
+  templateUrl: './print-rut.component.html',
+  styleUrls: ['./print-rut.component.scss']
 })
-export class TicketComponent implements OnInit {
+export class PrintRutComponent implements OnInit {
   @HtmlElem()
   rawBtnPrint: HTMLButtonElement;
 

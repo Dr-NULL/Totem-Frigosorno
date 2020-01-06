@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.View"
         mc:Ignorable="d"
+        ShowInTaskbar="False"
         Title="Test" Height="64" Width="640" WindowStyle="None" WindowStartupLocation="Manual" AllowsTransparency="True" ResizeMode="NoResize">
     <Window.Background>
         <SolidColorBrush Opacity="0"></SolidColorBrush>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VoucherService } from '../../../../services/voucher/voucher.service';
 
 @Component({
   selector: 'app-metodo',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MetodoComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private voucherServ: VoucherService
+  ) { }
 
   ngOnInit() {
   }
 
+  async onPrint() {
+    console.log(await this.voucherServ.print());
+  }
 }

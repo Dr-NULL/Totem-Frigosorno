@@ -8,9 +8,13 @@ import { configApi } from './config-api';
 import { configSession } from './config-session';
 import { configRouter } from './config-router';
 import { configAngular } from './config-angular';
+import { createConnection } from 'typeorm';
 
 export const app = express()
 export async function startServer() {
+    // Levantar TypeORM
+    await createConnection()
+
     // Ejecutar configuraciones
     configJson();
     configApi();

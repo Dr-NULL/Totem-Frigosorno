@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Client.Tool.Http {
 
     abstract class Router {
         abstract public EndPoint[] Routes { get; }
 
-        public void ReadRequest(HttpListenerRequest req, HttpListenerResponse res) {
+        public async Task ReadRequest(HttpListenerRequest req, HttpListenerResponse res) {
             // Saltar Métodos OPTIONS
             if (req.HttpMethod == Method.Options) {
                 return;
@@ -22,7 +23,7 @@ namespace Client.Tool.Http {
                     found = true;
                     if (req.HttpMethod == endPoint.Method) {
                         try {
-                            endPoint.Callback(req, res);
+                            await endPoint.Callback(req, res);
 
                             res.StatusCode = 200;
                             res.StatusDescription = "OK";

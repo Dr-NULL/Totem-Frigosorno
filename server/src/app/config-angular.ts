@@ -4,7 +4,7 @@ import { app } from '.';
 
 export function configAngular() {
     app.use(Express.static(config.folder.angular))
-    app.get('*', (req, res) => {
+    app.get(/^((?!\/api\/).)*$/gi, (req, res) => {
         res.sendFile('index.html', {
             root: config.folder.angular
         })

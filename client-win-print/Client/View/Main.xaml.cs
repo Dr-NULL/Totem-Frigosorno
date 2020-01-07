@@ -52,7 +52,7 @@ namespace Client.View {
         private void BtnSave_Click(object sender, RoutedEventArgs e) {
             this.BtnSave.IsEnabled = false;
             Tool.Config.printerName = this.LstPrint.SelectedItem.ToString();
-            new Snack("Cambios guardados correctamente!", 1500);
+            Snack.Show("Cambios guardados correctamente!", 1500);
         }
 
         private async void TrayIcon_DoubleClick(object sender, EventArgs e) {

@@ -13,11 +13,12 @@ namespace Client.Server.Controller {
 
         public override string Path => "print/rut/:param";
 
-        public override Action<
+        public override Func<
             HttpListenerRequest, 
-            HttpListenerResponse
-        > Callback => (req, res) => { 
-        
+            HttpListenerResponse,
+            Task
+        > Callback => async (req, res) => {
+            return;
         };
     }
 }

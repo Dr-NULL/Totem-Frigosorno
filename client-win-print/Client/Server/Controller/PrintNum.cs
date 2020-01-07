@@ -12,35 +12,19 @@ namespace Client.Server.Controller {
 
         public override string Path => "print/num";
 
-        public override Action<
+        public override Func<
             HttpListenerRequest, 
-            HttpListenerResponse
-        > Callback => (req, res) => {
-            this.Print();
-            WinAsync.UIInvoke(() => {
-                new View.Snack("Voucher Impreso Correctamente", 2000);
-            });
+            HttpListenerResponse,
+            Task
+        > Callback => async (req, res) => {
+            await this.Print();
             res.Send("DONE");
+            _ = View.Snack.Show("Impresión realizada con Éxito", 2500);
         };
 
-        private void Print() {
-            int num = 1;
-            int len = num.ToString().Length + 1;
-            len *= 10;
-            len /= 2;
-
-            Impresora imp = new Impresora { 
-                Tail = new List<Label> {
-                    new Label{
-                        X = (float)(34 - len),
-                        Y = 0,
-                        Text = "A" + num.ToString(),
-                        FontSize = 45
-                    }
-                }
-            };
-
-            imp.Print();
+        private async Task Print() {
+            Voucher voucher = await Voucher.New();
+            voucher.Generate();
         }
     }
 }

@@ -22,8 +22,27 @@ namespace Client.View {
     /// </summary>
     public partial class Snack : Window {
         Tool.WinFade Anime;
-        
-        public Snack(string msg, int? ms = null) {
+
+        public static Task Show(string msg, int? ms = null) {
+            return Task.Run(() => {
+                Tool.WinAsync.UIInvoke(async () => {
+                    // Levantar nuevo formulario
+                    Snack snack = new Snack(msg);
+                    snack.Closed += (object sender, EventArgs e) => {
+                        ms = null;
+                    };
+
+                    // Matar formulario
+                    await Task.Delay((int)ms);
+                    snack.Close();
+                });
+
+                // Mantener tarea con vida
+                while (ms != null) { }
+            });
+        }
+
+        public Snack(string msg) {
             InitializeComponent();
 
             // Posicionar en pantalla
@@ -35,18 +54,6 @@ namespace Client.View {
             this.Topmost = true;
             this.LblMsg.Content = msg;
             this.Anime = new Tool.WinFade(this, 150);
-
-            // Configurar Temporizador
-            if (ms != null) {
-                this.Show();
-
-                Task.Run(async () => {
-                    await Task.Delay(TimeSpan.FromMilliseconds((int)ms));
-                    Tool.WinAsync.UIInvoke(() => {
-                        this.Close();
-                    });
-                });
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {

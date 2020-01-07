@@ -11,9 +11,10 @@ namespace Client.Tool.Http {
         abstract public string Method { get; }
         abstract public string Path { get; }
         
-        abstract public Action<
+        abstract public Func<
             HttpListenerRequest, 
-            HttpListenerResponse
+            HttpListenerResponse,
+            Task
         > Callback { get; }
     }
 }

@@ -70,6 +70,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,17 +90,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Cliente.cs" />
+    <Compile Include="Model\TipoAte.cs" />
+    <Compile Include="Model\Totem.cs" />
+    <Compile Include="Model\Venta.cs" />
     <Compile Include="Server\Controller\PrintNum.cs" />
     <Compile Include="Server\Controller\PrintRut.cs" />
     <Compile Include="Server\Daemon.cs" />
     <Compile Include="Server\Routing.cs" />
     <Compile Include="Tool\Config.cs" />
+    <Compile Include="Tool\Http\Ajax.cs" />
     <Compile Include="Tool\Http\EndPoint.cs" />
     <Compile Include="Tool\Http\Response.cs" />
     <Compile Include="Tool\Http\Router.cs" />
     <Compile Include="Tool\Printer\Impresora.cs" />
     <Compile Include="Tool\Http\Method.cs" />
     <Compile Include="Tool\Printer\Label.cs" />
+    <Compile Include="Tool\Voucher.cs" />
     <Compile Include="Tool\WinAsync.cs" />
     <Compile Include="Tool\WinFade.cs" />
     <Compile Include="View\Main.xaml.cs">

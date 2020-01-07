@@ -39,16 +39,11 @@ namespace Client.Server {
             
             } catch (Exception err) {
                 // Mostrar mensaje de Error
-                Tool.WinAsync.UIInvoke(() => { 
-                    new View.Snack(
-                        err.Message,
-                        5000
-                    );
-                });
+                _ = View.Snack.Show(err.Message, 4000);
             }
         }
 
-        private static void GetRequest(IAsyncResult result) {
+        private static async void GetRequest(IAsyncResult result) {
             // Instanciar Contexto de la Llamada
             HttpListenerContext context = api.EndGetContext(result);
             HttpListenerRequest req = context.Request;
@@ -62,7 +57,7 @@ namespace Client.Server {
 
             // Buscar el Endpoint asociado
             Routing routing = new Routing();
-            routing.ReadRequest(req, res);
+            await routing.ReadRequest(req, res);
 
             // Cerrar Conexión
             res.Close();

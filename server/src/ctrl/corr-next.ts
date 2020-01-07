@@ -40,19 +40,9 @@ corrNext.callback = async (req, res) => {
         tipo = await TipoAte.findOne({ cod: 'B' })
     }
 
-    // Identificar IP
-    let ip = req.ip.match(/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/)
-    if (ip == null) {
-        res.api.failed({ 
-            HttpResponse: StatusCodes.cod500,
-            details: "No se ha podido identificar la IP del cliente."
-        })
-        return
-    }
-
     
     // Buscar Tótem
-    let totem = await Totem.findOne({ ip: ip[0] })
+    let totem = await Totem.findOne({ ip: req.ip })
     if (totem == null) {
         res.api.failed({ 
             HttpResponse: StatusCodes.cod403,

@@ -1,7 +1,7 @@
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Totem } from './totem';
-import { Cliente } from './cliente';
 import { TipoAte } from './tipo-ate';
+import { Cliente } from './cliente';
+import { Totem } from './totem';
 
 @Entity({ name: 'Venta' })
 export class Venta extends BaseEntity {

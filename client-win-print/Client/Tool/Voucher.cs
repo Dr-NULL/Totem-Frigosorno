@@ -27,8 +27,8 @@ namespace Client.Tool {
         private Voucher() { }
 
         public static async Task<Voucher> New(string rut = null) {
-            // Agregar RUT en caso ecesario
-            string url = "http://localhost/api/corr/next/";
+            // Agregar RUT en caso necesario
+            string url = "http://192.168.20.218:8081/api/corr/next/";
             if (rut != null) {
                 url += rut;
             }

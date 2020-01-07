@@ -23,7 +23,7 @@ export async function startServer() {
     configAngular();
 
     // Levantar Servidor
-    app.listen(config.server.port, () => {
+    app.listen(config.server.port, '0.0.0.0', () => {
         Log.title('Totem Frigosorno')
         Log.ok('Servidor listo y desplegado!')
         Log.ln('A la espera de solicitudes...')

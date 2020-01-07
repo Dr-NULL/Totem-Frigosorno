@@ -98,8 +98,10 @@
     <Compile Include="Server\Controller\PrintRut.cs" />
     <Compile Include="Server\Daemon.cs" />
     <Compile Include="Server\Routing.cs" />
+    <Compile Include="Tool\Barcode.cs" />
     <Compile Include="Tool\Config.cs" />
     <Compile Include="Tool\Http\Ajax.cs" />
+    <Compile Include="Tool\Http\AjaxResponse.cs" />
     <Compile Include="Tool\Http\EndPoint.cs" />
     <Compile Include="Tool\Http\Response.cs" />
     <Compile Include="Tool\Http\Router.cs" />

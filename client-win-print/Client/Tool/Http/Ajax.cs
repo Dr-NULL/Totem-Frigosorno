@@ -9,7 +9,7 @@ using System;
 
 namespace Client.Tool {
     public class Ajax {
-        public static async Task<T> Get<T>(string url) where T : class {
+        public static async Task<Http.AjaxSuccess<T>> Get<T>(string url) where T : class {
             //Definir Petición
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
@@ -22,17 +22,17 @@ namespace Client.Tool {
 
                 //Parsear
                 try {
-                    T output = JsonSerializer.Deserialize<T>(receive, new JsonSerializerOptions {
+                    Http.AjaxSuccess<T> output = JsonSerializer.Deserialize<Http.AjaxSuccess<T>>(receive, new JsonSerializerOptions {
                         PropertyNameCaseInsensitive = true
                     });
                     return output;
 
-                } catch (Exception) {
+                } catch (Exception err) {
                     return null;
                 }
             }
         }
-        public static async Task<T> Post<T>(string url, object data) where T : class {
+        public static async Task<Http.AjaxSuccess<T>> Post<T>(string url, object data) where T : class {
             //Serializar data
             string raw = JsonSerializer.Serialize(
                 data,
@@ -63,7 +63,7 @@ namespace Client.Tool {
 
                 //Parsear
                 try {
-                    T output = JsonSerializer.Deserialize<T>(receive, new JsonSerializerOptions {
+                    Http.AjaxSuccess<T> output = JsonSerializer.Deserialize<Http.AjaxSuccess<T>>(receive, new JsonSerializerOptions {
                         PropertyNameCaseInsensitive = true,
                         IgnoreReadOnlyProperties = false
                     });

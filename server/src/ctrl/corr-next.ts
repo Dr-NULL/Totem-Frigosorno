@@ -60,11 +60,12 @@ corrNext.callback = async (req, res) => {
         (totem.currFecha.getDate() == now.getDate())
     ) {
         totem.currCorr++
-        await totem.save()
     } else {
         totem.currCorr = 1
-        await totem.save()
     }
+
+    totem.currFecha = now
+    await totem.save()
     
     // Crear nueva respuesta
     let venta = new Venta()

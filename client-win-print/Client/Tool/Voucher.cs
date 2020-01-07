@@ -28,17 +28,17 @@ namespace Client.Tool {
 
         public static async Task<Voucher> New(string rut = null) {
             // Agregar RUT en caso necesario
-            string url = "http://192.168.20.218:8081/api/corr/next/";
+            string url = "http://localhost/api/corr/next/";
             if (rut != null) {
                 url += rut;
             }
-            
+
             // Generar nuevo correlativo
-            Model.Venta venta = await Tool.Ajax.Get<Model.Venta>(url);
+            Http.AjaxSuccess<Model.Venta> venta = await Tool.Ajax.Get<Model.Venta>(url);
             Voucher obj = new Voucher {
-                Rut = venta.Cliente.Rut,
-                Tipo = venta.TipoAte.Cod,
-                Correlat = venta.Correlat
+                Rut = venta.Data.Cliente.Rut,
+                Tipo = venta.Data.TipoAte.Cod,
+                Correlat = venta.Data.Correlat
             };
 
             return obj;
@@ -48,8 +48,11 @@ namespace Client.Tool {
             // Agregar ceros a la izquierda
             string title = this.Correlat.ToString();
             while (title.Length < 4) { title = "0" + title; }
+            title = this.Tipo + title;
 
             // Crear cola de dibujado
+            string barcode = Barcode.To128(this.Rut);
+
             Printer.Impresora imp = new Printer.Impresora {
                 Tail = new List<Printer.Label> {
                     new Printer.Label{
@@ -57,6 +60,16 @@ namespace Client.Tool {
                         Y = 0,
                         Text = title,
                         FontSize = 45
+                    },
+                    new Printer.Label{
+                        X = this.GetCenter(barcode, 10),
+                        Y = 20,
+                        Text = barcode,
+                        Font = new System.Drawing.Font(
+                            "Code 128",
+                            50,
+                            System.Drawing.FontStyle.Regular
+                        )
                     }
                 }
             };
@@ -69,7 +82,7 @@ namespace Client.Tool {
             len *= exp;
             len /= 2;
 
-            return (float)(34 - len);
+            return (float)(35 - len);
         }
     }
 }

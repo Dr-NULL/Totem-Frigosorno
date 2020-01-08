@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Drawing;
+using System.Drawing.Text;
 
 namespace Client.Tool {
     class Voucher {
@@ -58,6 +60,10 @@ namespace Client.Tool {
 
             // Crear cola de dibujado
             string barcode = Barcode.To128(this.Rut);
+            Font code128 = Tool.FontLoader.Load(
+                AppContext.BaseDirectory + "code128.ttf",
+                50, FontStyle.Regular
+            );
 
             Printer.Impresora imp = new Printer.Impresora {
                 Tail = new List<Printer.Label> {
@@ -71,11 +77,7 @@ namespace Client.Tool {
                         X = this.GetCenter(barcode, (float)5.28, 31),
                         Y = 20,
                         Text = barcode,
-                        Font = new System.Drawing.Font(
-                            "Code 128",
-                            50,
-                            System.Drawing.FontStyle.Regular
-                        )
+                        Font = code128
                     },
                     new Printer.Label{
                         X = this.GetCenter(this.Rut, (float)4.5, 34),

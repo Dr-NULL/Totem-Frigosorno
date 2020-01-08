@@ -100,6 +100,8 @@
     <Compile Include="Server\Routing.cs" />
     <Compile Include="Tool\Barcode.cs" />
     <Compile Include="Tool\Config.cs" />
+    <Compile Include="Tool\File.cs" />
+    <Compile Include="Tool\FontLoader.cs" />
     <Compile Include="Tool\Http\Ajax.cs" />
     <Compile Include="Tool\Http\AjaxResponse.cs" />
     <Compile Include="Tool\Http\EndPoint.cs" />
@@ -159,6 +161,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="code128.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

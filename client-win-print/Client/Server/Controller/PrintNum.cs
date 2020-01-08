@@ -17,9 +17,13 @@ namespace Client.Server.Controller {
             HttpListenerResponse,
             Task
         > Callback => async (req, res) => {
-            await this.Print();
-            res.Send("DONE");
-            _ = View.Snack.Show("Impresión realizada con Éxito", 2500);
+            try {
+                await this.Print();
+                res.Send("DONE");
+                _ = View.Snack.Show("Impresión realizada con Éxito", 2500);
+            } catch (Exception err) {
+                _ = View.Snack.Show(err.Message, 3000);
+            }
         };
 
         private async Task Print() {

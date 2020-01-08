@@ -26,7 +26,7 @@ corrNext.callback = async (req, res) => {
     })
     if (cli == null) {
         res.api.failed({ 
-            HttpResponse: StatusCodes.cod500,
+            HttpResponse: StatusCodes.cod406,
             details: "El usuario especificado no existe."
         })
         return
@@ -39,7 +39,6 @@ corrNext.callback = async (req, res) => {
     } else {
         tipo = await TipoAte.findOne({ cod: 'B' })
     }
-
     
     // Buscar Tótem
     let totem = await Totem.findOne({ ip: req.ip })

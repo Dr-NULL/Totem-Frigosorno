@@ -30,18 +30,30 @@ namespace Client.Tool {
 
         public static async Task<Voucher> New(string rut = null) {
             // Agregar RUT en caso necesario
+#if DEBUG
             string url = "http://localhost/api/corr/next/";
+#else
+            string url = "http://192.168.20.218:8081/api/corr/next/";
+#endif
             if (rut != null) {
                 url += rut;
             }
 
             // Generar nuevo correlativo
+            Tool.Log.Ev("AJAX -> " + url);
             Voucher obj = null;
-            Http.AjaxSuccess<Model.Venta> venta = null;
-            try {
-                venta = await Tool.Ajax.Get<Model.Venta>(url);
-            } catch (Exception) {
+            Http.AjaxSuccess<Model.Venta> venta = await Tool.Ajax.Get<Model.Venta>(url);
+            if (
+                (rut != null) &&
+                (venta.Errors != null) && 
+                (venta.Errors[0].Status == "406")
+            ) {
                 venta = await Tool.Ajax.Get<Model.Venta>(url.Replace(rut, ""));
+                if (venta.Errors != null) {
+                    throw new Exception(venta.Errors[0].Details);
+                }
+            } else {
+                throw new Exception(venta.Errors[0].Details);
             }
 
             obj = new Voucher {

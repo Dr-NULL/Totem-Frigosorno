@@ -18,10 +18,17 @@ namespace Client.Server.Controller {
             Task
         > Callback => async (req, res) => {
             try {
+                Tool.Log.Ln("URL = " + req.RawUrl);
                 await this.Print();
                 res.Send("DONE");
+
+                Tool.Log.Ok("Voucher Impreso Correctamente!");
                 _ = View.Snack.Show("Impresión realizada con Éxito", 2500);
             } catch (Exception err) {
+                Tool.Log.Er("Fallo al generar Voucher!");
+                Tool.Log.Ln(err.Message);
+                Tool.Log.Ln(err.StackTrace + "\n");
+
                 _ = View.Snack.Show(err.Message, 3000);
             }
         };

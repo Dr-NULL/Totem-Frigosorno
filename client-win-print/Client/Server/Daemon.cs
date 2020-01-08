@@ -23,6 +23,7 @@ namespace Client.Server {
             await Task.Delay(2000);
             try {
                 // Configurar HTTP Listener
+                Tool.Log.Ev("Iniciando Demonio");
                 api = new HttpListener();
                 api.Prefixes.Add("http://localhost:8888/");
                 api.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
@@ -35,6 +36,7 @@ namespace Client.Server {
                 );
 
                 // Mantener proceso con vida
+                Tool.Log.Ok("Demonio iniciado correctamente");
                 while (IsListening) { }
             
             } catch (Exception err) {
@@ -54,6 +56,9 @@ namespace Client.Server {
             HttpListenerContext context = api.EndGetContext(result);
             HttpListenerRequest req = context.Request;
             HttpListenerResponse res = context.Response;
+
+            Tool.Log.Ev("Nueva Petición!");
+            Tool.Log.Ln("METHOD = " + req.HttpMethod + "\n");
 
             // Configurar Headers
             res.AppendHeader("Access-Control-Allow-Headers", "Content-Type, Accept, set-cookie, access-control-allow-origin");

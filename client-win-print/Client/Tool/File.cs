@@ -89,6 +89,15 @@ namespace Client.Tool {
             return tmp;
         }
 
+        public void Create() {
+            //Crea directorios
+            System.IO.Directory.CreateDirectory(this.Path);
+
+            //Crea nuevo archivo
+            FileStream stream = System.IO.File.Create(this.FullPath);
+            stream.Close();
+        }
+
         public void Delete() {
             System.IO.File.Delete(this.FullPath);
         }
@@ -133,6 +142,10 @@ namespace Client.Tool {
                 this.FullPath,
                 content
             );
+        }
+
+        public bool Exists() {
+            return System.IO.File.Exists(this.FullPath);
         }
 
         public static bool Exists(string path) {

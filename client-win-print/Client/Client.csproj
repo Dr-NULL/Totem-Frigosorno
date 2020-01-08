@@ -107,6 +107,7 @@
     <Compile Include="Tool\Http\EndPoint.cs" />
     <Compile Include="Tool\Http\Response.cs" />
     <Compile Include="Tool\Http\Router.cs" />
+    <Compile Include="Tool\Log.cs" />
     <Compile Include="Tool\Printer\Impresora.cs" />
     <Compile Include="Tool\Http\Method.cs" />
     <Compile Include="Tool\Printer\Label.cs" />

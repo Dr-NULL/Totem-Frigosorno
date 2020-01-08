@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Client.Tool.Http {
@@ -15,12 +16,17 @@ namespace Client.Tool.Http {
 
             // Buscar EndPoint
             bool found = false;
+            Regex regPath = new Regex(@":([a-z]|[0-9])+\/?", 
+                RegexOptions.ECMAScript & 
+                RegexOptions.IgnoreCase
+            );
             foreach (EndPoint endPoint in this.Routes) {
                 string pathReq = this.PathFormat(req.RawUrl);
-                string pathApp = this.PathFormat(endPoint.Path);
+                string pathApp = this.PathFormat(regPath.Replace(endPoint.Path, ""));
 
-                if (pathReq == pathApp) {
+                if (pathReq.StartsWith(pathApp)) {
                     found = true;
+
                     if (req.HttpMethod == endPoint.Method) {
                         try {
                             await endPoint.Callback(req, res);

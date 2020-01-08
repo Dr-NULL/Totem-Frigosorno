@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VoucherService } from '../../../../services/voucher/voucher.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-metodo',
@@ -9,13 +10,18 @@ import { VoucherService } from '../../../../services/voucher/voucher.service';
 export class MetodoComponent implements OnInit {
 
   constructor(
-    private voucherServ: VoucherService
+    private voucherServ: VoucherService,
+    private snackCtrl: MatSnackBar
   ) { }
 
   ngOnInit() {
   }
 
   async onPrint() {
-    console.log(await this.voucherServ.print());
+    try {
+      await this.voucherServ.print();
+    } catch (err) {
+      this.snackCtrl.open(err[0].details, 'Aceptar', { duration: 2500 });
+    }
   }
 }

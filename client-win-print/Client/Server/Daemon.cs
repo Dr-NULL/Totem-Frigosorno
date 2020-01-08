@@ -19,7 +19,7 @@ namespace Client.Server {
             Rest = Task.Run(Listen);
         }
 
-        private async static void Listen() {
+        private async static Task Listen() {
             await Task.Delay(2000);
             try {
                 // Configurar HTTP Listener
@@ -44,6 +44,12 @@ namespace Client.Server {
         }
 
         private static async void GetRequest(IAsyncResult result) {
+            //Abrir otra conexión en paralelo
+            api.BeginGetContext(
+                new AsyncCallback(GetRequest),
+                api
+            );
+
             // Instanciar Contexto de la Llamada
             HttpListenerContext context = api.EndGetContext(result);
             HttpListenerRequest req = context.Request;
@@ -61,10 +67,6 @@ namespace Client.Server {
 
             // Cerrar Conexión
             res.Close();
-            api.BeginGetContext(
-                new AsyncCallback(GetRequest),
-                api
-            );
         }
     }
 }

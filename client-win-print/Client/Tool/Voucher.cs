@@ -34,13 +34,19 @@ namespace Client.Tool {
             }
 
             // Generar nuevo correlativo
-            Http.AjaxSuccess<Model.Venta> venta = await Tool.Ajax.Get<Model.Venta>(url);
-            Voucher obj = new Voucher {
+            Voucher obj = null;
+            Http.AjaxSuccess<Model.Venta> venta = null;
+            try {
+                venta = await Tool.Ajax.Get<Model.Venta>(url);
+            } catch (Exception) {
+                venta = await Tool.Ajax.Get<Model.Venta>(url.Replace(rut, ""));
+            }
+
+            obj = new Voucher {
                 Rut = venta.Data.Cliente.Rut,
                 Tipo = venta.Data.TipoAte.Cod,
                 Correlat = venta.Data.Correlat
             };
-
             return obj;
         }
 
@@ -56,13 +62,13 @@ namespace Client.Tool {
             Printer.Impresora imp = new Printer.Impresora {
                 Tail = new List<Printer.Label> {
                     new Printer.Label{
-                        X = this.GetCenter(title, 10),
+                        X = this.GetCenter(title, 10, 35),
                         Y = 0,
                         Text = title,
                         FontSize = 45
                     },
                     new Printer.Label{
-                        X = this.GetCenter(barcode, 10),
+                        X = this.GetCenter(barcode, (float)5.28, 31),
                         Y = 20,
                         Text = barcode,
                         Font = new System.Drawing.Font(
@@ -70,6 +76,12 @@ namespace Client.Tool {
                             50,
                             System.Drawing.FontStyle.Regular
                         )
+                    },
+                    new Printer.Label{
+                        X = this.GetCenter(this.Rut, (float)4.5, 34),
+                        Y = 40,
+                        Text = this.Rut,
+                        FontSize = 24
                     }
                 }
             };
@@ -77,12 +89,12 @@ namespace Client.Tool {
             imp.Print();
         }
 
-        private float GetCenter(string txt, int exp) {
-            int len = txt.ToString().Length;
+        private float GetCenter(string txt, float exp, float offset) {
+            float len = txt.ToString().Length;
             len *= exp;
             len /= 2;
 
-            return (float)(35 - len);
+            return (float)(offset - len);
         }
     }
 }

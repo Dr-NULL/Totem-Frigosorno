@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { RespSuccess, RespFailed, ApiError, ApiErrorSource } from '../../interfaces/api';
 
 const urlServer = '';
@@ -33,7 +33,7 @@ export class HttpService {
       return res as RespSuccess<T>;
 
     } catch (err) {
-      throw err.errors;
+      throw this.getError(err);
     }
   }
 
@@ -48,7 +48,22 @@ export class HttpService {
       return res as RespSuccess<T>;
 
     } catch (err) {
-      throw err.errors;
+      throw this.getError(err);
+    }
+  }
+
+  private getError(err: any) {
+    if (err.errors != null) {
+      return err.errors;
+    } else {
+      const errors: ApiError = {
+        status: '500',
+        title: 'Internal Server Error',
+        details: 'El servidor no responde, por favor contáctese con el depto. de informática.',
+        source: err.url
+      };
+
+      return [errors];
     }
   }
 }

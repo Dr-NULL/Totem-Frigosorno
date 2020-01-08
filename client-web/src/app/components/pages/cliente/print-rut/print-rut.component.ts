@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RutService } from '../../../../services/rut/rut.service';
 import { HtmlElem } from '../../../../decorators';
 import { Router } from '@angular/router';
+import { VoucherService } from '../../../../services/voucher/voucher.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-print-rut',
@@ -39,6 +41,8 @@ export class PrintRutComponent implements OnInit {
 
   constructor(
     private rutServ: RutService,
+    private voucherServ: VoucherService,
+    private snackCtrl: MatSnackBar,
     private routerCtrl: Router
   ) { }
 
@@ -74,26 +78,21 @@ export class PrintRutComponent implements OnInit {
   }
 
   onValidation() {
-    this.value = this.rutServ.format(this.value);
-
-    if (this.rutServ.isValid(this.value)) {
-      this.onPrintRut();
+    if (this.value != null) {
+      this.value = this.rutServ.format(this.value);
+      this.rawBtnPrint.disabled = !this.rutServ.isValid(this.value);
+    } else {
+      this.rawBtnPrint.disabled = true;
     }
   }
 
-  onPrint() {
-    console.clear();
-    console.log('IMPRIMIR VOUCHER!!!! /(°-°)7');
-
-    this.value = '';
-    this.routerCtrl.navigate(['cliente/metodo']);
-  }
-
-  onPrintRut() {
-    console.clear();
-    console.log(`IMPRIMIR VOUCHER PARA ${this.value}!!!! /(°-°)7`);
-
-    this.value = '';
-    this.routerCtrl.navigate(['cliente/metodo']);
+  async onPrint() {
+    try {
+      await this.voucherServ.printRut(this.rawValue);
+    } catch (err) {
+      this.snackCtrl.open(err[0].details, 'Aceptar', { duration: 2500 });
+    } finally {
+      this.routerCtrl.navigate(['cliente/metodo']);
+    }
   }
 }

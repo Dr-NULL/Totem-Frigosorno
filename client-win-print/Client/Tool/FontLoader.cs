@@ -13,8 +13,9 @@ namespace Client.Tool {
         public static Font Load(string path, int size, System.Drawing.FontStyle style) {
             PrivateFontCollection sysFonts = new PrivateFontCollection();
             sysFonts.AddFontFile(path);
-                
-            return new Font(sysFonts.Families[0], size, style);
+            Font output = new Font(sysFonts.Families[0], size, style);
+            sysFonts.Dispose();
+            return output;
         }
     }
 }

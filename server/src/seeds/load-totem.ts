@@ -6,11 +6,16 @@ export async function loadTotem() {
 
     let test = new Totem()
     test.ip = '127.0.0.1'
-    test.descripc = 'Tótem para pruebas locales en desarrollo'
+    test.descripc = 'PC para pruebas locales en desarrollo'
     await test.save()
 
     test = new Totem()
-    test.ip = '20.20.10.105'
+    test.ip = '192.168.20.249'
+    test.descripc = 'PC para pruebas remotas en desarrollo'
+    await test.save()
+
+    test = new Totem()
+    test.ip = '192.168.20.2'
     test.descripc = 'Tótem para pruebas remotas en desarrollo'
     await test.save()
 

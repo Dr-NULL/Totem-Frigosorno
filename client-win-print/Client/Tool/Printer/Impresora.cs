@@ -34,22 +34,27 @@ namespace Client.Tool.Printer {
         }
 
         public void Print() {
-            // Controlando Errores
-            if (this.Tail == null) {
-                throw new Exception("La cola de elementos a dibujar está vacía.");
-            } else if (this.Tail.Count == 0) {
-                throw new Exception("No hay elementos en cola para agregar al espacio de dibujo.");
+            try { 
+                // Controlando Errores
+                if (this.Tail == null) {
+                    throw new Exception("La cola de elementos a dibujar está vacía.");
+                } else if (this.Tail.Count == 0) {
+                    throw new Exception("No hay elementos en cola para agregar al espacio de dibujo.");
+                }
+
+                // Dibujando área de dibujo
+                PrintDocument machine = new PrintDocument();
+                machine.PrinterSettings.PrinterName = this.PrinterName;
+
+                Margins margin = new Margins(0, 0, 0, 0);
+                machine.DefaultPageSettings.Margins = margin;
+
+                machine.PrintPage += new PrintPageEventHandler(Machine_PrintPage);
+                machine.Print();
+            } catch (Exception err) {
+                Log.Er(err.Message);
+                Log.Ln(err.StackTrace);
             }
-
-            // Dibujando área de dibujo
-            PrintDocument machine = new PrintDocument();
-            machine.PrinterSettings.PrinterName = this.PrinterName;
-
-            Margins margin = new Margins(0, 0, 0, 0);
-            machine.DefaultPageSettings.Margins = margin;
-
-            machine.PrintPage += new PrintPageEventHandler(Machine_PrintPage);
-            machine.Print();
         }
 
         private int MilimToCentInch(int length) {
@@ -59,35 +64,40 @@ namespace Client.Tool.Printer {
         }
 
         private void Machine_PrintPage(object sender, PrintPageEventArgs e) {
-            e.Graphics.PageUnit = this.Unit;
-            e.PageSettings.PaperSize = new PaperSize(
-                "custom",
-                MilimToCentInch(this.Width),
-                MilimToCentInch(this.Height)
-            );
-
-            foreach (Label item in this.Tail) {
-                e.Graphics.DrawString(
-                    item.Text,
-                    item.Font,
-                    item.Brush,
-                    item.X,
-                    item.Y
+            try {
+                e.Graphics.PageUnit = this.Unit;
+                e.PageSettings.PaperSize = new PaperSize(
+                    "custom",
+                    MilimToCentInch(this.Width),
+                    MilimToCentInch(this.Height)
                 );
+
+                foreach (Label item in this.Tail) {
+                    e.Graphics.DrawString(
+                        item.Text,
+                        item.Font,
+                        item.Brush,
+                        item.X,
+                        item.Y
+                    );
+                }
+
+                e.Graphics.DrawLine(
+                    new Pen(Color.Black, (float)0.25),
+
+                    // Dot 1
+                    16,
+                    this.Height,
+
+                    // Dot 2
+                    56,
+                    this.Height
+                );
+                e.HasMorePages = false;
+            } catch (Exception err) {
+                Log.Er(err.Message);
+                Log.Ln(err.StackTrace);
             }
-
-            e.Graphics.DrawLine(
-                new Pen(Color.Black, (float)0.25),
-
-                // Dot 1
-                16,
-                this.Height,
-
-                // Dot 2
-                56,
-                this.Height
-            );
-            e.HasMorePages = false;
         }
     }
 }

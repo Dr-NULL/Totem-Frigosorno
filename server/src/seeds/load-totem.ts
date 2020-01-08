@@ -9,5 +9,10 @@ export async function loadTotem() {
     test.descripc = 'Tótem para pruebas locales en desarrollo'
     await test.save()
 
+    test = new Totem()
+    test.ip = '20.20.10.105'
+    test.descripc = 'Tótem para pruebas remotas en desarrollo'
+    await test.save()
+
     Log.ok('Totem <- Complete!')
 }

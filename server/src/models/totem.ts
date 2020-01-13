@@ -16,4 +16,7 @@ export class Totem extends BaseEntity {
     
     @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
     currFecha: Date;
+
+    @Column({ type: 'varchar', length: 100, nullable: true })
+    printer: string;
 }

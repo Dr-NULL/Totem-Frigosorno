@@ -10,11 +10,11 @@ export class VoucherService {
   ) { }
 
   print() {
-    return this.httpCtrl.get('http://localhost:8888/print/num/');
+    return this.httpCtrl.get('http://localhost:8888/api/corr/next/');
   }
 
   printRut(rut: string) {
     rut = rut.replace(/[^0-9^k]/gi, '');
-    return this.httpCtrl.get('http://localhost:8888/print/rut/' + rut);
+    return this.httpCtrl.get('http://localhost:8888/api/corr/next/' + rut);
   }
 }

@@ -8,6 +8,7 @@ interface iFolderconfig {
     root: string;
     angular: string;
     session: string;
+    pdf: string;
 }
 
 interface iServerConfig {
@@ -42,7 +43,8 @@ export function setup() {
     app.writeTextSync(`{
     "folder": {
         "angular": "client-web/dist/client-web",
-        "session": "data/session"
+        "session": "data/session",
+        "pdf": "data/pdf"
     },
     "server": {
         "port": 80

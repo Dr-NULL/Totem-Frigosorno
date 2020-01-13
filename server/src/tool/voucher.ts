@@ -44,11 +44,18 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
             file.writeSync(data)
     
             // Print Document
-            CmdPrinter.printRemoteSync(
-                filename,
-                totem.ip,
-                totem.printer
-            )
+            if (totem.ip == "127.0.0.1") {
+                // Local
+                CmdPrinter.getByNameSync(totem.printer)
+                    .printSync(filename)
+            } else {
+                // Remoto
+                CmdPrinter.printRemoteSync(
+                    filename,
+                    totem.ip,
+                    totem.printer
+                )
+            }
 
             // Matar Archivo
             file.kill()

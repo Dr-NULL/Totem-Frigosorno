@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class NewDB1578670889080 implements MigrationInterface {
-    name = 'NewDB1578670889080'
+export class NewDB1578945535247 implements MigrationInterface {
+    name = 'NewDB1578945535247'
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`CREATE TABLE "TipoAte" ("id" int NOT NULL IDENTITY(1,1), "cod" varchar(1) NOT NULL, "descripc" varchar(20) NOT NULL, CONSTRAINT "PK_3d40b60ccee9ec0f95f4b1279ad" PRIMARY KEY ("id"))`, undefined);

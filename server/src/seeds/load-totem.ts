@@ -14,6 +14,7 @@ export async function loadTotem() {
         test = new Totem()
         test.ip = '192.168.20.249'
         test.descripc = 'PC para pruebas remotas en desarrollo'
+        test.printer = 'BIXOLON SRP-350III'
         await test.save()
     
         test = new Totem()
@@ -27,7 +28,5 @@ export async function loadTotem() {
         Log.ln()
         Log.er("Carga de Semillas Fallido:")
         Log.ln(err.message)
-    } finally {
-        process.exit()
     }
 }

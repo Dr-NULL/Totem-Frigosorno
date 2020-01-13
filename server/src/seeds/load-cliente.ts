@@ -1,7 +1,7 @@
 import { Cliente } from '../models/cliente';
 import { Log } from '../tool/log';
 
-export async function loadClientes() {
+export async function loadCliente() {
     Log.ev('Cliente <- Loading...')
     
     let cliente = new Cliente()

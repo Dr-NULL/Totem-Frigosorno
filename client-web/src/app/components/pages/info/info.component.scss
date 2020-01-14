@@ -1,0 +1,11 @@
+:host {
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.card-ip {
+  mat-card-content {
+    text-align: center;
+    font-size: 2rem;
+  }
+}

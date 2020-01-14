@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { RespSuccess, RespFailed, ApiError, ApiErrorSource } from '../../interfaces/api';
 
 const urlServer = '';
-const urlClient = 'http://localhost:4200';
+const urlClient = location.origin;
 
 const opt = {
   // withCredentials: true,

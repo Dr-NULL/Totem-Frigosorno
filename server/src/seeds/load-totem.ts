@@ -18,9 +18,9 @@ export async function loadTotem() {
         await test.save()
     
         test = new Totem()
-        test.ip = '192.168.20.2'
+        test.ip = '192.168.0.159'
         test.descripc = 'Tótem para pruebas remotas en desarrollo'
-        test.printer = 'BIXOLON SRP-350III'
+        test.printer = 'Totem_Dev'
         await test.save()
     
         Log.ok('Totem <- Complete!')

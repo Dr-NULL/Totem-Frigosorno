@@ -8,6 +8,7 @@ import { File } from '../tool/file';
 import { join } from 'path';
 import moment from 'moment';
 import CmdPrinter from 'cmd-printer';
+import Barcode from '../tool/barcode';
 
 export const makeVoucher = (venta: Venta, totem: Totem) => {
     return new Promise((resolve, reject) => {
@@ -29,7 +30,8 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
         // Create a new PDF document
         let data = Buffer.from([])
         let pdf = new PDFKit({
-            margin: mm(5),
+            layout: 'portrait',
+            margin: 0,
             size: [
                 mm(80),
                 mm(60)
@@ -44,18 +46,15 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
             file.writeSync(data)
     
             // Print Document
-            if (totem.ip == "127.0.0.1") {
-                // Local
-                CmdPrinter.getByNameSync(totem.printer)
-                    .printSync(filename)
-            } else {
-                // Remoto
-                CmdPrinter.printRemoteSync(
-                    filename,
-                    totem.ip,
-                    totem.printer
-                )
-            }
+            CmdPrinter.printRemote(
+                filename,
+                totem.ip,
+                totem.printer,
+                {
+                    adjust: 'noscale',
+                    color: 'monocrome'
+                }
+            )
 
             // Matar Archivo
             file.kill()
@@ -63,13 +62,48 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
         })
     
         // Build the document
-        pdf.fontSize(20)
+        let pingFang = join(
+            config.folder.root,
+            'data',
+            'PingFang.ttf'
+        )
+        let code128 = join(
+            config.folder.root,
+            'data',
+            'code128.ttf'
+        )
+
+        pdf.fontSize(25)
+        pdf.font(pingFang)
         pdf.text(
             venta.tipoAte.cod + venta.correlat,
-            mm(10),
-            mm(10),
+            mm(15),
+            mm(2),
             {
-                width: mm(60),
+                width: mm(50),
+                align: 'center'
+            }
+        )
+
+        pdf.font(code128)
+        pdf.fontSize(55)
+        pdf.text(
+            Barcode.to128(venta.cliente.rut),
+            mm(0),
+            mm(12),
+            {
+                width: mm(80),
+                align: 'center'
+            }
+        )
+        pdf.fontSize(18)
+        pdf.font(pingFang)
+        pdf.text(
+            venta.cliente.rut,
+            mm(15),
+            mm(34),
+            {
+                width: mm(50),
                 align: 'center'
             }
         )

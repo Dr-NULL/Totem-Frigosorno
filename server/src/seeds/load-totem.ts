@@ -20,7 +20,7 @@ export async function loadTotem() {
         await test.save()
     
         test = new Totem()
-        test.ip = '192.168.20.160'
+        test.ip = '192.168.20.216'
         test.descripc = 'Tótem para pruebas remotas en desarrollo'
         test.printerName = 'printerTotem_Z_IntelStick'
         await test.save()

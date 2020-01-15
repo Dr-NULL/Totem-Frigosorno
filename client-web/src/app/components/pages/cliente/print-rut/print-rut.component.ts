@@ -90,9 +90,14 @@ export class PrintRutComponent implements OnInit {
     try {
       await this.voucherServ.printRut(this.rawValue);
     } catch (err) {
-      this.snackCtrl.open(err[0].details, 'Aceptar', { duration: 2500 });
+      this.snackCtrl.open(err.details, 'Aceptar', { duration: 2500 });
     } finally {
       this.routerCtrl.navigate(['cliente/metodo']);
     }
+  }
+
+  onBack() {
+    this.rawValue = '';
+    this.routerCtrl.navigate(['cliente/metodo']);
   }
 }

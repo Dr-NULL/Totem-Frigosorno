@@ -22,5 +22,23 @@ export async function loadCliente() {
     cliente.fechaNac = new Date(1994, 4, 6)
     await cliente.save()
     
+    cliente = new Cliente()
+    cliente.rut = '138211916'
+    cliente.nombres = "Robinson Alejandro"
+    cliente.apellidoP = "Godoy"
+    cliente.apellidoM = "Saldivia"
+    cliente.telefono = 912345678
+    cliente.fechaNac = new Date(1978, 11, 23)
+    await cliente.save()
+    
+    cliente = new Cliente()
+    cliente.rut = '191816390'
+    cliente.nombres = "Byron Sebastián"
+    cliente.apellidoP = "Pradines"
+    cliente.apellidoM = "Pradines"
+    cliente.telefono = 912346468
+    cliente.fechaNac = new Date(1995, 11, 11)
+    await cliente.save()
+    
     Log.ok('Cliente <- Complete!')
 }

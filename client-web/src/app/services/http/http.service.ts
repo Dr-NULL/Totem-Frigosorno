@@ -53,17 +53,17 @@ export class HttpService {
   }
 
   private getError(err: any) {
-    if (err.errors != null) {
-      return err.errors;
+    if (err.error != null) {
+      return err.error.errors[0];
     } else {
-      const errors: ApiError = {
+      const error: ApiError = {
         status: '500',
         title: 'Internal Server Error',
         details: 'El servidor no responde, por favor contáctese con el depto. de informática.',
         source: err.url
       };
 
-      return [errors];
+      return error;
     }
   }
 }

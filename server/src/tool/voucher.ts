@@ -13,7 +13,7 @@ import Barcode from '../tool/barcode';
 export const makeVoucher = (venta: Venta, totem: Totem) => {
     return new Promise((resolve, reject) => {
         // Cancel if not printer provided
-        if (totem.printer == null) {
+        if (totem.printerName == null) {
             return
         }
     
@@ -45,11 +45,17 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
             let file = new File(filename)
             file.writeSync(data)
     
+            // Set IP
+            let printerIp = totem.printerIp
+            if (printerIp == null) {
+                printerIp = totem.ip
+            }
+
             // Print Document
             CmdPrinter.printRemote(
                 filename,
-                totem.ip,
-                totem.printer,
+                printerIp,
+                totem.printerName,
                 {
                     adjust: 'noscale',
                     color: 'monocrome'

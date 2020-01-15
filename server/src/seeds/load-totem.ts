@@ -8,19 +8,21 @@ export async function loadTotem() {
         let test = new Totem()
         test.ip = '127.0.0.1'
         test.descripc = 'PC para pruebas locales en desarrollo'
-        test.printer = 'BIXOLON SRP-350III'
+        test.printerName = 'printerTotem_Z_Development'
+        test.printerIp = '127.0.0.1'
         await test.save()
     
         test = new Totem()
         test.ip = '192.168.20.249'
         test.descripc = 'PC para pruebas remotas en desarrollo'
-        test.printer = 'BIXOLON SRP-350III'
+        test.printerName = 'printerTotem_Z_Development'
+        test.printerIp = '192.168.20.249'
         await test.save()
     
         test = new Totem()
         test.ip = '192.168.20.160'
         test.descripc = 'Tótem para pruebas remotas en desarrollo'
-        test.printer = 'Totem_Dev'
+        test.printerName = 'printerTotem_Z_IntelStick'
         await test.save()
     
         Log.ok('Totem <- Complete!')

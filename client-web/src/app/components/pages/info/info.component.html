@@ -1,6 +1,39 @@
 <mat-card class="card-ip">
   <mat-card-title>IP Cliente:</mat-card-title>
+  <mat-divider></mat-divider>
   <mat-card-content>
     <h1>{{ ip }}</h1>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-title>Datos del Dispositivo</mat-card-title>
+  <mat-divider></mat-divider>
+
+  <!-- Encontrado -->
+  <mat-card-content *ngIf="found">
+    <div class="row">
+      <mat-form-field class="col-6">
+       <input matInput type="text" [(value)]="descripc" placeholder="Descripción:" readonly />
+      </mat-form-field>
+      <mat-form-field class="col-3">
+       <input matInput type="text" [(value)]="currCorr" placeholder="Corr. Actual:" readonly />
+      </mat-form-field>
+      <mat-form-field class="col-3">
+       <input matInput type="text" [(value)]="fecha" placeholder="Fecha últ. Corr.:" readonly />
+      </mat-form-field>
+      <mat-form-field class="col-6">
+       <input matInput type="text" [(value)]="printerIp" placeholder="IP Impresora:" readonly />
+      </mat-form-field>
+      <mat-form-field class="col-6">
+       <input matInput type="text" [(value)]="printerName" placeholder="Nombre Impresora:" readonly />
+      </mat-form-field>
+
+    </div>
+  </mat-card-content>
+
+  <!-- No Encontrado -->
+  <mat-card-content *ngIf="!found" class="not-found">
+    <p>El Tótem actual <strong>no se encuentra registrado</strong> en nuestro sistema. Por favor comuníquese con el <strong>departamento de Informática</strong> en caso de que este dispositivo se requiera implementar como Tótem.</p>
   </mat-card-content>
 </mat-card>

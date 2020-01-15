@@ -4,8 +4,33 @@
 }
 
 .card-ip {
+  margin-bottom: 1rem;
+
   mat-card-content {
     text-align: center;
     font-size: 2rem;
+    padding: 1.5rem;
   }
 }
+
+mat-card {
+  margin: 1rem;
+  margin-bottom: 0;
+  padding: 0;
+
+  mat-card-title {
+    margin: 0;
+    padding: 1rem;
+  }
+
+  mat-form-field {
+    padding: 1rem;
+  }
+
+  .not-found {
+    padding: 1rem;
+    font-size: 1.15rem;
+    text-align: justify;
+  }
+}
+

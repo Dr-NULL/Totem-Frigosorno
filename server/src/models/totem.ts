@@ -18,5 +18,8 @@ export class Totem extends BaseEntity {
     currFecha: Date;
 
     @Column({ type: 'varchar', length: 100, nullable: true })
-    printer: string;
+    printerName: string;
+    
+    @Column({ type: "varchar", length: 30, nullable: true })
+    printerIp: string;
 }

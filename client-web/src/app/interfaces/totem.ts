@@ -4,5 +4,6 @@ export interface Totem {
   ip: string;
   currCorr: number;
   currFecha: Date;
-  printer: string;
+  printerName: string;
+  printerIp: string;
 }

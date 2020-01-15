@@ -52,19 +52,25 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
             }
 
             // Print Document
-            CmdPrinter.printRemote(
-                filename,
-                printerIp,
-                totem.printerName,
-                {
-                    adjust: 'noscale',
-                    color: 'monocrome'
-                }
-            )
-
-            // Matar Archivo
-            file.kill()
-            resolve()
+            try {
+                CmdPrinter.printRemote(
+                    filename,
+                    printerIp,
+                    totem.printerName,
+                    {
+                        adjust: 'noscale',
+                        color: 'monocrome'
+                    }
+                )
+    
+                // Matar Archivo
+                file.kill()
+                resolve()
+            } catch {
+                reject(new Error(
+                    `Imposible conectar con la impresora "${totem.printerName}".`
+                ))
+            }
         })
     
         // Build the document

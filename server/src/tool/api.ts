@@ -401,7 +401,7 @@ export class Api {
         if (msg == null) {
             msg = fail
         }
-
+        this.res.status(500)
         this.res.send({
             errors: [{
                 status: StatusCodes.cod500.status,

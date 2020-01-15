@@ -21,7 +21,7 @@ export class MetodoComponent implements OnInit {
     try {
       await this.voucherServ.print();
     } catch (err) {
-      this.snackCtrl.open(err[0].details, 'Aceptar', { duration: 2500 });
+      this.snackCtrl.open(err.details, 'Aceptar', { duration: 2500 });
     }
   }
 }

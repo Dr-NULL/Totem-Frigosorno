@@ -1,0 +1,29 @@
+:host {
+  box-sizing: border-box;
+  padding: 1rem;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+}
+
+mat-card {
+  width: calc(100vw - 2rem);
+  max-width: 800px;
+  padding: 0;
+
+  mat-card-title {
+    padding: 1rem;
+    margin: 0;
+  }
+
+  mat-card-content {
+    padding-top: 0.5rem;
+  }
+}
+
+mat-form-field {
+  padding: 0.5rem 1rem;
+}

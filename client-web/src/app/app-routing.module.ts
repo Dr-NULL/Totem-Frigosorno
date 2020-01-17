@@ -6,6 +6,7 @@ import { InfoComponent } from './components/pages/info/info.component';
 import { Err404Component } from './components/pages/err404/err404.component';
 import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
 import { PrintRutComponent } from './components/pages/cliente/print-rut/print-rut.component';
+import { RegisterComponent } from './components/pages/cliente/register/register.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'cliente/print-rut',
     component: PrintRutComponent
+  },
+  {
+    path: 'cliente/registro',
+    component: RegisterComponent
   },
   {
     path: 'info',

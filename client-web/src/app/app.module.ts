@@ -16,6 +16,7 @@ import { PrintRutComponent } from './components/pages/cliente/print-rut/print-ru
 import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
 import { InfoComponent } from './components/pages/info/info.component';
 import { Err404Component } from './components/pages/err404/err404.component';
+import { RegisterComponent } from './components/pages/cliente/register/register.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { Err404Component } from './components/pages/err404/err404.component';
     PrintRutComponent,
     MetodoComponent,
     InfoComponent,
-    Err404Component
+    Err404Component,
+    RegisterComponent
   ],
   imports: [
     // System Modules

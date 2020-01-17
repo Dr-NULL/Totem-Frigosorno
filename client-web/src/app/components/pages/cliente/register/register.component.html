@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-title>Registro:</mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content class="row">
+    <mat-form-field class="col-4">
+      <input matInput type="text" placeholder="RUT*:">
+    </mat-form-field>
+    <mat-form-field class="col-8">
+      <input matInput type="text" placeholder="Nombres*:">
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <input matInput type="text" placeholder="Apellido Paterno*:">
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <input matInput type="text" placeholder="Apellido Materno*:">
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <input matInput type="text" [matDatepicker]="datePicker" placeholder="Fecha Nacim*:">
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>

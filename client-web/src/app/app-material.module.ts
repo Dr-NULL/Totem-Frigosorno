@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 
 // Material Components
-import { MatCheckboxModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatCheckboxModule, MAT_DATE_LOCALE } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -35,6 +36,7 @@ import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
     exports: [
+        MatMomentDateModule,
         MatCheckboxModule,
         MatButtonModule,
         MatInputModule,
@@ -66,6 +68,12 @@ import { MatTreeModule } from '@angular/material/tree';
         MatSortModule,
         MatPaginatorModule,
         MatTreeModule
+    ],
+    providers: [
+      {
+        provide: MAT_DATE_LOCALE,
+        useValue: 'es'
+      }
     ]
 })
 export class AppMaterialModule {}

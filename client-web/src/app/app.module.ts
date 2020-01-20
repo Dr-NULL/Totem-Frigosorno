@@ -17,6 +17,7 @@ import { MetodoComponent } from './components/pages/cliente/metodo/metodo.compon
 import { InfoComponent } from './components/pages/info/info.component';
 import { Err404Component } from './components/pages/err404/err404.component';
 import { RegisterComponent } from './components/pages/cliente/register/register.component';
+import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RegisterComponent } from './components/pages/cliente/register/register.
     MetodoComponent,
     InfoComponent,
     Err404Component,
-    RegisterComponent
+    RegisterComponent,
+    KeyboardComponent
   ],
   imports: [
     // System Modules

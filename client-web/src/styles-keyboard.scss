@@ -1,0 +1,26 @@
+.simple-keyboard {
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #303030;
+
+  .hg-button {
+    background: rgba(0, 0, 0, 0.3)!important;
+    border-bottom-color: #353535!important;
+  }
+}
+
+.simple-keyboard.show {
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  bottom: 0;
+  opacity: 1;
+}
+
+.simple-keyboard.hidden {
+  transition-duration: 250ms;
+  transition-timing-function: ease-in;
+  bottom: -15rem;
+  opacity: 0;
+}

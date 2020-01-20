@@ -1,0 +1,105 @@
+:host {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 14rem;
+  background: #303030;
+}
+
+:host.show {
+  transition-timing-function: ease-out;
+  transition-duration: 250ms;
+  opacity: 1;
+  bottom: 0;
+}
+
+:host.hidden {
+  transition-timing-function: ease-in;
+  transition-duration: 250ms;
+  opacity: 0;
+  bottom: -14rem;
+}
+
+button::ng-deep {
+  padding: 0!important;
+  min-width: 0!important;
+}
+
+.layout-default, .layout-shift, .layout-altgr {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-content: center;
+
+  .key-row {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-content: center;
+
+    button {
+      flex: 1;
+      box-sizing: border-box;
+      margin: 0.25rem;
+    }
+  }
+}
+
+:host.default {
+  > div {
+    transition-timing-function: linear;
+    transition-duration: 250ms;
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .layout-default {
+    transition-timing-function: linear;
+    transition-duration: 250ms;
+    z-index: 5000;
+    opacity: 1;
+  }
+}
+
+:host.shift {
+  > div {
+    transition-timing-function: linear;
+    transition-duration: 250ms;
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .layout-shift {
+    transition-timing-function: linear;
+    transition-duration: 250ms;
+    z-index: 5000;
+    opacity: 1;
+  }
+}
+
+:host.altgr {
+  > div {
+    transition-timing-function: linear;
+    transition-duration: 250ms;
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .layout-altgr {
+    transition-timing-function: linear;
+    transition-duration: 250ms;
+    z-index: 5000;
+    opacity: 1;
+  }
+}

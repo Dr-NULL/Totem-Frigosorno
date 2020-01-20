@@ -3,10 +3,12 @@
   <mat-divider></mat-divider>
   <mat-card-content class="row">
     <mat-form-field class="col-4">
-      <input matInput type="text" placeholder="RUT*:">
+      <input matInput #txtRut [(value)]="data.rut" type="text" placeholder="RUT*:">
+      <app-keyboard [input]="txtRut"></app-keyboard>
     </mat-form-field>
     <mat-form-field class="col-8">
-      <input matInput type="text" placeholder="Nombres*:">
+      <input matInput #txtNombres type="text" placeholder="Nombres*:">
+      <app-keyboard [input]="txtNombres"></app-keyboard>
     </mat-form-field>
     <mat-form-field class="col-6">
       <input matInput type="text" placeholder="Apellido Paterno*:">
@@ -15,9 +17,14 @@
       <input matInput type="text" placeholder="Apellido Materno*:">
     </mat-form-field>
     <mat-form-field class="col-6">
-      <input matInput type="text" [matDatepicker]="datePicker" placeholder="Fecha Nacim*:">
+      <div class="datePickerFG" (click)="datePicker.open()"></div>
       <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-      <mat-datepicker #datePicker></mat-datepicker>
+      <mat-datepicker #datePicker disabled="false" [touchUi]="true"></mat-datepicker>
+      <input matInput
+        type="text" [max]="dateMax"
+        [matDatepicker]="datePicker"
+        placeholder="Fecha Nacimiento*:"
+        disabled>
     </mat-form-field>
   </mat-card-content>
 </mat-card>

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 
 // Material Components
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatCheckboxModule, MAT_DATE_LOCALE } from '@angular/material';
+// Datepicker
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatCheckboxModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+
 import { MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -35,45 +37,59 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
-    exports: [
-        MatMomentDateModule,
-        MatCheckboxModule,
-        MatButtonModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSliderModule,
-        MatSlideToggleModule,
-        MatMenuModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatListModule,
-        MatGridListModule,
-        MatCardModule,
-        MatStepperModule,
-        MatTabsModule,
-        MatExpansionModule,
-        MatButtonToggleModule,
-        MatChipsModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatDialogModule,
-        MatTooltipModule,
-        MatSnackBarModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatTreeModule
-    ],
-    providers: [
-      {
-        provide: MAT_DATE_LOCALE,
-        useValue: 'es'
+  exports: [
+    MatMomentDateModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTreeModule
+  ],
+  providers: [
+    // Date Picker
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'es-CL'
+    },
+    {
+      provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+      useValue: { strict: true }
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'MMMM - YYYY'
+        }
       }
-    ]
+    }
+  ]
 })
-export class AppMaterialModule {}
+export class AppMaterialModule { }

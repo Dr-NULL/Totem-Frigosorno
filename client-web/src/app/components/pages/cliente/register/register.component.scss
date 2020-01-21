@@ -25,7 +25,8 @@ mat-card {
 }
 
 mat-form-field {
-  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem 0 1rem;
 }
 
 .datePickerFG {
@@ -40,4 +41,11 @@ mat-form-field {
 
 .simple-keyboard {
   position: absolute;
+}
+
+.key-rut::ng-deep {
+  .keyboard {
+    left: 30vw;
+    width: 40vw!important;
+  }
 }

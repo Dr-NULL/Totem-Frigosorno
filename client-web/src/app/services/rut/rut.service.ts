@@ -28,6 +28,12 @@ export class RutService {
   }
 
   isValid(input: string) {
+    // Rechazar cadenas vacías
+    if (input.length === 0) {
+      return false;
+    }
+
+    // Inicialización
     const serie = new Iterator(2, 3, 4, 5, 6, 7);
     const raw = input.replace(/(\.|-([0-9]|k))/gi, '').split('').reverse();
     let acum = 0;

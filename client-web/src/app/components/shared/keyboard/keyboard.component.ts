@@ -1,38 +1,85 @@
-import { Component, Input, OnInit, HostListener, ElementRef, Renderer2 } from '@angular/core';
-import { Layout, LayoutBtn } from './keyboard.interfaces';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Layout, LayoutBtn, Key } from './keyboard.interfaces';
 
-import { ES_LATIN } from './layouts/es-latin';
 import { stylizeLayout } from './keyboard.layout';
+import { ES_LATIN } from './layouts/es-latin';
+
+export {
+  ES_LATIN,
+  Layout,
+  Key
+};
 
 @Component({
   selector: 'app-keyboard',
   templateUrl: './keyboard.component.html',
   styleUrls: ['./keyboard.component.scss']
 })
-export class KeyboardComponent implements OnInit {
-  static activeInput: HTMLInputElement;
+export class KeyboardComponent implements OnInit, AfterViewInit {
+  private static activeInput: HTMLInputElement;
 
-  @Input()
-  input: HTMLInputElement;
+  @ViewChild('input', { static: false })
+  private rawInput: ElementRef<HTMLInputElement>;
+  private get input(): HTMLInputElement {
+    if (this.rawInput != null) {
+      return this.rawInput.nativeElement;
+    } else {
+      return null;
+    }
+  }
 
   @Input()
   layout: Layout;
-  rawLayout: LayoutBtn;
-  isFocused = false;
-  pos = { m: 0, n: 0 };
-  mode = {
+
+  @Input()
+  placeholder: string;
+
+  @Input()
+  get value(): string {
+    if (this.input != null) {
+      this.rawValue = this.input.value;
+    }
+    return this.rawValue;
+  }
+  set value(v: string) {
+    this.rawValue = v;
+    if (this.input != null) {
+      this.input.value = v;
+    }
+    this.valueChange.emit(v);
+    this.update.emit(this);
+  }
+
+  @Output()
+  valueChange = new EventEmitter<string>();
+
+  @Output()
+  update = new EventEmitter<KeyboardComponent>();
+
+  @Output()
+  pressEnter = new EventEmitter<KeyboardComponent>();
+
+  @Output()
+  pressEsc = new EventEmitter<KeyboardComponent>();
+
+  private rawValue: string;
+  private rawLayout: LayoutBtn;
+  private pos = { m: 0, n: 0 };
+  private mode = {
     default: false,
     caps: false,
     shift: false,
     altGr: false
   };
 
-  get self(): HTMLElement {
+  @ViewChild('keyboard', { static: true })
+  ref: ElementRef<HTMLElement>;
+
+  private get self(): HTMLElement {
     return this.ref.nativeElement;
   }
 
   constructor(
-    private ref: ElementRef<HTMLElement>,
     private render: Renderer2
   ) {}
 
@@ -41,91 +88,60 @@ export class KeyboardComponent implements OnInit {
     if (this.layout == null) {
       this.layout = ES_LATIN;
     }
-    this.hide();
+    this._hide();
     this.rawLayout = stylizeLayout(this.layout);
     this.modeDefault();
+  }
 
+  ngAfterViewInit() {
     // Eventos Input
-    this.input.onclick = () => this.getPosition();
-    this.input.onkeyup = () => this.getPosition();
-    this.input.onchange = () => this.getPosition();
+    this.input.onclick = () => this._getPosition();
+    this.input.onkeyup = () => this._getPosition();
+    this.input.onchange = () => this._getPosition();
     this.input.onfocus = ev => {
       setTimeout(() => {
         KeyboardComponent.activeInput = ev.target as HTMLInputElement;
-        this.getPosition();
+        this._getPosition();
         this.show();
+
       }, 250);
     };
     document.onmouseup = ev => {
-      const all = this.getKeyboards();
-      const formField = this.getFormField(
+      const all = this._getKeyboards();
+      const keys = this._getKeyboard(
         ev.target as Node
       );
 
-      if (formField === null) {
+      if (keys === null) {
         for (const key of all) {
-          this.hide(key);
+          this._hide(key);
         }
       }
     };
     this.input.onblur = () => {
       setTimeout(() => {
-        const all = this.getKeyboards();
-        const formField = this.getFormField(
+        const all = this._getKeyboards();
+        const host = this._getKeyboard(
           document.activeElement
         );
 
         if (
-          (formField !== null) &&
+          (host !== null) &&
           (!KeyboardComponent.activeInput
             .isSameNode(document.activeElement))
         ) {
-          if (!this.getFormField(
+          if (!this._getKeyboard(
             KeyboardComponent.activeInput
           ).contains(
             document.activeElement
           )) {
             for (const key of all) {
-              this.hide(key);
+              this._hide(key);
             }
           }
         }
       }, 250);
     };
-  }
-
-  getKeyboards() {
-    const out: Node[] = [];
-    const all = document
-      .querySelectorAll(this.self.nodeName)
-      .forEach(item => out.push(item));
-
-    return out;
-  }
-
-  getFormField(elem: Node) {
-    let current = elem;
-    while (current != null) {
-      if (current.nodeName.toLowerCase() === 'mat-form-field') {
-        return current;
-      } else {
-        current = current.parentNode;
-      }
-    }
-
-    return current;
-  }
-
-  show() {
-    this.isFocused = true;
-    this.render.removeClass(this.self, 'hidden');
-    this.render.addClass(this.self, 'show');
-  }
-
-  hide(ref: Node = this.self) {
-    this.isFocused = false;
-    this.render.removeClass(ref, 'show');
-    this.render.addClass(ref, 'hidden');
   }
 
   modeDefault() {
@@ -172,13 +188,71 @@ export class KeyboardComponent implements OnInit {
     this.render.addClass(this.self, 'altgr');
   }
 
-  onClick(key: string) {
+  show() {
+    this.render.removeClass(this.self, 'hidden');
+    this.render.addClass(this.self, 'show');
+  }
+
+  hide() {
+    this.render.removeClass(this.self, 'show');
+    this.render.addClass(this.self, 'hidden');
+    this.input.blur();
+  }
+
+  private _hide(ref: Node = this.self) {
+    this.render.removeClass(ref, 'show');
+    this.render.addClass(ref, 'hidden');
+  }
+
+  private _getKeyboards() {
+    const out: Node[] = [];
+    document
+      .querySelectorAll(this.self.parentNode.nodeName)
+      .forEach(item => {
+        item.childNodes.forEach(child => {
+          if ((child as HTMLElement).classList.contains('keyboard')) {
+            out.push(child as Node);
+          }
+        });
+      });
+
+    return out;
+  }
+
+  private _getKeyboard(elem: Node) {
+    let current = elem;
+    while (current != null) {
+      if (current.nodeName.toLowerCase() === this.self.parentNode.nodeName.toLowerCase()) {
+        const children = current.childNodes;
+        current = null;
+        children.forEach(item => {
+          if ((item as HTMLElement).classList.contains('keyboard')) {
+            current = item;
+          }
+        });
+
+        break;
+      } else {
+        current = current.parentNode;
+      }
+    }
+
+    return current;
+  }
+
+  private _onClick(key: string) {
     switch (key) {
+      case '{enter}':
+        this.pressEnter.emit(this);
+        break;
+      case '{esc}':
+        this.pressEsc.emit(this);
+        break;
       case '{space}':
-        this.write(' ');
+        this._write(' ');
         break;
       case '{back}':
-        this.backspace();
+        this._backspace();
         break;
       case '{caps}':
         if (this.mode.default) {
@@ -204,12 +278,12 @@ export class KeyboardComponent implements OnInit {
       case undefined:
         break;
       default:
-        this.write(key);
+        this._write(key);
         break;
     }
   }
 
-  write(key: string) {
+  private _write(key: string) {
     // Escribir
     const v = this.input.value;
     let out = v.substr(0, this.pos.m);
@@ -218,8 +292,12 @@ export class KeyboardComponent implements OnInit {
 
     this.pos.m++;
     this.pos.n = this.pos.m;
-    this.input.value = out;
-    this.setPosition();
+
+    this.value = out;
+    this.input.focus();
+
+    this.update.emit();
+    this._setPosition();
 
     // Volver a Default
     if (
@@ -230,7 +308,7 @@ export class KeyboardComponent implements OnInit {
     }
   }
 
-  backspace() {
+  private _backspace() {
     const v = this.input.value;
     let out = '';
 
@@ -250,19 +328,26 @@ export class KeyboardComponent implements OnInit {
       this.pos.n = this.pos.m;
     }
 
-    this.input.value = out;
-    this.setPosition();
+    this.value = out;
+    this._setPosition();
   }
 
-  getPosition() {
+  private _onChange() {
+    this.input.focus();
+    this.valueChange.emit(this.value);
+    this.update.emit(this);
+  }
+
+  private _getPosition() {
     const start = this.input.selectionStart;
     const end = this.input.selectionEnd;
 
     this.pos.m = start;
     this.pos.n = end;
+    this.update.emit(this);
   }
 
-  setPosition() {
+  private _setPosition() {
     this.input.selectionStart = this.pos.m;
     this.input.selectionEnd = this.pos.n;
   }

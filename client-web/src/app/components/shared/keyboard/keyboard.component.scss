@@ -1,4 +1,14 @@
 :host {
+  box-sizing: border-box;
+}
+
+mat-form-field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem 0 1rem;
+}
+
+.keyboard {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -12,14 +22,14 @@
   background: #303030;
 }
 
-:host.show {
+.keyboard.show {
   transition-timing-function: ease-out;
   transition-duration: 250ms;
   opacity: 1;
   bottom: 0;
 }
 
-:host.hidden {
+.keyboard.hidden {
   transition-timing-function: ease-in;
   transition-duration: 250ms;
   opacity: 0;
@@ -47,16 +57,18 @@ button::ng-deep {
     flex-flow: row nowrap;
     justify-content: center;
     align-content: center;
+    min-height: calc(32px + 0.5rem);
 
     button {
       flex: 1;
       box-sizing: border-box;
       margin: 0.25rem;
+      min-height: 32px;
     }
   }
 }
 
-:host.default {
+.keyboard.default {
   > div {
     transition-timing-function: linear;
     transition-duration: 250ms;
@@ -72,7 +84,7 @@ button::ng-deep {
   }
 }
 
-:host.shift {
+.keyboard.shift {
   > div {
     transition-timing-function: linear;
     transition-duration: 250ms;
@@ -88,7 +100,7 @@ button::ng-deep {
   }
 }
 
-:host.altgr {
+.keyboard.altgr {
   > div {
     transition-timing-function: linear;
     transition-duration: 250ms;

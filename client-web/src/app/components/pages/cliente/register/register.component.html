@@ -2,20 +2,32 @@
   <mat-card-title>Registro:</mat-card-title>
   <mat-divider></mat-divider>
   <mat-card-content class="row">
-    <mat-form-field class="col-4">
-      <input matInput #txtRut [(value)]="data.rut" type="text" placeholder="RUT*:">
-      <app-keyboard [input]="txtRut"></app-keyboard>
-    </mat-form-field>
-    <mat-form-field class="col-8">
-      <input matInput #txtNombres type="text" placeholder="Nombres*:">
-      <app-keyboard [input]="txtNombres"></app-keyboard>
-    </mat-form-field>
-    <mat-form-field class="col-6">
-      <input matInput type="text" placeholder="Apellido Paterno*:">
-    </mat-form-field>
-    <mat-form-field class="col-6">
-      <input matInput type="text" placeholder="Apellido Materno*:">
-    </mat-form-field>
+    <app-keyboard
+      class="key-rut col-4"
+      placeholder="RUT (requerido):"
+      [layout]="layout"
+      [(value)]="rut"
+      (update)="onRutChange()"
+      (pressEnter)="pressEnter($event)">
+    </app-keyboard>
+    <app-keyboard
+      class="col-8"
+      placeholder="Nombres (requerido):"
+      [(value)]="nombres"
+      (pressEnter)="pressEnter($event)">
+    </app-keyboard>
+    <app-keyboard
+      class="col-6"
+      placeholder="Apellido Paterno (requerido):"
+      [(value)]="apellidoP"
+      (pressEnter)="pressEnter($event)">
+    </app-keyboard>
+    <app-keyboard
+      class="col-6"
+      placeholder="Apellido Materno (requerido):"
+      [(value)]="apellidoM"
+      (pressEnter)="pressEnter($event)">
+    </app-keyboard>
     <mat-form-field class="col-6">
       <div class="datePickerFG" (click)="datePicker.open()"></div>
       <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>

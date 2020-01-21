@@ -329,6 +329,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     }
 
     this.value = out;
+    this.input.focus();
     this._setPosition();
   }
 

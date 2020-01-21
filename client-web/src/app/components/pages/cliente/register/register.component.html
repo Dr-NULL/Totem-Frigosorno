@@ -3,11 +3,10 @@
   <mat-divider></mat-divider>
   <mat-card-content class="row">
     <app-keyboard
-      class="key-rut col-4"
+      class="key-num col-4"
       placeholder="RUT (requerido):"
-      [layout]="layout"
+      [layout]="layoutRut"
       [(value)]="rut"
-      (update)="onRutChange()"
       (pressEnter)="pressEnter($event)">
     </app-keyboard>
     <app-keyboard
@@ -28,15 +27,39 @@
       [(value)]="apellidoM"
       (pressEnter)="pressEnter($event)">
     </app-keyboard>
-    <mat-form-field class="col-6">
+    <mat-form-field class="col-4">
       <div class="datePickerFG" (click)="datePicker.open()"></div>
       <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
       <mat-datepicker #datePicker disabled="false" [touchUi]="true"></mat-datepicker>
       <input matInput
         type="text" [max]="dateMax"
         [matDatepicker]="datePicker"
-        placeholder="Fecha Nacimiento*:"
+        placeholder="Fecha Nacimiento (requerido):"
         disabled>
     </mat-form-field>
+    <app-keyboard
+      class="key-num col-4"
+      placeholder="Teléfono:"
+      [layout]="layoutTel"
+      [(value)]="telefono"
+      (pressEnter)="pressEnter($event)">
+    </app-keyboard>
+    <app-keyboard
+      class="col-4"
+      placeholder="E-Mail:"
+      [(value)]="email"
+      (pressEnter)="pressEnter($event)">
+    </app-keyboard>
   </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <button type="button" mat-raised-button color="primary" (click)="onBack()">
+      <i class="fas fa-arrow-left"></i>
+      <span>Volver</span>
+    </button>
+    <button type="button" mat-raised-button color="accent" (click)="onRegister()" [disabled]="!enabled">
+      <i class="fas fa-user-plus"></i>
+      <span>Registrarse</span>
+    </button>
+  </mat-card-actions>
 </mat-card>

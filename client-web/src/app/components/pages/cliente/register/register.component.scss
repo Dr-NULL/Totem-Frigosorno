@@ -10,17 +10,34 @@
 }
 
 mat-card {
+  box-sizing: border-box;
   width: calc(100vw - 2rem);
   max-width: 800px;
   padding: 0;
 
-  mat-card-title {
-    padding: 1rem;
-    margin: 0;
+  mat-card-title, mat-card-actions {
+    box-sizing: border-box;
+    padding: 1rem!important;
+    margin: 0!important;
   }
 
   mat-card-content {
     padding-top: 0.5rem;
+  }
+
+  mat-card-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    & > * {
+      box-sizing: border-box;
+      width: calc(50% - 1rem);
+      margin: 0 0.5rem;
+      padding: 0.75rem;
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -43,9 +60,13 @@ mat-form-field {
   position: absolute;
 }
 
-.key-rut::ng-deep {
+.key-num::ng-deep {
   .keyboard {
     left: 30vw;
     width: 40vw!important;
   }
+}
+
+button {
+  box-sizing: border-box;
 }

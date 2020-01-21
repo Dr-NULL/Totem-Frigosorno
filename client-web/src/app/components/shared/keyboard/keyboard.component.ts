@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, HostListener, ElementRef, Renderer2 } from '@angular/core';
 import { Layout, LayoutBtn } from './keyboard.interfaces';
 
 import { ES_LATIN } from './layouts/es-latin';
@@ -10,6 +10,8 @@ import { stylizeLayout } from './keyboard.layout';
   styleUrls: ['./keyboard.component.scss']
 })
 export class KeyboardComponent implements OnInit {
+  static activeInput: HTMLInputElement;
+
   @Input()
   input: HTMLInputElement;
 
@@ -30,7 +32,8 @@ export class KeyboardComponent implements OnInit {
   }
 
   constructor(
-    private ref: ElementRef
+    private ref: ElementRef<HTMLElement>,
+    private render: Renderer2
   ) {}
 
   ngOnInit() {
@@ -46,32 +49,83 @@ export class KeyboardComponent implements OnInit {
     this.input.onclick = () => this.getPosition();
     this.input.onkeyup = () => this.getPosition();
     this.input.onchange = () => this.getPosition();
-    this.input.onfocus = () => {
-      this.isFocused = true;
+    this.input.onfocus = ev => {
       setTimeout(() => {
-        if (this.isFocused) {
-          this.show();
-        }
+        KeyboardComponent.activeInput = ev.target as HTMLInputElement;
+        this.getPosition();
+        this.show();
       }, 250);
+    };
+    document.onmouseup = ev => {
+      const all = this.getKeyboards();
+      const formField = this.getFormField(
+        ev.target as Node
+      );
+
+      if (formField === null) {
+        for (const key of all) {
+          this.hide(key);
+        }
+      }
     };
     this.input.onblur = () => {
-      this.isFocused = false;
       setTimeout(() => {
-        if (!this.isFocused) {
-          this.hide();
+        const all = this.getKeyboards();
+        const formField = this.getFormField(
+          document.activeElement
+        );
+
+        if (
+          (formField !== null) &&
+          (!KeyboardComponent.activeInput
+            .isSameNode(document.activeElement))
+        ) {
+          if (!this.getFormField(
+            KeyboardComponent.activeInput
+          ).contains(
+            document.activeElement
+          )) {
+            for (const key of all) {
+              this.hide(key);
+            }
+          }
         }
       }, 250);
     };
+  }
+
+  getKeyboards() {
+    const out: Node[] = [];
+    const all = document
+      .querySelectorAll(this.self.nodeName)
+      .forEach(item => out.push(item));
+
+    return out;
+  }
+
+  getFormField(elem: Node) {
+    let current = elem;
+    while (current != null) {
+      if (current.nodeName.toLowerCase() === 'mat-form-field') {
+        return current;
+      } else {
+        current = current.parentNode;
+      }
+    }
+
+    return current;
   }
 
   show() {
-    this.self.classList.remove('hidden');
-    this.self.classList.add('show');
+    this.isFocused = true;
+    this.render.removeClass(this.self, 'hidden');
+    this.render.addClass(this.self, 'show');
   }
 
-  hide() {
-    this.self.classList.remove('show');
-    this.self.classList.add('hidden');
+  hide(ref: Node = this.self) {
+    this.isFocused = false;
+    this.render.removeClass(ref, 'show');
+    this.render.addClass(ref, 'hidden');
   }
 
   modeDefault() {
@@ -80,9 +134,9 @@ export class KeyboardComponent implements OnInit {
     this.mode.shift = false;
     this.mode.altGr = false;
 
-    this.self.classList.add('default');
-    this.self.classList.remove('shift');
-    this.self.classList.remove('altgr');
+    this.render.addClass(this.self, 'default');
+    this.render.removeClass(this.self, 'shift');
+    this.render.removeClass(this.self, 'altgr');
   }
 
   modeCaps() {
@@ -91,9 +145,9 @@ export class KeyboardComponent implements OnInit {
     this.mode.shift = false;
     this.mode.altGr = false;
 
-    this.self.classList.remove('default');
-    this.self.classList.add('shift');
-    this.self.classList.remove('altgr');
+    this.render.removeClass(this.self, 'default');
+    this.render.addClass(this.self, 'shift');
+    this.render.removeClass(this.self, 'altgr');
   }
 
   modeShift() {
@@ -102,9 +156,9 @@ export class KeyboardComponent implements OnInit {
     this.mode.shift = true;
     this.mode.altGr = false;
 
-    this.self.classList.remove('default');
-    this.self.classList.add('shift');
-    this.self.classList.remove('altgr');
+    this.render.removeClass(this.self, 'default');
+    this.render.addClass(this.self, 'shift');
+    this.render.removeClass(this.self, 'altgr');
   }
 
   modeAltGr() {
@@ -113,9 +167,9 @@ export class KeyboardComponent implements OnInit {
     this.mode.shift = false;
     this.mode.altGr = true;
 
-    this.self.classList.remove('default');
-    this.self.classList.remove('shift');
-    this.self.classList.add('altgr');
+    this.render.removeClass(this.self, 'default');
+    this.render.removeClass(this.self, 'shift');
+    this.render.addClass(this.self, 'altgr');
   }
 
   onClick(key: string) {
@@ -158,7 +212,14 @@ export class KeyboardComponent implements OnInit {
   write(key: string) {
     // Escribir
     const v = this.input.value;
+    let out = v.substr(0, this.pos.m);
+    out += key;
+    out += v.substr(this.pos.n);
 
+    this.pos.m++;
+    this.pos.n = this.pos.m;
+    this.input.value = out;
+    this.setPosition();
 
     // Volver a Default
     if (
@@ -171,23 +232,25 @@ export class KeyboardComponent implements OnInit {
 
   backspace() {
     const v = this.input.value;
+    let out = '';
 
     if (
       (this.pos.m > 0) &&
       (this.pos.m === this.pos.n)
     ) {
-      this.input.value = v.substr(0, this.pos.m - 1);
-      this.input.value += v.substr(this.pos.m);
+      out = v.substr(0, this.pos.m - 1);
+      out += v.substr(this.pos.m);
 
       this.pos.m--;
       this.pos.n--;
     } else {
-      this.input.value = v.substr(0, this.pos.m);
-      this.input.value += v.substr(this.pos.n);
+      out = v.substr(0, this.pos.m);
+      out += v.substr(this.pos.n);
 
       this.pos.n = this.pos.m;
     }
 
+    this.input.value = out;
     this.setPosition();
   }
 

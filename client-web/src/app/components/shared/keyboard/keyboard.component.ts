@@ -289,10 +289,15 @@ export class KeyboardComponent implements OnInit {
       return;
     }
 
-    const target = document.activeElement as HTMLElement;
+    const body = document.querySelector('body') as HTMLElement;
+    const target = KeyboardComponent.activeInput as HTMLElement;
+    const related = ev.relatedTarget as HTMLElement;
+
     if (
       (!this.isBlur) &&
-      (!this.refSelf.contains(target))
+      (!target.isSameNode(body)) &&
+      (!target.isSameNode(related)) &&
+      (!this.refSelf.contains(related))
     ) {
       this.isBlur = true;
       this.hide();
@@ -301,9 +306,12 @@ export class KeyboardComponent implements OnInit {
   }
 
   private _onClickOutside(ev: Event) {
+    const body = document.querySelector('body') as HTMLElement;
     const target = ev.target as HTMLElement;
+
     if (
       (!this.isBlur) &&
+      (!target.isSameNode(body)) &&
       (!this.refSelf.contains(target))
     ) {
       this.isBlur = true;

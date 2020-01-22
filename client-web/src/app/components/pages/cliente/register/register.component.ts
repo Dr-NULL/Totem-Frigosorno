@@ -1,18 +1,19 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RutService } from '../../../../services/rut/rut.service';
 import { Router } from '@angular/router';
 
-import { Layout, KeyboardComponent } from '../../../shared/keyboard/keyboard.component';
-import { ClienteService } from '../../../../services/cliente/cliente.service';
 import * as moment from 'moment';
-import { MatSnackBar, MatDatepickerInputEvent } from '@angular/material';
+import { ClienteService } from '../../../../services/cliente/cliente.service';
+import { SimpleModalComponent, SimpleModalData } from '../../../shared/simple-modal/simple-modal.component';
+import { Layout, KeyboardComponent } from '../../../shared/keyboard/keyboard.component';
+import { MatSnackBar, MatDatepickerInputEvent, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   dateMax = new Date();
   layoutRut: Layout = {
     name: 'RUT',
@@ -48,8 +49,12 @@ export class RegisterComponent {
     private router: Router,
     private rutServ: RutService,
     private snackCtrl: MatSnackBar,
+    private dialogCtrl: MatDialog,
     private clienteServ: ClienteService
   ) { }
+
+  ngOnInit(): void {
+  }
 
   onBack() {
     this.rutValid = false;
@@ -81,11 +86,13 @@ export class RegisterComponent {
 
   onFocusOutRut() {
     if (!this.rutValid) {
-      this.snackCtrl.open(
-        'El RUT ingresado no es válido.',
-        'Aceptar',
-        { duration: 2500 }
-      );
+      this.dialogCtrl.open(SimpleModalComponent, {
+        width: '320px',
+        data: {
+          message: 'El RUT ingresado no es válido.',
+          // duration: 2500
+        } as SimpleModalData
+      });
     }
 
     this.onFocusOut();

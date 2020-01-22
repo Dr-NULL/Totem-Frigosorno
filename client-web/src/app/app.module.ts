@@ -19,6 +19,7 @@ import { Err404Component } from './components/pages/err404/err404.component';
 import { RegisterComponent } from './components/pages/cliente/register/register.component';
 import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
 import { ClickOutsideDirective } from 'ng-click-outside';
+import { SimpleModalComponent } from './components/shared/simple-modal/simple-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ClickOutsideDirective } from 'ng-click-outside';
     Err404Component,
     RegisterComponent,
     KeyboardComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    SimpleModalComponent
   ],
   imports: [
     // System Modules
@@ -47,6 +49,9 @@ import { ClickOutsideDirective } from 'ng-click-outside';
       provide: APP_BASE_HREF,
       useValue: '/'
     }
+  ],
+  entryComponents: [
+    SimpleModalComponent
   ],
   bootstrap: [AppComponent]
 })

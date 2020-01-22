@@ -1,0 +1,11 @@
+<mat-card-title>Aviso!</mat-card-title>
+<mat-divider></mat-divider>
+<mat-card-content [innerHTML]="data.message">
+</mat-card-content>
+<mat-divider></mat-divider>
+<mat-card-actions>
+  <button mat-raised-button color="primary" (click)="dismiss()">
+    <i class="fas fa-thumbs-up"></i>
+    <span>Aceptar</span>
+  </button>
+</mat-card-actions>

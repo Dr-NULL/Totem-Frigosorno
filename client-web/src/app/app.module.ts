@@ -18,6 +18,7 @@ import { InfoComponent } from './components/pages/info/info.component';
 import { Err404Component } from './components/pages/err404/err404.component';
 import { RegisterComponent } from './components/pages/cliente/register/register.component';
 import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
+import { ClickOutsideDirective } from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { KeyboardComponent } from './components/shared/keyboard/keyboard.compone
     InfoComponent,
     Err404Component,
     RegisterComponent,
-    KeyboardComponent
+    KeyboardComponent,
+    ClickOutsideDirective
   ],
   imports: [
     // System Modules

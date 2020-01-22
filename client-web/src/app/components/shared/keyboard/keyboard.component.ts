@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ElementRef, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Layout, LayoutBtn, Key } from './keyboard.interfaces';
 
 import { stylizeLayout } from './keyboard.layout';
@@ -15,12 +15,12 @@ export {
   templateUrl: './keyboard.component.html',
   styleUrls: ['./keyboard.component.scss']
 })
-export class KeyboardComponent implements OnInit, AfterViewInit {
+export class KeyboardComponent implements OnInit {
   private static activeInput: HTMLInputElement;
 
   @ViewChild('input', { static: false })
   private rawInput: ElementRef<HTMLInputElement>;
-  private get input(): HTMLInputElement {
+  private get refInput(): HTMLInputElement {
     if (this.rawInput != null) {
       return this.rawInput.nativeElement;
     } else {
@@ -36,25 +36,27 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
 
   @Input()
   get value(): string {
-    if (this.input != null) {
-      this.rawValue = this.input.value;
+    if (this.refInput != null) {
+      this.rawValue = this.refInput.value;
+      this._getPosition();
     }
     return this.rawValue;
   }
   set value(v: string) {
     this.rawValue = v;
-    if (this.input != null) {
-      this.input.value = v;
+    if (this.refInput != null) {
+      this.refInput.value = v;
     }
-    this.valueChange.emit(v);
-    this.update.emit(this);
   }
 
   @Output()
   valueChange = new EventEmitter<string>();
 
   @Output()
-  update = new EventEmitter<KeyboardComponent>();
+  focusOut = new EventEmitter<KeyboardComponent>();
+
+  @Output()
+  updated = new EventEmitter<KeyboardComponent>();
 
   @Output()
   pressEnter = new EventEmitter<KeyboardComponent>();
@@ -62,8 +64,9 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
   @Output()
   pressEsc = new EventEmitter<KeyboardComponent>();
 
-  private rawValue: string;
-  private rawLayout: LayoutBtn;
+  rawLayout: LayoutBtn;
+  rawValue = '';
+  private isBlur = true;
   private pos = { m: 0, n: 0 };
   private mode = {
     default: false,
@@ -73,13 +76,18 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
   };
 
   @ViewChild('keyboard', { static: true })
-  ref: ElementRef<HTMLElement>;
+  rawKeyboard: ElementRef<HTMLElement>;
 
-  private get self(): HTMLElement {
-    return this.ref.nativeElement;
+  private get refKeyboard(): HTMLElement {
+    return this.rawKeyboard.nativeElement;
+  }
+
+  private get refSelf(): HTMLElement {
+    return this.rawSelf.nativeElement;
   }
 
   constructor(
+    private rawSelf: ElementRef<HTMLElement>,
     private render: Renderer2
   ) {}
 
@@ -88,60 +96,9 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     if (this.layout == null) {
       this.layout = ES_LATIN;
     }
-    this._hide();
+    this.hide();
     this.rawLayout = stylizeLayout(this.layout);
     this.modeDefault();
-  }
-
-  ngAfterViewInit() {
-    // Eventos Input
-    this.input.onclick = () => this._getPosition();
-    this.input.onkeyup = () => this._getPosition();
-    this.input.onchange = () => this._getPosition();
-    this.input.onfocus = ev => {
-      setTimeout(() => {
-        KeyboardComponent.activeInput = ev.target as HTMLInputElement;
-        this._getPosition();
-        this.show();
-
-      }, 250);
-    };
-    document.onmouseup = ev => {
-      const all = this._getKeyboards();
-      const keys = this._getKeyboard(
-        ev.target as Node
-      );
-
-      if (keys === null) {
-        for (const key of all) {
-          this._hide(key);
-        }
-      }
-    };
-    this.input.onblur = () => {
-      setTimeout(() => {
-        const all = this._getKeyboards();
-        const host = this._getKeyboard(
-          document.activeElement
-        );
-
-        if (
-          (host !== null) &&
-          (!KeyboardComponent.activeInput
-            .isSameNode(document.activeElement))
-        ) {
-          if (!this._getKeyboard(
-            KeyboardComponent.activeInput
-          ).contains(
-            document.activeElement
-          )) {
-            for (const key of all) {
-              this._hide(key);
-            }
-          }
-        }
-      }, 250);
-    };
   }
 
   modeDefault() {
@@ -150,9 +107,9 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.mode.shift = false;
     this.mode.altGr = false;
 
-    this.render.addClass(this.self, 'default');
-    this.render.removeClass(this.self, 'shift');
-    this.render.removeClass(this.self, 'altgr');
+    this.render.addClass(this.refKeyboard, 'default');
+    this.render.removeClass(this.refKeyboard, 'shift');
+    this.render.removeClass(this.refKeyboard, 'altgr');
   }
 
   modeCaps() {
@@ -161,9 +118,9 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.mode.shift = false;
     this.mode.altGr = false;
 
-    this.render.removeClass(this.self, 'default');
-    this.render.addClass(this.self, 'shift');
-    this.render.removeClass(this.self, 'altgr');
+    this.render.removeClass(this.refKeyboard, 'default');
+    this.render.addClass(this.refKeyboard, 'shift');
+    this.render.removeClass(this.refKeyboard, 'altgr');
   }
 
   modeShift() {
@@ -172,9 +129,9 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.mode.shift = true;
     this.mode.altGr = false;
 
-    this.render.removeClass(this.self, 'default');
-    this.render.addClass(this.self, 'shift');
-    this.render.removeClass(this.self, 'altgr');
+    this.render.removeClass(this.refKeyboard, 'default');
+    this.render.addClass(this.refKeyboard, 'shift');
+    this.render.removeClass(this.refKeyboard, 'altgr');
   }
 
   modeAltGr() {
@@ -183,61 +140,23 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.mode.shift = false;
     this.mode.altGr = true;
 
-    this.render.removeClass(this.self, 'default');
-    this.render.removeClass(this.self, 'shift');
-    this.render.addClass(this.self, 'altgr');
+    this.render.removeClass(this.refKeyboard, 'default');
+    this.render.removeClass(this.refKeyboard, 'shift');
+    this.render.addClass(this.refKeyboard, 'altgr');
   }
 
   show() {
-    this.render.removeClass(this.self, 'hidden');
-    this.render.addClass(this.self, 'show');
+    this.render.removeClass(this.refKeyboard, 'hidden');
+    this.render.addClass(this.refKeyboard, 'show');
   }
 
   hide() {
-    this.render.removeClass(this.self, 'show');
-    this.render.addClass(this.self, 'hidden');
-    this.input.blur();
-  }
+    this.render.removeClass(this.refKeyboard, 'show');
+    this.render.addClass(this.refKeyboard, 'hidden');
 
-  private _hide(ref: Node = this.self) {
-    this.render.removeClass(ref, 'show');
-    this.render.addClass(ref, 'hidden');
-  }
-
-  private _getKeyboards() {
-    const out: Node[] = [];
-    document
-      .querySelectorAll(this.self.parentNode.nodeName)
-      .forEach(item => {
-        item.childNodes.forEach(child => {
-          if ((child as HTMLElement).classList.contains('keyboard')) {
-            out.push(child as Node);
-          }
-        });
-      });
-
-    return out;
-  }
-
-  private _getKeyboard(elem: Node) {
-    let current = elem;
-    while (current != null) {
-      if (current.nodeName.toLowerCase() === this.self.parentNode.nodeName.toLowerCase()) {
-        const children = current.childNodes;
-        current = null;
-        children.forEach(item => {
-          if ((item as HTMLElement).classList.contains('keyboard')) {
-            current = item;
-          }
-        });
-
-        break;
-      } else {
-        current = current.parentNode;
-      }
+    if (this.refInput != null) {
+      this.refInput.blur();
     }
-
-    return current;
   }
 
   private _onClick(key: string) {
@@ -285,7 +204,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
 
   private _write(key: string) {
     // Escribir
-    const v = this.input.value;
+    const v = this.value;
     let out = v.substr(0, this.pos.m);
     out += key;
     out += v.substr(this.pos.n);
@@ -294,9 +213,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.pos.n = this.pos.m;
 
     this.value = out;
-    this.input.focus();
-
-    this.update.emit();
+    this._onChange();
     this._setPosition();
 
     // Volver a Default
@@ -309,7 +226,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
   }
 
   private _backspace() {
-    const v = this.input.value;
+    const v = this.value;
     let out = '';
 
     if (
@@ -329,27 +246,66 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     }
 
     this.value = out;
-    this.input.focus();
+    this._onChange();
     this._setPosition();
   }
 
-  private _onChange() {
-    this.input.focus();
-    this.valueChange.emit(this.value);
-    this.update.emit(this);
-  }
-
   private _getPosition() {
-    const start = this.input.selectionStart;
-    const end = this.input.selectionEnd;
+    const start = this.refInput.selectionStart;
+    const end = this.refInput.selectionEnd;
 
     this.pos.m = start;
     this.pos.n = end;
-    this.update.emit(this);
   }
 
   private _setPosition() {
-    this.input.selectionStart = this.pos.m;
-    this.input.selectionEnd = this.pos.n;
+    this.refInput.selectionStart = this.pos.m;
+    this.refInput.selectionEnd = this.pos.n;
+  }
+
+  private _onChange() {
+    this.refInput.focus();
+    this.valueChange.emit(this.value);
+    this.updated.emit(this);
+  }
+
+  private _onFocus() {
+    KeyboardComponent.activeInput = this.rawInput.nativeElement;
+    this._getPosition();
+
+    if (this.isBlur) {
+      setTimeout(() => {
+        this.show();
+        this.isBlur = false;
+      }, 250);
+    }
+  }
+
+  private _onBlur() {
+    if (!this.isBlur) {
+      return;
+    }
+
+    const target = document.activeElement as HTMLElement;
+    if (
+      (!this.isBlur) &&
+      (!this.refSelf.contains(target))
+    ) {
+      this.isBlur = true;
+      this.hide();
+      this.focusOut.emit(this);
+    }
+  }
+
+  private _onClickOutside(ev: Event) {
+    const target = ev.target as HTMLElement;
+    if (
+      (!this.isBlur) &&
+      (!this.refSelf.contains(target))
+    ) {
+      this.isBlur = true;
+      this.hide();
+      this.focusOut.emit(this);
+    }
   }
 }

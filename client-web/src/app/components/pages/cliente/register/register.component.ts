@@ -34,6 +34,7 @@ export class RegisterComponent implements DoCheck {
     ]
   };
 
+  rutValid = false;
   rut = '';
   nombres = '';
   apellidoP = '';
@@ -51,6 +52,7 @@ export class RegisterComponent implements DoCheck {
   ) { }
 
   onBack() {
+    this.rutValid = false;
     this.rut = '';
     this.nombres = '';
     this.apellidoP = '';
@@ -68,10 +70,10 @@ export class RegisterComponent implements DoCheck {
 
   ngDoCheck() {
     this.rut = this.rutServ.format(this.rut);
-    const isValid = this.rutServ.isValid(this.rut);
+    this.rutValid = this.rutServ.isValid(this.rut);
 
     this.enabled = (
-      (isValid) &&
+      (this.rutValid) &&
       (this.rut.length > 0) &&
       (this.nombres.length > 0) &&
       (this.apellidoP.length > 0) &&
@@ -79,6 +81,17 @@ export class RegisterComponent implements DoCheck {
       (this.fechaNacim.length > 0) &&
       (this.fechaNacim !== moment().format('DD/MM/YYYY'))
     );
+  }
+
+  onUpdated(ref: KeyboardComponent) {
+    console.clear();
+    console.log('Valor Updated:');
+    console.log(ref.value);
+  }
+
+  onFocusOut(ref: KeyboardComponent) {
+    console.log('Valor FocusOut:');
+    console.log(ref.value);
   }
 
   onRegister() {

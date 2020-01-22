@@ -1,11 +1,20 @@
 <mat-form-field class="col-4">
-  <input matInput #input type="text" placeholder="{{placeholder}}" (keyup)="_onChange()">
+  <input matInput #input type="text" placeholder="{{placeholder}}"
+    [(value)]="rawValue"
+    (blur)="_onBlur()"
+    (keyup)="_onChange()"
+    (change)="_onChange()"
+    (focus)="_onFocus()"
+    (clickOutside)="_onClickOutside($event)"
+  >
 </mat-form-field>
 
-<div class="keyboard" #keyboard>
+<div appClickOutside class="keyboard" #keyboard (clickOutside)="_onClickOutside($event)">
   <div class="layout-default">
     <div *ngFor="let row of rawLayout.rows" class="key-row">
-      <button mat-raised-button
+      <button
+        mat-raised-button
+        appClickOutside
         [tabIndex]="-1"
         *ngFor="let key of row"
         (click)="_onClick(key.value.default)"

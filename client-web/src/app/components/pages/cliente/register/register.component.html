@@ -7,6 +7,8 @@
       placeholder="RUT (requerido):"
       [layout]="layoutRut"
       [(value)]="rut"
+      (updated)="onUpdated($event)"
+      (focusOut)="onFocusOut($event)"
       (pressEnter)="pressEnter($event)">
     </app-keyboard>
     <app-keyboard

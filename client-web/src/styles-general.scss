@@ -23,7 +23,7 @@ mat-form-field {
 
 /* MODAL DIALOG */
 mat-dialog-container {
-  > .ng-star-inserted {
+  > .ng-star-inserted:not(.mat-datepicker-content) {
     display: flex;
     flex-flow: column nowrap;
     justify-content: stretch;

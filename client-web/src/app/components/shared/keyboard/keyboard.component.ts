@@ -146,6 +146,8 @@ export class KeyboardComponent implements OnInit {
   }
 
   show() {
+    this.isBlur = false;
+    this.refInput.focus();
     this.render.removeClass(this.refKeyboard, 'hidden');
     this.render.addClass(this.refKeyboard, 'show');
   }

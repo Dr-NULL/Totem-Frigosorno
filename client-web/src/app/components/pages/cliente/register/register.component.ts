@@ -84,14 +84,20 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  onFocusOutRut() {
+  onFocusOutRut(ev: KeyboardComponent) {
     if (!this.rutValid) {
-      this.dialogCtrl.open(SimpleModalComponent, {
+      this.rut = '';
+      const modal = this.dialogCtrl.open(SimpleModalComponent, {
         width: '320px',
         data: {
           message: 'El RUT ingresado no es válido.',
-          // duration: 2500
+          duration: 2500
         } as SimpleModalData
+      });
+
+      // Volver a enfocar el Input
+      modal.afterClosed().subscribe(() => {
+        ev.show();
       });
     }
 

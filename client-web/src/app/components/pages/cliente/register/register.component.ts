@@ -5,14 +5,14 @@ import { Router } from '@angular/router';
 import { Layout, KeyboardComponent } from '../../../shared/keyboard/keyboard.component';
 import { ClienteService } from '../../../../services/cliente/cliente.service';
 import * as moment from 'moment';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements DoCheck {
+export class RegisterComponent {
   dateMax = new Date();
   layoutRut: Layout = {
     name: 'RUT',
@@ -39,7 +39,7 @@ export class RegisterComponent implements DoCheck {
   nombres = '';
   apellidoP = '';
   apellidoM = '';
-  fechaNacim = '';
+  fechaNacim = new Date();
   telefono = '';
   email = '';
   enabled = false;
@@ -57,7 +57,7 @@ export class RegisterComponent implements DoCheck {
     this.nombres = '';
     this.apellidoP = '';
     this.apellidoM = '';
-    this.fechaNacim = '';
+    this.fechaNacim = new Date();
     this.telefono = '';
     this.email = '';
     this.enabled = false;
@@ -68,9 +68,31 @@ export class RegisterComponent implements DoCheck {
     keyboard.hide();
   }
 
-  ngDoCheck() {
+  checkDate(ev: MatDatepickerInputEvent<moment.Moment>) {
+    this.fechaNacim = ev.value.toDate();
+    this.onFocusOut();
+  }
+
+  checkRut() {
     this.rut = this.rutServ.format(this.rut);
     this.rutValid = this.rutServ.isValid(this.rut);
+
+  }
+
+  onFocusOutRut() {
+    if (!this.rutValid) {
+      this.snackCtrl.open(
+        'El RUT ingresado no es válido.',
+        'Aceptar',
+        { duration: 2500 }
+      );
+    }
+
+    this.onFocusOut();
+  }
+
+  onFocusOut() {
+    const now = new Date();
 
     this.enabled = (
       (this.rutValid) &&
@@ -78,20 +100,22 @@ export class RegisterComponent implements DoCheck {
       (this.nombres.length > 0) &&
       (this.apellidoP.length > 0) &&
       (this.apellidoM.length > 0) &&
-      (this.fechaNacim.length > 0) &&
-      (this.fechaNacim !== moment().format('DD/MM/YYYY'))
+      (
+        this.fechaNacim.getFullYear() !== now.getFullYear() ||
+        this.fechaNacim.getMonth() !== now.getMonth() ||
+        this.fechaNacim.getDate() !== now.getDate()
+      )
     );
-  }
 
-  onUpdated(ref: KeyboardComponent) {
-    console.clear();
-    console.log('Valor Updated:');
-    console.log(ref.value);
-  }
-
-  onFocusOut(ref: KeyboardComponent) {
-    console.log('Valor FocusOut:');
-    console.log(ref.value);
+    // console.log({
+    //   rut: this.rut.trim(),
+    //   nombres: this.nombres.trim(),
+    //   apellidoP: this.apellidoP.trim(),
+    //   apellidoM: this.apellidoM.trim(),
+    //   fechaNac: this.fechaNacim,
+    //   telefono: parseInt(this.telefono.trim(), 10),
+    //   email: this.email.trim()
+    // });
   }
 
   onRegister() {

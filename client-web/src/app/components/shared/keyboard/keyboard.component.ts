@@ -281,8 +281,11 @@ export class KeyboardComponent implements OnInit {
     }
   }
 
-  private _onBlur() {
-    if (!this.isBlur) {
+  private _onBlur(ev: FocusEvent) {
+    if (
+      (!this.isBlur) &&
+      (ev.relatedTarget == null)
+    ) {
       return;
     }
 

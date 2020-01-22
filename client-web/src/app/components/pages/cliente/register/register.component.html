@@ -7,26 +7,29 @@
       placeholder="RUT (requerido):"
       [layout]="layoutRut"
       [(value)]="rut"
-      (updated)="onUpdated($event)"
-      (focusOut)="onFocusOut($event)"
+      (updated)="checkRut()"
+      (focusOut)="onFocusOutRut()"
       (pressEnter)="pressEnter($event)">
     </app-keyboard>
     <app-keyboard
       class="col-8"
       placeholder="Nombres (requerido):"
       [(value)]="nombres"
+      (focusOut)="onFocusOut()"
       (pressEnter)="pressEnter($event)">
     </app-keyboard>
     <app-keyboard
       class="col-6"
       placeholder="Apellido Paterno (requerido):"
       [(value)]="apellidoP"
+      (focusOut)="onFocusOut()"
       (pressEnter)="pressEnter($event)">
     </app-keyboard>
     <app-keyboard
       class="col-6"
       placeholder="Apellido Materno (requerido):"
       [(value)]="apellidoM"
+      (focusOut)="onFocusOut()"
       (pressEnter)="pressEnter($event)">
     </app-keyboard>
     <mat-form-field class="col-4">
@@ -37,6 +40,7 @@
         type="text" [max]="dateMax"
         [matDatepicker]="datePicker"
         placeholder="Fecha Nacimiento (requerido):"
+        (dateChange)="checkDate($event)"
         disabled>
     </mat-form-field>
     <app-keyboard

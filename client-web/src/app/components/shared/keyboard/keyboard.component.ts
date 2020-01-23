@@ -265,6 +265,11 @@ export class KeyboardComponent implements OnInit {
     this.refInput.selectionEnd = this.pos.n;
   }
 
+  private _onKeyUp() {
+    this.value = this.value;
+    this._setPosition();
+  }
+
   private _onChange() {
     this.refInput.focus();
     this.valueChange.emit(this.value);

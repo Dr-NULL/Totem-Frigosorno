@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+  padding: 2rem;
+}
+
+mat-card {
+  width: 100%;
+
+  mat-card-content {
+    margin: 0 -1rem;
+    padding-top: 0.5rem;
+  }
+
+  mat-card-actions {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      flex: 1;
+      margin: 0.5rem;
+      padding: 0.4rem;
+      font-size: 1.5rem;
+    }
+  }
+}

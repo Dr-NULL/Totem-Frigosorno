@@ -16,10 +16,8 @@ import { PrintRutComponent } from './components/pages/cliente/print-rut/print-ru
 import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
 import { InfoComponent } from './components/pages/info/info.component';
 import { Err404Component } from './components/pages/err404/err404.component';
-import { RegisterComponent } from './components/pages/cliente/register/register.component';
-import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
-import { ClickOutsideDirective } from 'ng-click-outside';
 import { SimpleModalComponent } from './components/shared/simple-modal/simple-modal.component';
+import { RegistroComponent } from './components/pages/cliente/registro/registro.component';
 
 @NgModule({
   declarations: [
@@ -29,10 +27,8 @@ import { SimpleModalComponent } from './components/shared/simple-modal/simple-mo
     MetodoComponent,
     InfoComponent,
     Err404Component,
-    RegisterComponent,
-    KeyboardComponent,
-    ClickOutsideDirective,
-    SimpleModalComponent
+    SimpleModalComponent,
+    RegistroComponent
   ],
   imports: [
     // System Modules

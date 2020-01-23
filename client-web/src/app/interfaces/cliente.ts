@@ -7,7 +7,7 @@ export interface Cliente {
   apellidoP: string;
   apellidoM: string;
   fechaNac: Date;
-  telefono: number;
+  telefono: string;
   email: string;
   ventas?: Venta[];
 }

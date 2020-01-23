@@ -2,8 +2,8 @@
   <input matInput #input type="text" placeholder="{{placeholder}}"
     [(value)]="rawValue"
     (blur)="_onBlur($event)"
-    (keyup)="_onChange()"
-    (change)="_onChange()"
+    (keyup)="_onKeyUp($event)"
+    (change)="_onChange($event)"
     (focus)="_onFocus()"
     (clickOutside)="_onClickOutside($event)"
   >

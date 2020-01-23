@@ -21,8 +21,8 @@ export class Cliente extends BaseEntity {
     @Column({ type: "datetime" })
     fechaNac: Date;
     
-    @Column({ type: "decimal", precision: 15, scale: 0, nullable: true })
-    telefono: number;
+    @Column({ type: "varchar", length: 20, nullable: true })
+    telefono: string;
     
     @Column({ type: "varchar", length: 100, nullable: true })
     email: string;

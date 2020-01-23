@@ -2,6 +2,7 @@ import { Component, AfterViewInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 export interface SimpleModalData {
+  title: string;
   message: string;
   duration?: number;
 }

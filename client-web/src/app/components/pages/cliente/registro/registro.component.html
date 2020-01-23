@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>Registro de Usuarios:</mat-card-title>
-  <mat-card-subtitle>coloque sus datos, y a continuación presione en "Registrar"</mat-card-subtitle>
+  <mat-card-subtitle>Coloque sus datos, y a continuación presione en "Registrar"</mat-card-subtitle>
   <mat-divider></mat-divider>
   <mat-card-content class="row">
     <mat-form-field class="col-4">
@@ -43,6 +43,7 @@
       <input matInput
         type="text" [max]="this.maxDate"
         [matDatepicker]="datePicker"
+        [value]="this.fechaNac"
         placeholder="Fecha Nacimiento (requerido):"
         (dateChange)="onCheckDate($event.value)"
         disabled>
@@ -73,11 +74,20 @@
       <span>Volver</span>
     </button>
     <button mat-raised-button
+    *ngIf="!this.editing"
     color="accent"
     (click)="this.onRegister()"
     disabled="{{ !this.enabled }}">
       <i class="fas fa-user-plus"></i>
       <span>Registrarse</span>
+    </button>
+    <button mat-raised-button
+    *ngIf="this.editing"
+    color="accent"
+    (click)="this.onUpdate()"
+    disabled="{{ !this.enabled }}">
+      <i class="fas fa-user-plus"></i>
+      <span>Actualizar</span>
     </button>
   </mat-card-actions>
 </mat-card>

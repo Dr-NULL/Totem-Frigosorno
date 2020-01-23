@@ -1,0 +1,14 @@
+<mat-card-title>{{ data.title }}</mat-card-title>
+<mat-divider></mat-divider>
+<mat-card-content [innerHTML]="data.message">
+</mat-card-content>
+<mat-divider></mat-divider>
+<mat-card-actions>
+  <button mat-raised-button *ngFor="let item of this.data.buttons"
+  color="primary"
+  (click)="this.execute(item.dissmiss, item.callback)"
+  >
+    <i class="{{ item.icon }}"></i>
+    <span>{{ item.text }}</span>
+  </button>
+</mat-card-actions>

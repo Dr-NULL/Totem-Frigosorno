@@ -16,8 +16,9 @@ import { PrintRutComponent } from './components/pages/cliente/print-rut/print-ru
 import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
 import { InfoComponent } from './components/pages/info/info.component';
 import { Err404Component } from './components/pages/err404/err404.component';
-import { SimpleModalComponent } from './components/shared/simple-modal/simple-modal.component';
 import { RegistroComponent } from './components/pages/cliente/registro/registro.component';
+import { ModalBasicComponent } from './components/shared/modal-basic/modal-basic.component';
+import { ModalCustomComponent } from './components/shared/modal-custom/modal-custom.component';
 
 @NgModule({
   declarations: [
@@ -27,8 +28,9 @@ import { RegistroComponent } from './components/pages/cliente/registro/registro.
     MetodoComponent,
     InfoComponent,
     Err404Component,
-    SimpleModalComponent,
-    RegistroComponent
+    RegistroComponent,
+    ModalBasicComponent,
+    ModalCustomComponent
   ],
   imports: [
     // System Modules
@@ -47,7 +49,8 @@ import { RegistroComponent } from './components/pages/cliente/registro/registro.
     }
   ],
   entryComponents: [
-    SimpleModalComponent
+    ModalBasicComponent,
+    ModalCustomComponent
   ],
   bootstrap: [AppComponent]
 })

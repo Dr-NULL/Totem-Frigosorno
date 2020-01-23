@@ -18,4 +18,17 @@ export class ClienteService {
       data
     );
   }
+
+  buscar(rut: string) {
+    return this.httpCtrl.get<Cliente>(
+      '/api/cliente/buscar/' + rut.replace(/[^0-9k]/gi, '')
+    );
+  }
+
+  actualizar(data: Cliente) {
+    return this.httpCtrl.post<Cliente>(
+      '/api/cliente/actualizar',
+      data
+    );
+  }
 }

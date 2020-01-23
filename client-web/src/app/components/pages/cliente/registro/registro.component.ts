@@ -1,12 +1,14 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { RutService } from 'src/app/services/rut/rut.service';
-import { ClienteService } from 'src/app/services/cliente/cliente.service';
 import { VoucherService } from 'src/app/services/voucher/voucher.service';
 import { FormatterService } from 'src/app/services/formatter/formatter.service';
+import { ClienteService, Cliente } from 'src/app/services/cliente/cliente.service';
+import { ApiError } from 'src/app/interfaces/api';
 
-import { SimpleModalComponent, SimpleModalData } from 'src/app/components/shared/simple-modal/simple-modal.component';
+import { ModalBasicComponent, ModalBasicData } from 'src/app/components/shared/modal-basic/modal-basic.component';
+import { ModalCustomComponent, ModalCustomData } from 'src/app/components/shared/modal-custom/modal-custom.component';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 
@@ -15,16 +17,20 @@ import { Router } from '@angular/router';
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
-export class RegistroComponent implements AfterViewInit {
+export class RegistroComponent implements OnInit {
   enabled = false;
-  maxDate = new Date();
+  editing = false;
+  maxDate = moment()
+    .add(-1, 'days')
+    .toDate();
 
+  id: number;
   rut = '';
   rutIsValid = false;
   nombres = '';
   apellidoP = '';
   apellidoM = '';
-  fechaNac: Date;
+  fechaNac = new Date();
   phone = '';
   phoneIsValid = false;
   email = '';
@@ -39,13 +45,20 @@ export class RegistroComponent implements AfterViewInit {
     private clienteServ: ClienteService
   ) { }
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    this.enabled = false;
+    this.editing = false;
+    this.maxDate = moment()
+      .add(-1, 'days')
+      .toDate();
+
+    this.id = null;
     this.rut = '';
     this.rutIsValid = false;
     this.nombres = '';
     this.apellidoP = '';
     this.apellidoM = '';
-    this.fechaNac = null;
+    this.fechaNac = new Date();
     this.phone = '';
     this.phoneIsValid = false;
     this.email = '';
@@ -70,6 +83,54 @@ export class RegistroComponent implements AfterViewInit {
         2500
       );
       ref.focus();
+    } else {
+      // Buscar Usuario
+      try {
+        const resp = await this.clienteServ.buscar(this.rut);
+        await this.openDialog(
+          'ERROR!',
+          'El RUT que ha ingresado ya se encuentra registrado. '
+          + 'Utilice la opción "impresión con RUT" en su lugar.',
+          3000
+        );
+        this.onBack();
+
+        // this.dialogCtrl.open(
+        //   ModalCustomComponent,
+        //   {
+        //     data: {
+        //       title: 'AVISO:',
+        //       message: 'Este rut ya se encuentra registrado.',
+        //       buttons: [
+        //         {
+        //           icon: 'fas fa-thumbs-up',
+        //           text: 'Ok',
+        //           color: 'accent',
+        //           callback: () => {
+        //             this.loadData(resp.data);
+        //           }
+        //         },
+        //         {
+        //           icon: 'fas fa-times',
+        //           text: 'Cancelar',
+        //           color: 'primary',
+        //           callback: () => {
+        //             this.onBack();
+        //           }
+        //         }
+        //       ]
+        //     } as ModalCustomData
+        //   }
+        // );
+      } catch (err) {
+        if ((err as ApiError).status !== '404') {
+          this.openDialog(
+            'ERROR:',
+            err.details,
+            3000
+          );
+        }
+      }
     }
   }
 
@@ -146,13 +207,13 @@ export class RegistroComponent implements AfterViewInit {
   openDialog(title: string, message: string, duration: number = null) {
     return new Promise(resolve => {
       const ref = this.dialogCtrl.open(
-        SimpleModalComponent,
+        ModalBasicComponent,
         {
           data: {
             title,
             message,
             duration
-          } as SimpleModalData
+          } as ModalBasicData
         }
       );
 
@@ -178,20 +239,79 @@ export class RegistroComponent implements AfterViewInit {
         email: this.email.trim()
       });
 
-      await this.voucherServ.printRut(this.rut);
       await this.openDialog(
         'FINALIZADO:',
-        'Se ha generado exitosamente su nuevo usuario e impreso su número de atención.',
+        'Se ha generado exitosamente su nuevo usuario.',
         2500
       );
-      this.onBack();
     } catch (err) {
       await this.openDialog(
         'ERROR:',
         err.details,
         3000
       );
+    } finally {
+      this.ngOnInit();
       this.onBack();
     }
+  }
+
+  async onUpdate() {
+    try {
+      const resp = await this.clienteServ.actualizar({
+        id: this.id,
+        rut: this.rut.trim(),
+        nombres: this.nombres.trim(),
+        apellidoP: this.apellidoP.trim(),
+        apellidoM: this.apellidoM.trim(),
+        fechaNac: this.fechaNac,
+        telefono: this.phone.trim(),
+        email: this.email.trim()
+      });
+
+      await this.openDialog(
+        'FINALIZADO:',
+        'Se han actualizado exitosamente sus datos.',
+        2500
+      );
+    } catch (err) {
+      await this.openDialog(
+        'ERROR:',
+        err.details,
+        3000
+      );
+    } finally {
+      this.ngOnInit();
+      this.onBack();
+    }
+  }
+
+  loadData(cli: Cliente) {
+    this.editing = true;
+    this.id = cli.id;
+    this.rut = this.rutServ.format(cli.rut);
+    this.rutIsValid = true;
+    this.nombres = cli.nombres;
+    this.apellidoP = cli.apellidoP;
+    this.apellidoM = cli.apellidoM;
+    this.fechaNac = cli.fechaNac;
+
+    if (cli.telefono !== null) {
+      this.phoneIsValid = true;
+      this.phone = cli.telefono;
+    } else {
+      this.phoneIsValid = true;
+      this.phone = '';
+    }
+
+    if (cli.email !== null) {
+      this.emailIsValid = true;
+      this.email = cli.email;
+    } else {
+      this.emailIsValid = false;
+      this.email = '';
+    }
+
+    this.onBlurAll();
   }
 }

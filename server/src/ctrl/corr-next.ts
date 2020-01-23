@@ -29,7 +29,7 @@ corrNext.callback = async (req, res) => {
         })
         if (cli == null) {
             res.api.failed({ 
-                HttpResponse: StatusCodes.cod406,
+                httpResponse: StatusCodes.cod406,
                 details: "El usuario especificado no existe."
             })
             return
@@ -47,7 +47,7 @@ corrNext.callback = async (req, res) => {
         let totem = await Totem.findOne({ ip: req.ip })
         if (totem == null) {
             res.api.failed({ 
-                HttpResponse: StatusCodes.cod403,
+                httpResponse: StatusCodes.cod403,
                 details: "Necesita de estar conectado desde un Tótem para acceder a esta funcionalidad."
             })
             return

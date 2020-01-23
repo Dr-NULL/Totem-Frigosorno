@@ -11,7 +11,7 @@ clienteRegistro.callback = async(req, res) => {
         let cli = await Cliente.findOne({ rut: data.rut.replace(/[^0-9k]/gi, '') })
         if (cli != null) {
         res.api.failed({
-            HttpResponse: StatusCodes.cod500,
+            httpResponse: StatusCodes.cod500,
             details: 'El RUT ingresado ya existe, por favor reintente con un RUT válido.'
         })
            return 

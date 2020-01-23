@@ -350,7 +350,7 @@ export class Api {
     }
 
     public failed(...fail: Array<{
-        HttpResponse: HttpResponse;
+        httpResponse: HttpResponse;
         details: string;
     }>) {
         // Configurar errores
@@ -367,8 +367,8 @@ export class Api {
         let arrFail: ApiError[] = []
         for (let item of fail) {
             arrFail.push({
-                status: item.HttpResponse.status,
-                title: item.HttpResponse.title,
+                status: item.httpResponse.status,
+                title: item.httpResponse.title,
                 details: item.details,
                 source: {
                     pointer: this.req.originalUrl,

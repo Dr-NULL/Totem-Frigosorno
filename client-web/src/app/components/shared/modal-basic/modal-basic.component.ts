@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-export interface SimpleModalData {
+export interface ModalBasicData {
   title: string;
   message: string;
   duration?: number;
@@ -9,14 +9,14 @@ export interface SimpleModalData {
 
 @Component({
   selector: 'app-simple-modal',
-  templateUrl: './simple-modal.component.html',
-  styleUrls: ['./simple-modal.component.scss']
+  templateUrl: './modal-basic.component.html',
+  styleUrls: ['./modal-basic.component.scss']
 })
-export class SimpleModalComponent implements AfterViewInit {
+export class ModalBasicComponent implements AfterViewInit {
   constructor(
-    public instanceRef: MatDialogRef<SimpleModalComponent>,
+    public instanceRef: MatDialogRef<ModalBasicComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: SimpleModalData
+    public data: ModalBasicData
   ) { }
 
   ngAfterViewInit() {

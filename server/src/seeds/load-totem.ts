@@ -9,20 +9,18 @@ export async function loadTotem() {
         test.ip = '127.0.0.1'
         test.descripc = 'PC para pruebas locales en desarrollo'
         test.printerName = 'printerTotem_Z_Development'
-        test.printerIp = '127.0.0.1'
         await test.save()
     
         test = new Totem()
         test.ip = '192.168.20.249'
         test.descripc = 'PC para pruebas remotas en desarrollo'
         test.printerName = 'printerTotem_Z_Development'
-        test.printerIp = '192.168.20.249'
         await test.save()
     
         test = new Totem()
         test.ip = '192.168.20.86'
         test.descripc = 'Tótem para pruebas remotas en desarrollo'
-        test.printerName = 'printerTotem_Z_IntelStick'
+        test.printerName = 'printerTotem_Z_Development'
         await test.save()
     
         Log.ok('Totem <- Complete!')

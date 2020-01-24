@@ -5,10 +5,3 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-
-router-outlet ~ * {
-  position: absolute;
-  width: 100%;
-  height: calc(100vh - 3rem)!important;
-}

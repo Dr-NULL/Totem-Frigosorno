@@ -4,7 +4,9 @@
   <mat-divider></mat-divider>
   <mat-card-content class="row">
     <mat-form-field class="col-4">
-      <input matInput type="text"
+      <input matInput appKeyboard
+        type="text"
+        keyboard="rut"
         placeholder="RUT (requerido):"
         [value]="this.rut"
         (keyup)="this.rut = $event.target.value"

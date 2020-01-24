@@ -3,6 +3,13 @@ body {
   background: #202020;
 }
 
+router-outlet ~ * {
+  position: absolute;
+  overflow-y: auto!important;
+  width: 100%;
+  height: calc(100vh - 3rem)!important;
+}
+
 .mat-toolbar {
   background: #388e3c!important;
 }

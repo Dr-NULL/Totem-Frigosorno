@@ -19,6 +19,7 @@ import { Err404Component } from './components/pages/err404/err404.component';
 import { RegistroComponent } from './components/pages/cliente/registro/registro.component';
 import { ModalBasicComponent } from './components/shared/modal-basic/modal-basic.component';
 import { ModalCustomComponent } from './components/shared/modal-custom/modal-custom.component';
+import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ModalCustomComponent } from './components/shared/modal-custom/modal-cus
     Err404Component,
     RegistroComponent,
     ModalBasicComponent,
-    ModalCustomComponent
+    ModalCustomComponent,
+    KeyboardComponent
   ],
   imports: [
     // System Modules

@@ -1,116 +1,48 @@
 :host {
-  box-sizing: border-box;
-}
-
-mat-form-field {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.keyboard {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
 
   position: fixed;
   bottom: 0;
   left: 0;
+
   width: 100%;
-  height: 14rem;
-  background: #303030;
-}
+  z-index: 10000;
+  background: #252525;
+  box-shadow:  0 0 2rem #151515;
 
-.keyboard.show {
-  transition-timing-function: ease-out;
-  transition-duration: 250ms;
-  opacity: 1;
-  bottom: 0;
-}
-
-.keyboard.hidden {
-  transition-timing-function: ease-in;
-  transition-duration: 250ms;
-  opacity: 0;
-  bottom: -14rem;
-}
-
-button::ng-deep {
-  padding: 0!important;
-  min-width: 0!important;
-}
-
-.layout-default, .layout-shift, .layout-altgr {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-content: center;
-
-  .key-row {
-    width: 100%;
+  .mode {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     justify-content: center;
-    align-content: center;
-    min-height: calc(32px + 0.5rem);
+    align-items: center;
 
-    button {
-      flex: 1;
-      box-sizing: border-box;
-      margin: 0.25rem;
-      min-height: 32px;
+    width: 100%;
+    .row {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+
+      width: 100%;
+      button {
+        flex: 1;
+        margin: 0.25rem;
+      }
     }
   }
 }
 
-.keyboard.default {
-  > div {
-    transition-timing-function: linear;
-    transition-duration: 250ms;
-    z-index: 0;
-    opacity: 0;
-  }
-
-  .layout-default {
-    transition-timing-function: linear;
-    transition-duration: 250ms;
-    z-index: 5000;
-    opacity: 1;
-  }
+:host.show {
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  bottom: 0;
 }
 
-.keyboard.shift {
-  > div {
-    transition-timing-function: linear;
-    transition-duration: 250ms;
-    z-index: 0;
-    opacity: 0;
-  }
-
-  .layout-shift {
-    transition-timing-function: linear;
-    transition-duration: 250ms;
-    z-index: 5000;
-    opacity: 1;
-  }
-}
-
-.keyboard.altgr {
-  > div {
-    transition-timing-function: linear;
-    transition-duration: 250ms;
-    z-index: 0;
-    opacity: 0;
-  }
-
-  .layout-altgr {
-    transition-timing-function: linear;
-    transition-duration: 250ms;
-    z-index: 5000;
-    opacity: 1;
-  }
+:host.hide {
+  transition-duration: 250ms;
+  transition-timing-function: ease-in;
+  bottom: -50vh;
 }

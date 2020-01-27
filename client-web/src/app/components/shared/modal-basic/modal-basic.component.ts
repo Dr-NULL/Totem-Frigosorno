@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 export interface ModalBasicData {
   title: string;
   message: string;
-  duration?: number;
 }
 
 @Component({
@@ -13,6 +12,8 @@ export interface ModalBasicData {
   styleUrls: ['./modal-basic.component.scss']
 })
 export class ModalBasicComponent implements AfterViewInit {
+  closed: () => void;
+
   constructor(
     public instanceRef: MatDialogRef<ModalBasicComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -20,11 +21,6 @@ export class ModalBasicComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    if (this.data.duration != null) {
-      setTimeout(() => {
-        this.instanceRef.close();
-      }, this.data.duration);
-    }
   }
 
   dismiss() {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { fadeAnimation } from './tool/router-animation';
+import { LAYOUT_RUT, LAYOUT_ES_LATIN } from './components/shared/keyboard/lib/layouts/.';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,6 @@ import { fadeAnimation } from './tool/router-animation';
 })
 export class AppComponent {
   title = 'client-web';
+  layoutRut = LAYOUT_RUT;
+  layoutText = LAYOUT_ES_LATIN;
 }

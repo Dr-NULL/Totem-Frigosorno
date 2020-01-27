@@ -7,6 +7,7 @@ export interface KeyButton {
   default: Key;
   shift?: Key;
   altgr?: Key;
+  size?: number;
 }
 
 export interface Layout {
@@ -17,6 +18,11 @@ export interface Layout {
 export function normalize(input: Layout) {
   for (const yAxis of input.rows) {
     for (const xAxis of yAxis) {
+      // Agregar tamaño por defecto
+      if (xAxis.size == null) {
+        xAxis.size = 1;
+      }
+
       // Agregar botones vacíos
       if (xAxis.shift == null) {
         xAxis.shift = {

@@ -10,8 +10,6 @@
 
   width: 100%;
   z-index: 10000;
-  background: #252525;
-  box-shadow:  0 0 2rem #151515;
 
   .mode {
     display: flex;
@@ -19,7 +17,14 @@
     justify-content: center;
     align-items: center;
 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
     width: 100%;
+    background: #252525;
+    box-shadow:  none;
+
     .row {
       display: flex;
       flex-flow: row nowrap;
@@ -30,19 +35,69 @@
       button {
         flex: 1;
         margin: 0.25rem;
+        min-width: 0;
+        padding: 0;
       }
     }
   }
 }
 
-:host.show {
-  transition-duration: 250ms;
-  transition-timing-function: ease-out;
-  bottom: 0;
+// :host.show {
+//   transition-duration: 250ms;
+//   transition-timing-function: ease-out;
+//   bottom: 0;
+// }
+
+// :host.hide {
+//   transition-duration: 250ms;
+//   transition-timing-function: ease-out;
+//   bottom: -50vh;
+// }
+
+:host.default {
+  .mode {
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .mode.default {
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+    z-index: 5000;
+    opacity: 1;
+  }
 }
 
-:host.hide {
-  transition-duration: 250ms;
-  transition-timing-function: ease-in;
-  bottom: -50vh;
+:host.shift {
+  .mode {
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .mode.shift {
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+    z-index: 5000;
+    opacity: 1;
+  }
+}
+
+:host.altgr {
+  .mode {
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+    z-index: 0;
+    opacity: 0;
+  }
+
+  .mode.altgr {
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+    z-index: 5000;
+    opacity: 1;
+  }
 }

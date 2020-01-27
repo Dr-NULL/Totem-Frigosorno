@@ -65,13 +65,34 @@ export const RIGHT: Key = {
   value: '{right}'
 };
 
+export function isSystemKey(key: Key) {
+  switch (key.value) {
+    case ALT.value:
+    case ALTGR.value:
+    case BACK.value:
+    case CAPS.value:
+    case CTRL.value:
+    case ENTER.value:
+    case UP.value:
+    case DOWN.value:
+    case LEFT.value:
+    case RIGHT.value:
+    case ESC.value:
+    case SHIFT.value:
+    case TAB.value:
+      return true;
+    default:
+      return false;
+  }
+}
+
 export default {
   ALT,
   ALTGR,
   BACK,
-  ENTER,
   CAPS,
   CTRL,
+  ENTER,
   UP,
   DOWN,
   LEFT,

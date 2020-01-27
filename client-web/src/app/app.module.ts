@@ -20,6 +20,7 @@ import { RegistroComponent } from './components/pages/cliente/registro/registro.
 import { ModalBasicComponent } from './components/shared/modal-basic/modal-basic.component';
 import { ModalCustomComponent } from './components/shared/modal-custom/modal-custom.component';
 import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
+import { KeyboardDirective } from './directives/keyboard/keyboard.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { KeyboardComponent } from './components/shared/keyboard/keyboard.compone
     RegistroComponent,
     ModalBasicComponent,
     ModalCustomComponent,
-    KeyboardComponent
+    KeyboardComponent,
+    KeyboardDirective
   ],
   imports: [
     // System Modules

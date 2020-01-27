@@ -1,146 +1,118 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ElementRef, HostListener } from '@angular/core';
 import { Layout, normalize } from './lib/layout';
 import { LAYOUT_NUMPAD } from './lib/layouts/numpad';
+import { Anime } from './lib/anime';
 
 @Component({
   selector: 'app-keyboard',
   templateUrl: './keyboard.component.html',
   styleUrls: ['./keyboard.component.scss']
 })
-export class KeyboardComponent implements OnInit, OnDestroy {
+export class KeyboardComponent implements OnInit, AfterViewInit {
+  // Variable estática que almacena el Input actual
+  private static rawInput: HTMLInputElement;
+  public static get input(): HTMLInputElement {
+    return this.rawInput;
+  }
+  public static set input(v: HTMLInputElement) {
+    this.rawInput = v;
+  }
+
+  // Propiedad que almacena la plantilla a usar
   protected rawLayout: Layout;
   get layout(): Layout {
     return this.rawLayout;
   }
-
   @Input()
   set layout(v: Layout) {
     this.rawLayout = normalize(v);
   }
 
-  get self(): HTMLElement {
-    return this.rawSelf.nativeElement;
-  }
-
+  // Otras variables internas
   @Input()
   name: string;
-  inputAll: HTMLInputElement[] = [];
-  inputCurrent: HTMLInputElement;
+  hold = false;
+  anime: Anime;
 
   constructor(
     private rawSelf: ElementRef<HTMLElement>
-  ) { }
+  ) {
+    this.anime = new Anime(this.rawSelf);
+  }
 
   ngOnInit() {
-    this.hide();
     if (this.layout == null) {
       this.layout = LAYOUT_NUMPAD;
     }
-
-    setTimeout(() => {
-      this.show();
-    }, 2500);
-
-    console.log(`input[keyboard=${this.name}]`);
-    const ref = document.querySelectorAll(`input[keyboard=${this.name}]`);
-    ref.forEach((node: HTMLInputElement) => {
-      node.addEventListener(
-        'focusin',
-        this.onFocus
-      );
-      this.inputAll.push(node);
-    });
   }
 
-  ngOnDestroy() {
-    this.inputAll.forEach(item => {
-      item.removeEventListener(
-        'focusin',
-        this.onFocus
-      );
-    });
-  }
-
-  show() {
-    // Manipular Content
-    const rawContent = document.querySelector('app-root > .content > *:not(router-outlet)') as HTMLElement;
-    if (rawContent != null) {
-      rawContent.style.cssText = `
-        transition-duration: 250ms;
-        transition-timing-function: ease-out;
-        height: calc(100vh - 3rem - ${this.self.offsetHeight}px)!important`;
-    }
-
-    // Manipular Host
-    this.self.classList.remove('hide');
-    this.self.classList.add('show');
-  }
-
-  hide() {
-    // Manipular Content
-    const rawContent = document.querySelector('app-root > .content > *:not(router-outlet)') as HTMLElement;
-    if (rawContent != null) {
-      rawContent.style.cssText = `
-        transition-duration: 250ms;
-        transition-timing-function: ease-out;
-        height: calc(100vh - 3rem) !important;`;
-    }
-
-    // Manipular Host
-    this.self.classList.remove('show');
-    this.self.classList.add('hide');
+  ngAfterViewInit() {
+    this.anime = new Anime(this.rawSelf);
+    this.anime.hide();
   }
 
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(ev: MouseEvent) {
     const target = ev.target as HTMLElement;
+    const self = this.rawSelf.nativeElement;
 
-    if (
-      (!this.self.isSameNode(target)) &&
-      (!this.self.contains(target))
-    ) {
-      this.hide();
-    }
-  }
+    ev.stopImmediatePropagation();
+    if (KeyboardComponent.input == null) {
+      this.anime.hide();
+    } else {
+      const shared = KeyboardComponent.input;
+      const attr = shared.attributes.getNamedItem('keyboard');
 
-  onFocus(ev: FocusEvent) {
-    const target = ev.target as HTMLElement;
-    if (this.isCurrentInput(target)) {
-      this.show();
-    }
-  }
-
-  isCurrentInput(target: HTMLElement) {
-    const name = target
-    .attributes
-    .getNamedItem('keyboard');
-
-    // Solo en caso de que el elemento clickeado sea un input
-    if (
-      (name != null) &&
-      (target.nodeName === 'INPUT')
-    ) {
-      if (name.value === this.name) {
-        return true;
-      }
-    }
-
-    // Buscar mat-form-field
-    while (target != null) {
       if (
-        (target.nodeName === 'MAT-FORM-FIELD') &&
-        (target.querySelector(`input[name=${this.name}]`) != null)
+        (this.name === attr.value) &&
+        (!target.isSameNode(shared)) &&
+        (!self.isSameNode(target)) &&
+        (!self.contains(target))
       ) {
-        return true;
-      } else {
-        target = target.parentElement;
+        shared.blur();
+        this.anime.hide();
       }
     }
 
     return false;
   }
 
-  onKeyPress(value: string) {
-    console.log(`Valor Presionado -> "${value}"`);
+  onKeyPress(key: string) {
+    const input = KeyboardComponent.input;
+    input.focus();
+
+    let p1 = input.selectionStart;
+    let p2 = input.selectionEnd;
+
+    let value =  input.value.substr(0, p1);
+    value += key;
+    value += input.value.substr(p2);
+
+    p1++;
+    p2 = p1;
+    input.value = value;
+    input.selectionStart = p1;
+    input.selectionEnd = p2;
+
+    this.triggerKeyUp(key);
+  }
+
+  triggerKeyUp(key: string) {
+    const input = KeyboardComponent.input;
+    const event = new KeyboardEvent(
+      'keyup',
+      {
+        bubbles: true,
+        cancelable: true,
+        composed: false,
+        key,
+        shiftKey: false,
+        ctrlKey: false,
+        altKey: false,
+        metaKey: false
+      }
+    );
+
+    input.dispatchEvent(event);
   }
 }

@@ -85,7 +85,7 @@ export class Anime {
       this.self.classList.remove('default');
       this.self.classList.remove('altgr');
       this.self.classList.add('shift');
-      return 'default';
+      return 'shift';
     } else if (this.self.classList.contains('altgr')) {
       this.self.classList.remove('default');
       this.self.classList.remove('shift');

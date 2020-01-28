@@ -21,9 +21,9 @@
 <div class="mode altgr" #keysAltGr>
   <div class="row" *ngFor="let row of this.rawLayout.rows">
     <button mat-raised-button *ngFor="let key of row"
-      [innerHTML]="key.shift.label"
+      [innerHTML]="key.altgr.label"
       [style.flex]="key.size"
-      (mousedown)="this.onKeyPress(key.shift.value)">
+      (mousedown)="this.onKeyPress(key.altgr.value)">
     </button>
   </div>
 </div>

@@ -1,8 +1,11 @@
-import { Component, OnInit, AfterViewInit, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
 import { Layout, normalize } from './lib/layout';
 import { LAYOUT_NUMPAD } from './lib/layouts/numpad';
-import SYS from './lib/system-keys';
+import { Writter } from './lib/writter';
 import { Anime } from './lib/anime';
+import SYS, { SHIFT } from './lib/system-keys';
+
+export { Writter };
 
 @Component({
   selector: 'app-keyboard',
@@ -10,15 +13,6 @@ import { Anime } from './lib/anime';
   styleUrls: ['./keyboard.component.scss']
 })
 export class KeyboardComponent implements OnInit, AfterViewInit {
-  // Variable estática que almacena el Input actual
-  private static rawInput: HTMLInputElement;
-  public static get input(): HTMLInputElement {
-    return this.rawInput;
-  }
-  public static set input(v: HTMLInputElement) {
-    this.rawInput = v;
-  }
-
   // Propiedad que almacena la plantilla a usar
   protected rawLayout: Layout;
   get layout(): Layout {
@@ -32,13 +26,19 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
   // Otras variables internas
   @Input()
   name: string;
+
+  @Output()
+  callback = new EventEmitter<string>();
+
   hold = false;
   anime: Anime;
+  writter: Writter;
 
   constructor(
     private rawSelf: ElementRef<HTMLElement>
   ) {
     this.anime = new Anime(this.rawSelf);
+    this.writter = new Writter();
   }
 
   ngOnInit() {
@@ -58,10 +58,10 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     const self = this.rawSelf.nativeElement;
 
     // ev.stopImmediatePropagation();
-    if (KeyboardComponent.input == null) {
+    if (Writter.input == null) {
       this.anime.hide();
     } else {
-      const shared = KeyboardComponent.input;
+      const shared = Writter.input;
       const attr = shared.attributes.getNamedItem('keyboard');
 
       if (
@@ -72,9 +72,6 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
       ) {
         this.anime.hide();
         shared.blur();
-      } else {
-        console.clear();
-        console.log(ev);
       }
     }
 
@@ -83,7 +80,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
 
   // Usar para forzar la actualización del value en la view correspondiente
   triggerKeyUp(key: string) {
-    const input = KeyboardComponent.input;
+    const input = Writter.input;
     const event = new KeyboardEvent(
       'keyup',
       {
@@ -102,56 +99,63 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
   }
 
   onKeyPress(key: string) {
+    const input = Writter.input;
     switch (key) {
       case SYS.BACK.value:
-        this.delete();
+        this.writter.delete();
+        break;
+
+      case SYS.ENTER.value:
+        this.callback.emit(input.value);
+        break;
+
+      case SYS.SHIFT.value:
+        this.hold = false;
+        if (this.anime.mode !== 'shift') {
+          this.anime.mode = 'shift';
+        } else {
+          this.anime.mode = 'default';
+        }
+        break;
+
+      case SYS.CAPS.value:
+        this.hold = !this.hold;
+        if (this.anime.mode !== 'shift') {
+          this.anime.mode = 'shift';
+        } else {
+          this.anime.mode = 'default';
+        }
+        break;
+
+      case SYS.ALTGR.value:
+        this.hold = false;
+        if (this.anime.mode !== 'altgr') {
+          this.anime.mode = 'altgr';
+        } else {
+          this.anime.mode = 'default';
+        }
+        break;
+
+      case SYS.LEFT.value:
+        this.writter.moveLeft();
+        break;
+
+      case SYS.RIGHT.value:
+        this.writter.moveRight();
         break;
 
       default:
-        this.write(key);
+        this.writter.write(key);
+        if (!this.hold) {
+          this.anime.mode = 'default';
+        }
+
+        setTimeout(() => {
+          Writter.input.focus();
+        }, 50);
         break;
     }
 
-    const input = KeyboardComponent.input;
     this.triggerKeyUp(key);
-  }
-
-  write(key: string) {
-    const input = KeyboardComponent.input;
-    input.focus();
-
-    let p1 = input.selectionStart;
-    let p2 = input.selectionEnd;
-
-    let value =  input.value.substr(0, p1);
-    value += key;
-    value += input.value.substr(p2);
-
-    p1++;
-    p2 = p1;
-    input.value = value;
-    input.selectionStart = p1;
-    input.selectionEnd = p2;
-  }
-
-  delete() {
-    const input = KeyboardComponent.input;
-    let p1 = input.selectionStart;
-    let p2 = input.selectionEnd;
-
-    if (
-      (p1 > 0) &&
-      (p1 === p2)
-    ) {
-      p1--;
-    }
-
-    let value = input.value.substr(0, p1);
-    value += input.value.substr(p2);
-    input.value = value;
-
-    p2 = p1;
-    input.selectionStart = p1;
-    input.selectionEnd = p2;
   }
 }

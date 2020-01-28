@@ -1,5 +1,5 @@
 import { Directive, OnInit, OnDestroy, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { KeyboardComponent } from '../../components/shared/keyboard/keyboard.component';
+import { KeyboardComponent, Writter } from '../../components/shared/keyboard/keyboard.component';
 
 interface BlurEvent extends FocusEvent {
   explicitOriginalTarget: HTMLElement;
@@ -60,7 +60,7 @@ export class KeyboardDirective implements OnInit, OnDestroy {
   }
 
   onFocus(ev: FocusEvent) {
-    KeyboardComponent.input = ev.currentTarget as HTMLInputElement;
+    Writter.input = ev.currentTarget as HTMLInputElement;
     const sele = `app-keyboard[name=${this.keyboard}]`;
     const elem = document.querySelector(sele) as HTMLElement;
 
@@ -69,7 +69,7 @@ export class KeyboardDirective implements OnInit, OnDestroy {
   }
 
   onFocusOut(ev: BlurEvent) {
-    const stat = KeyboardComponent.input;
+    const stat = Writter.input;
     const targ = ev.explicitOriginalTarget as HTMLElement;
     const sele = `app-keyboard[name=${this.keyboard}]`;
     const elem = document.querySelector(sele) as HTMLElement;
@@ -79,14 +79,10 @@ export class KeyboardDirective implements OnInit, OnDestroy {
       (!elem.contains(targ))
     ) {
       this.focusOut.emit(ev);
-      KeyboardComponent.input = null;
+      Writter.input = null;
 
       const keyboard = new KeyboardComponent(new ElementRef(elem));
       keyboard.anime.hide();
-    } else {
-      setTimeout(() => {
-        stat.focus();
-      }, 50);
     }
   }
 }

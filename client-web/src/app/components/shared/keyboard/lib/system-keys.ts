@@ -5,6 +5,11 @@ export const ENTER: Key = {
   value: '{enter}'
 };
 
+export const SPACE: Key = {
+  label: '<i class="far fa-window-minimize"></i>',
+  value: ' '
+};
+
 export const TAB: Key = {
   label: '<i class="fas fa-exchange-alt"></i>',
   value: '{tab}'
@@ -99,5 +104,6 @@ export default {
   RIGHT,
   ESC,
   SHIFT,
+  SPACE,
   TAB,
 };

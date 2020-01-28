@@ -52,7 +52,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.anime.hide();
   }
 
-  @HostListener('document:mouseup', ['$event'])
+  @HostListener('document:click', ['$event'])
   onMouseUp(ev: MouseEvent) {
     const target = ev.target as HTMLElement;
     const self = this.rawSelf.nativeElement;
@@ -67,6 +67,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
       if (
         (this.name === attr.value) &&
         (!target.isSameNode(shared)) &&
+        (!target.contains(shared)) &&
         (!self.isSameNode(target)) &&
         (!self.contains(target))
       ) {

@@ -1,10 +1,6 @@
 import { Directive, OnInit, OnDestroy, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { KeyboardComponent, Writter } from '../../components/shared/keyboard/keyboard.component';
 
-interface BlurEvent extends FocusEvent {
-  explicitOriginalTarget: HTMLElement;
-}
-
 @Directive({
   selector: '[appKeyboard]'
 })
@@ -68,9 +64,9 @@ export class KeyboardDirective implements OnInit, OnDestroy {
     keyboard.anime.show();
   }
 
-  onFocusOut(ev: BlurEvent) {
+  onFocusOut(ev: FocusEvent) {
     const stat = Writter.input;
-    const targ = ev.explicitOriginalTarget as HTMLElement;
+    const targ = ev.relatedTarget as HTMLElement;
     const sele = `app-keyboard[name=${this.keyboard}]`;
     const elem = document.querySelector(sele) as HTMLElement;
 

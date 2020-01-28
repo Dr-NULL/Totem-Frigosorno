@@ -70,16 +70,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
       ) {
         setTimeout(() => {
           this.anime.hide();
-          const event = new FocusEvent(
-            'blur',
-            {
-              bubbles: true,
-              cancelable: true,
-              composed: false,
-              relatedTarget: target
-            }
-          );
-          shared.dispatchEvent(event);
+          this.writter.forceBlur(shared);
         }, 50);
       }
     }

@@ -112,6 +112,7 @@ export class Writter {
     const node = this.getAllFocusable();
     const focus = (i: number) => {
       setTimeout(() => {
+        this.forceBlur(node[i]);
         node[i].focus();
       }, 50);
     };
@@ -125,5 +126,18 @@ export class Writter {
         }
       }
     }
+  }
+
+  forceBlur(relatedTarget: HTMLElement) {
+    const event = new FocusEvent(
+      'blur',
+      {
+        bubbles: true,
+        cancelable: true,
+        composed: false,
+        relatedTarget
+      }
+    );
+    Writter.input.dispatchEvent(event);
   }
 }

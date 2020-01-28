@@ -123,6 +123,8 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
 
   onKeyPress(key: string) {
     const input = Writter.input;
+    let isFocus = true;
+
     switch (key) {
       case SYS.BACK.value:
         this.writter.delete();
@@ -168,8 +170,16 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
         break;
 
       case SYS.TAB.value:
+        isFocus = false;
         this.anime.hide();
-        this.writter.nextInput();
+        if (this.anime.mode === 'default') {
+          this.writter.nextInput();
+        } else {
+          if (!this.hold) {
+            this.anime.mode = 'default';
+          }
+          this.writter.prevInput();
+        }
         break;
 
       default:
@@ -181,8 +191,10 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     }
 
     this.triggerKeyUp(key);
-    setTimeout(() => {
-      Writter.input.focus();
-    }, 50);
+    if (isFocus) {
+      setTimeout(() => {
+        Writter.input.focus();
+      }, 50);
+    }
   }
 }

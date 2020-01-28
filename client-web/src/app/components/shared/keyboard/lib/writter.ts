@@ -89,20 +89,40 @@ export class Writter {
     return node;
   }
 
-  nextInput() {
+  prevInput() {
     const node = this.getAllFocusable();
+    const focus = (i: number) => {
+      setTimeout(() => {
+        node[i].focus();
+      }, 50);
+    };
 
     for (let i = 0; i < node.length; i++) {
       if (node[i].isSameNode(Writter.input)) {
-        setTimeout(() => {
-          if (i === node.length - 1) {
-            node[0].focus();
-          } else {
-            node[i + 1].focus();
-          }
-        }, 50);
+        if (i === 0) {
+          focus(node.length - 1);
+        } else {
+          focus(i - 1);
+        }
+      }
+    }
+  }
 
-        break;
+  nextInput() {
+    const node = this.getAllFocusable();
+    const focus = (i: number) => {
+      setTimeout(() => {
+        node[i].focus();
+      }, 50);
+    };
+
+    for (let i = 0; i < node.length; i++) {
+      if (node[i].isSameNode(Writter.input)) {
+        if (i === node.length - 1) {
+          focus(0);
+        } else {
+          focus(i + 1);
+        }
       }
     }
   }

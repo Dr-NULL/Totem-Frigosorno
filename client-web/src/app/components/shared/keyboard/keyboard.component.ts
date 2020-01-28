@@ -52,7 +52,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.anime.hide();
   }
 
-  @HostListener('document:mouseup', ['$event'])
+  @HostListener('document:mousedown', ['$event'])
   onMouseUp(ev: MouseEvent) {
     const target = ev.target as HTMLElement;
 

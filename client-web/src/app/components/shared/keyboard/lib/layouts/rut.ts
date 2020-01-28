@@ -54,6 +54,12 @@ export const LAYOUT_RUT: Layout = {
       },
       {
         default: SYS.ENTER
+      },
+      {
+        default: SYS.LEFT
+      },
+      {
+        default: SYS.RIGHT
       }
     ]
   ]

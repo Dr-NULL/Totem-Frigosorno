@@ -1,6 +1,7 @@
 <div class="mode default" #keysDefault>
   <div class="row" *ngFor="let row of this.rawLayout.rows">
     <button mat-raised-button *ngFor="let key of row"
+      [tabIndex]="-1"
       [innerHTML]="key.default.label"
       [style.flex]="key.size"
       (mousedown)="this.onKeyPress(key.default.value)">
@@ -11,6 +12,7 @@
 <div class="mode shift" #keysShift>
   <div class="row" *ngFor="let row of this.rawLayout.rows">
     <button mat-raised-button *ngFor="let key of row"
+      [tabIndex]="-1"
       [innerHTML]="key.shift.label"
       [style.flex]="key.size"
       (mousedown)="this.onKeyPress(key.shift.value)">
@@ -21,6 +23,7 @@
 <div class="mode altgr" #keysAltGr>
   <div class="row" *ngFor="let row of this.rawLayout.rows">
     <button mat-raised-button *ngFor="let key of row"
+      [tabIndex]="-1"
       [innerHTML]="key.altgr.label"
       [style.flex]="key.size"
       (mousedown)="this.onKeyPress(key.altgr.value)">

@@ -11,20 +11,6 @@ export class Writter {
     this.rawInput = v;
   }
 
-  get p1() {
-    return Writter.input.selectionStart;
-  }
-  set p1(v: number) {
-    Writter.input.selectionStart = v;
-  }
-
-  get p2() {
-    return Writter.input.selectionEnd;
-  }
-  set p2(v: number) {
-    Writter.input.selectionEnd = v;
-  }
-
   private focus() {
     setTimeout(() => {
       Writter.input.focus();
@@ -32,47 +18,96 @@ export class Writter {
   }
 
   write(key: string) {
-    let value =  Writter.input.value.substr(0, this.p1);
-    value += key;
-    value += Writter.input.value.substr(this.p2);
+    let p1 = Writter.input.selectionStart;
+    let p2 = Writter.input.selectionEnd;
 
-    this.p1++;
-    this.p2 = this.p1;
+    let value =  Writter.input.value.substr(0, p1);
+    value += key;
+    value += Writter.input.value.substr(p2);
     Writter.input.value = value;
+
+    p1++;
+    p2 = p1;
+    Writter.input.selectionStart = p1;
+    Writter.input.selectionEnd = p2;
     this.focus();
   }
 
   delete() {
+    let p1 = Writter.input.selectionStart;
+    let p2 = Writter.input.selectionEnd;
+
     if (
-      (this.p1 > 0) &&
-      (this.p1 === this.p2)
+      (p1 > 0) &&
+      (p1 === p2)
     ) {
-      this.p1--;
+      p1--;
     }
 
-    let value = Writter.input.value.substr(0, this.p1);
-    value += Writter.input.value.substr(this.p2);
+    let value = Writter.input.value.substr(0, p1);
+    value += Writter.input.value.substr(p2);
     Writter.input.value = value;
 
-    this.p2 = this.p1;
+    p2 = p1;
+    Writter.input.selectionStart = p1;
+    Writter.input.selectionEnd = p2;
     this.focus();
   }
 
   moveLeft() {
-    if (this.p1 === this.p2) {
-      this.p1--;
+    let p1 = Writter.input.selectionStart;
+    let p2 = Writter.input.selectionEnd;
+
+    if (p1 === p2) {
+      p1--;
     }
 
-    this.p2 = this.p1;
+    p2 = p1;
+    Writter.input.selectionStart = p1;
+    Writter.input.selectionEnd = p2;
     this.focus();
   }
 
   moveRight() {
-    if (this.p1 === this.p2) {
-      this.p2++;
+    let p1 = Writter.input.selectionStart;
+    let p2 = Writter.input.selectionEnd;
+
+    if (p1 === p2) {
+      p2++;
     }
 
-    this.p1 = this.p2;
+    p1 = p2;
+    Writter.input.selectionStart = p1;
+    Writter.input.selectionEnd = p2;
     this.focus();
+  }
+
+  nextInput() {
+    const query = 'a:not([tabindex="-1"]):not([disabled]), '
+      + 'input:not([tabindex="-1"]):not([disabled]), '
+      + 'button:not([tabindex="-1"]):not([disabled]), '
+      + 'select:not([tabindex="-1"]):not([disabled]), '
+      + 'textarea:not([tabindex="-1"]):not([disabled])';
+
+    const node: HTMLElement[] = [];
+    document
+      .querySelectorAll(query)
+      .forEach((item: HTMLElement) => {
+        node.push(item);
+      });
+
+    for (let i = 0; i < node.length; i++) {
+      if (node[i].isSameNode(Writter.input)) {
+        setTimeout(() => {
+          if (i === node.length - 1) {
+            node[0].focus();
+          } else {
+            node[i + 1].focus();
+          }
+        }, 50);
+
+        break;
+      }
+    }
   }
 }

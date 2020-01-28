@@ -72,7 +72,8 @@ export class KeyboardDirective implements OnInit, OnDestroy {
 
     if (
       (!elem.isSameNode(targ)) &&
-      (!elem.contains(targ))
+      (!elem.contains(targ)) &&
+      (targ != null)
     ) {
       this.focusOut.emit(ev);
       Writter.input = null;

@@ -3,7 +3,7 @@ import { Layout, normalize } from './lib/layout';
 import { LAYOUT_NUMPAD } from './lib/layouts/numpad';
 import { Writter } from './lib/writter';
 import { Anime } from './lib/anime';
-import SYS, { SHIFT } from './lib/system-keys';
+import SYS from './lib/system-keys';
 
 export { Writter };
 
@@ -52,10 +52,9 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     this.anime.hide();
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('document:mouseup', ['$event'])
   onMouseUp(ev: MouseEvent) {
     const target = ev.target as HTMLElement;
-    const self = this.rawSelf.nativeElement;
 
     // ev.stopImmediatePropagation();
     if (Writter.input == null) {
@@ -65,18 +64,41 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
       const attr = shared.attributes.getNamedItem('keyboard');
 
       if (
-        (this.name === attr.value) &&
-        (!target.isSameNode(shared)) &&
-        (!target.contains(shared)) &&
-        (!self.isSameNode(target)) &&
-        (!self.contains(target))
+        (attr.value === this.name) &&
+        (this.getAncestor(target, 'mat-form-field') == null) &&
+        (this.getAncestor(target, 'app-keyboard') == null)
       ) {
-        this.anime.hide();
-        shared.blur();
+        setTimeout(() => {
+          this.anime.hide();
+          const event = new FocusEvent(
+            'blur',
+            {
+              bubbles: true,
+              cancelable: true,
+              composed: false,
+              relatedTarget: target
+            }
+          );
+          shared.dispatchEvent(event);
+        }, 50);
       }
     }
+  }
 
-    return false;
+  getAncestor(node: HTMLElement, nodeName: string) {
+    let res = node;
+    if (res == null) {
+      return null;
+    }
+
+    while (res != null) {
+      if (res.nodeName.toUpperCase() === nodeName.toUpperCase()) {
+        return res;
+      }
+      res = res.parentElement;
+    }
+
+    return null;
   }
 
   // Usar para forzar la actualización del value en la view correspondiente
@@ -143,6 +165,11 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
 
       case SYS.RIGHT.value:
         this.writter.moveRight();
+        break;
+
+      case SYS.TAB.value:
+        this.anime.hide();
+        this.writter.nextInput();
         break;
 
       default:

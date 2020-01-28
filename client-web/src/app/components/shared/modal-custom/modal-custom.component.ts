@@ -13,6 +13,7 @@ export interface ModalCustomData {
   title: string;
   message: string;
   duration?: number;
+  callback?: () => void;
   buttons?: ModalCustomButton[];
 }
 @Component({
@@ -22,16 +23,25 @@ export interface ModalCustomData {
 })
 export class ModalCustomComponent implements AfterViewInit {
   constructor(
-    public instanceRef: MatDialogRef<ModalCustomComponent>,
+    public ref: MatDialogRef<ModalCustomComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: ModalCustomData
   ) { }
 
   ngAfterViewInit() {
+    // Ejecutar Callback
+    if (this.data.callback != null) {
+      this.ref
+        .afterClosed()
+        .subscribe(() => {
+          this.data.callback();
+        });
+    }
+
     // Autoclose
     if (this.data.duration != null) {
       setTimeout(() => {
-        this.instanceRef.close();
+        this.ref.close();
       }, this.data.duration);
     }
 
@@ -51,7 +61,7 @@ export class ModalCustomComponent implements AfterViewInit {
 
   execute(dissmiss: boolean, callback: () => void) {
     if (dissmiss !== false) {
-      this.instanceRef.close();
+      this.ref.close();
     }
 
     if (callback != null) {

@@ -102,7 +102,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     const event = new KeyboardEvent(
       'keyup',
       {
-        bubbles: true,
+        bubbles: false,
         cancelable: true,
         composed: false,
         key,
@@ -112,7 +112,7 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
         metaKey: false
       }
     );
-
+    const target = new EventTarget();
     input.dispatchEvent(event);
   }
 }

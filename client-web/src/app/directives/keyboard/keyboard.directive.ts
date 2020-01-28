@@ -13,7 +13,7 @@ export class KeyboardDirective implements OnInit, OnDestroy {
   keyboard = '';
 
   @Output()
-  focusOut = new EventEmitter<string>();
+  focusOut = new EventEmitter<FocusEvent>();
 
   constructor(
     private self: ElementRef<HTMLInputElement>
@@ -77,7 +77,7 @@ export class KeyboardDirective implements OnInit, OnDestroy {
       (!elem.isSameNode(targ)) &&
       (!elem.contains(targ))
     ) {
-      this.focusOut.emit(KeyboardComponent.input.value);
+      this.focusOut.emit(ev);
       KeyboardComponent.input = null;
 
       const keyboard = new KeyboardComponent(new ElementRef(elem));

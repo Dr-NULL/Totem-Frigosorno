@@ -71,37 +71,29 @@ export class RegistroComponent implements OnInit {
   }
 
   // Validar RUT
-  async onBlurRut(ref: HTMLInputElement) {
+  async onBlurRut(ev: KeyboardEvent) {
     this.rutIsValid = this.rutServ.isValid(this.rut);
     this.onBlurAll();
 
     if (!this.rutIsValid) {
-      try {
-        await this.openDialog(
-          'ERROR!',
-          'El RUT que ha ingresado no es válido, por favor verifique '
-          + 'que los números ingresados sean los correctos.',
-          2500
-        );
-        ref.focus();
-      } catch (err) {
-        console.error(err);
-      }
+      await this.openDialog(
+        'ERROR!',
+        'El RUT que ha ingresado no es válido, por favor verifique '
+        + 'que los números ingresados sean los correctos.',
+        2500
+      );
+      (ev.target as HTMLElement).focus();
     } else {
       // Buscar Usuario
       try {
         const resp = await this.clienteServ.buscar(this.rut);
-        try {
-          await this.openDialog(
-            'ERROR!',
-            'El RUT que ha ingresado ya se encuentra registrado. '
-            + 'Utilice la opción "impresión con RUT" en su lugar.',
-            3000
-          );
-          this.onBack();
-        } catch (err) {
-          console.log(err);
-        }
+        await this.openDialog(
+          'ERROR!',
+          'El RUT que ha ingresado ya se encuentra registrado. '
+          + 'Utilice la opción "impresión con RUT" en su lugar.',
+          3000
+        );
+        this.onBack();
 
         // this.dialogCtrl.open(
         //   ModalCustomComponent,
@@ -213,27 +205,21 @@ export class RegistroComponent implements OnInit {
   }
 
   openDialog(title: string, message: string, duration: number = null) {
-    try {
-      return new Promise(resolve => {
-        const lol = this.dialogCtrl.open(
-          ModalBasicComponent,
-          {
-            data: {
-              title,
-              message,
-              duration,
-            } as ModalBasicData
-          }
-        );
-
-        setTimeout(() => {
-          lol.close('');
-          resolve();
-        }, duration);
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    return new Promise(resolve => {
+      const lol = this.dialogCtrl.open(
+        ModalBasicComponent,
+        {
+          data: {
+            title,
+            message,
+            duration,
+            callback: () => {
+              resolve();
+            }
+          } as ModalBasicData
+        }
+      );
+    });
   }
 
   onBack() {

@@ -69,6 +69,7 @@ export class KeyboardDirective implements OnInit, OnDestroy {
   }
 
   onFocusOut(ev: BlurEvent) {
+    const stat = KeyboardComponent.input;
     const targ = ev.explicitOriginalTarget as HTMLElement;
     const sele = `app-keyboard[name=${this.keyboard}]`;
     const elem = document.querySelector(sele) as HTMLElement;
@@ -82,6 +83,10 @@ export class KeyboardDirective implements OnInit, OnDestroy {
 
       const keyboard = new KeyboardComponent(new ElementRef(elem));
       keyboard.anime.hide();
+    } else {
+      setTimeout(() => {
+        stat.focus();
+      }, 50);
     }
   }
 }

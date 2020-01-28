@@ -11,6 +11,12 @@ export class Writter {
     this.rawInput = v;
   }
 
+  private focus() {
+    setTimeout(() => {
+      Writter.input.focus();
+    }, 50);
+  }
+
   write(key: string) {
     let p1 = Writter.input.selectionStart;
     let p2 = Writter.input.selectionEnd;
@@ -24,6 +30,7 @@ export class Writter {
     Writter.input.value = value;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
+    this.focus();
   }
 
   delete() {
@@ -44,6 +51,7 @@ export class Writter {
     p2 = p1;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
+    this.focus();
   }
 
   moveLeft() {
@@ -57,10 +65,7 @@ export class Writter {
     p2 = p1;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
-
-    setTimeout(() => {
-      Writter.input.focus();
-    }, 50);
+    this.focus();
   }
 
   moveRight() {
@@ -74,9 +79,6 @@ export class Writter {
     p1 = p2;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
-
-    setTimeout(() => {
-      Writter.input.focus();
-    }, 50);
+    this.focus();
   }
 }

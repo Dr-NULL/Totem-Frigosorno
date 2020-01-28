@@ -150,10 +150,6 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
         if (!this.hold) {
           this.anime.mode = 'default';
         }
-
-        setTimeout(() => {
-          Writter.input.focus();
-        }, 50);
         break;
     }
 

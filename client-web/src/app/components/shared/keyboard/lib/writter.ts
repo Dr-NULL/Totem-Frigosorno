@@ -11,12 +11,6 @@ export class Writter {
     this.rawInput = v;
   }
 
-  private focus() {
-    setTimeout(() => {
-      Writter.input.focus();
-    }, 50);
-  }
-
   write(key: string) {
     let p1 = Writter.input.selectionStart;
     let p2 = Writter.input.selectionEnd;
@@ -30,7 +24,6 @@ export class Writter {
     p2 = p1;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
-    this.focus();
   }
 
   delete() {
@@ -51,7 +44,6 @@ export class Writter {
     p2 = p1;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
-    this.focus();
   }
 
   moveLeft() {
@@ -65,7 +57,6 @@ export class Writter {
     p2 = p1;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
-    this.focus();
   }
 
   moveRight() {
@@ -79,10 +70,9 @@ export class Writter {
     p1 = p2;
     Writter.input.selectionStart = p1;
     Writter.input.selectionEnd = p2;
-    this.focus();
   }
 
-  nextInput() {
+  getAllFocusable() {
     const query = 'a:not([tabindex="-1"]):not([disabled]), '
       + 'input:not([tabindex="-1"]):not([disabled]), '
       + 'button:not([tabindex="-1"]):not([disabled]), '
@@ -95,6 +85,12 @@ export class Writter {
       .forEach((item: HTMLElement) => {
         node.push(item);
       });
+
+    return node;
+  }
+
+  nextInput() {
+    const node = this.getAllFocusable();
 
     for (let i = 0; i < node.length; i++) {
       if (node[i].isSameNode(Writter.input)) {

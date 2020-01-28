@@ -181,5 +181,8 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     }
 
     this.triggerKeyUp(key);
+    setTimeout(() => {
+      Writter.input.focus();
+    }, 50);
   }
 }

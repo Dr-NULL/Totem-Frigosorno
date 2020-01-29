@@ -169,7 +169,7 @@ export class RegistroComponent implements OnInit {
       if (!this.emailIsValid) {
         await this.openDialog(
           'ERROR!',
-          'El Email que ha ingresado no es válido, por favor verifique'
+          'El Email que ha ingresado no es válido, por favor verifique '
           + 'que su correo se haya ingresado con el formato correcto '
           + '(ej: ejemplo@proveedor.com). Si no desea colocar '
           + 'su Email puede omitir este campo.',

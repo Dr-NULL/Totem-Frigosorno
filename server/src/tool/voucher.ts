@@ -49,7 +49,7 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
             try {
                 CmdPrinter.printRemote(
                     filename,
-                    printerIp,
+                    totem.printerIp,
                     totem.printerName,
                     {
                         adjust: 'noscale',

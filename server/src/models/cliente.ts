@@ -15,7 +15,7 @@ export class Cliente extends BaseEntity {
     @Column({ type: "varchar", length: 100 })
     apellidoP: string;
     
-    @Column({ type: "varchar", length: 100 })
+    @Column({ type: "varchar", length: 100, nullable: true })
     apellidoM: string;
     
     @Column({ type: "datetime" })

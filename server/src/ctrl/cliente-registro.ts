@@ -15,18 +15,22 @@ clienteRegistro.callback = async(req, res) => {
             httpResponse: StatusCodes.cod500,
             details: 'El RUT ingresado ya existe, por favor reintente con un RUT válido.'
         })
-           return 
+            return 
         } else {
             cli = new Cliente()
         }
         
         cli.rut = data.rut.replace(/[^0-9k]/gi, '')
-        cli.nombres = data.nombres.capitalize()
-        cli.apellidoP = data.apellidoP.capitalize()
-        cli.apellidoM = data.apellidoM.capitalize()
+        cli.nombres = data.nombres.trim().capitalize()
+        cli.apellidoP = data.apellidoP.trim().capitalize()
+
+        if (data.apellidoM != null) {
+            cli.apellidoM = data.apellidoM.trim().capitalize()
+        }
+
         cli.fechaNac = data.fechaNac
-        cli.telefono = data.telefono
-        cli.email = data.email.toLowerCase()
+        cli.telefono = data.telefono.trim()
+        cli.email = data.email.trim().toLowerCase()
         await cli.save()
 
         res.api.send()

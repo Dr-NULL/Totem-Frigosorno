@@ -21,6 +21,7 @@
         placeholder="Nombres (requerido):"
         [(value)]="this.nombres"
         (keyup)="this.nombres = $event.target.value"
+        (keyup)="onBlurAll()"
         (focusOut)="this.onBlurAll()"
       >
     </mat-form-field>
@@ -31,6 +32,7 @@
         placeholder="Apellido Paterno (requerido):"
         [(value)]="this.apellidoP"
         (keyup)="this.apellidoP = $event.target.value"
+        (keyup)="onBlurAll()"
         (focusOut)="this.onBlurAll()"
       >
     </mat-form-field>
@@ -41,6 +43,7 @@
         placeholder="Apellido Materno (requerido):"
         [(value)]="this.apellidoM"
         (keyup)="this.apellidoM = $event.target.value"
+        (keyup)="onBlurAll()"
         (focusOut)="this.onBlurAll()"
       >
     </mat-form-field>
@@ -63,6 +66,7 @@
         placeholder="Teléfono:"
         [(value)]="this.phone"
         (keyup)="this.phone = $event.target.value"
+        (keyup)="onBlurAll()"
         (focusOut)="this.onBlurPhone($event.target)"
       >
     </mat-form-field>
@@ -73,6 +77,7 @@
         placeholder="E-Mail:"
         [(value)]="this.email"
         (keyup)="this.email = $event.target.value"
+        (keyup)="onBlurAll()"
         (focusOut)="this.onBlurEmail($event.target)"
       >
     </mat-form-field>

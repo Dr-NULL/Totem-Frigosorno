@@ -68,6 +68,7 @@ export class RegistroComponent implements OnInit {
   // Formatear RUT mientras se escribe
   onKeyUpRut() {
     this.rut = this.rutServ.format(this.rut);
+    this.onBlurAll();
   }
 
   // Validar RUT
@@ -193,7 +194,6 @@ export class RegistroComponent implements OnInit {
       (this.rutIsValid) &&
       (this.nombres.length > 0) &&
       (this.apellidoP.length > 0) &&
-      (this.apellidoM.length > 0) &&
       (this.fechaNac != null) &&
       (this.phoneIsValid ||
         (this.phone.length === 0)
@@ -258,12 +258,16 @@ export class RegistroComponent implements OnInit {
 
   async onUpdate() {
     try {
+      if (this.apellidoM != null) {
+        this.apellidoM = this.apellidoM.trim();
+      }
+
       const resp = await this.clienteServ.actualizar({
         id: this.id,
         rut: this.rut.trim(),
         nombres: this.nombres.trim(),
         apellidoP: this.apellidoP.trim(),
-        apellidoM: this.apellidoM.trim(),
+        apellidoM: this.apellidoM,
         fechaNac: this.fechaNac,
         telefono: this.phone.trim(),
         email: this.email.trim()

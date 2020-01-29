@@ -39,13 +39,24 @@ export const LAYOUT_NUMPAD: Layout = {
     ],
     [
       {
-        default: SYS.BACK
+        default: SYS.TAB
       },
       {
         default: { label: '0', value: '0' }
       },
       {
+        default: SYS.BACK
+      }
+    ],
+    [
+      {
         default: SYS.ENTER
+      },
+      {
+        default: SYS.LEFT
+      },
+      {
+        default: SYS.RIGHT
       }
     ]
   ]

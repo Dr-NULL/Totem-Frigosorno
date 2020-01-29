@@ -5,3 +5,17 @@
 mat-card-title {
   font-size: 1.5rem;
 }
+
+snack-bar-container {
+  max-width: 75vw!important;
+
+  > * {
+    padding: 0.5rem;
+    line-height: 1.2rem!important;
+    text-align: justify;
+
+    span {
+      margin-right: 0.5rem!important;
+    }
+  }
+}

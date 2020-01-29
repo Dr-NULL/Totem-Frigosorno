@@ -40,14 +40,14 @@
       <input matInput appKeyboard
         type="text"
         keyboard="text"
-        placeholder="Apellido Materno (requerido):"
+        placeholder="Apellido Materno:"
         [(value)]="this.apellidoM"
         (keyup)="this.apellidoM = $event.target.value"
         (keyup)="onBlurAll()"
         (focusOut)="this.onBlurAll()"
       >
     </mat-form-field>
-    <mat-form-field class="col-4">
+    <mat-form-field class="col-6">
       <div class="datePickerFG" (click)="datePicker.open()"></div>
       <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
       <mat-datepicker #datePicker disabled="false" [touchUi]="true"></mat-datepicker>
@@ -59,7 +59,7 @@
         (dateChange)="onCheckDate($event.value)"
         disabled>
     </mat-form-field>
-    <mat-form-field class="col-4">
+    <mat-form-field class="col-6" >
       <input matInput appKeyboard
         type="text"
         keyboard="num"
@@ -70,7 +70,7 @@
         (focusOut)="this.onBlurPhone($event.target)"
       >
     </mat-form-field>
-    <mat-form-field class="col-4">
+    <mat-form-field class="col-12">
       <input matInput appKeyboard
         type="text"
         keyboard="text"

@@ -1,6 +1,7 @@
 import { EndPoint } from '../tool/end-point';
 import { Cliente } from '../models/cliente';
 import { StatusCodes } from '../tool/api';
+import '../tool/capitalize';
 
 export const clienteRegistro = new EndPoint();
 clienteRegistro.method = 'post'
@@ -20,12 +21,12 @@ clienteRegistro.callback = async(req, res) => {
         }
         
         cli.rut = data.rut.replace(/[^0-9k]/gi, '')
-        cli.nombres = data.nombres
-        cli.apellidoP = data.apellidoP
-        cli.apellidoM = data.apellidoM
+        cli.nombres = data.nombres.capitalize()
+        cli.apellidoP = data.apellidoP.capitalize()
+        cli.apellidoM = data.apellidoM.capitalize()
         cli.fechaNac = data.fechaNac
         cli.telefono = data.telefono
-        cli.email = data.email
+        cli.email = data.email.toLowerCase()
         await cli.save()
 
         res.api.send()

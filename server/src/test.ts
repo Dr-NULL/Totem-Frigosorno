@@ -1,8 +1,15 @@
-import barcode from './tool/barcode';
 import { Log } from './tool/log';
+import './tool/capitalize'
 
 export function test() {
-    Log.ev('Testear Barcode:')
-    Log.ln('Input  = 100005')
-    Log.ln('Output = ' + barcode.to128('100005'))
+    Log.ev('Testear Capitalize:')
+    
+    Log.ok(
+        'hola malditos, los wa a matar a todos lol'
+        .capitalize()
+    )
+    Log.ok(
+        `   jajajasd dale'nsdlfk relax@nksdjfnl`
+        .capitalize()
+    )
 }

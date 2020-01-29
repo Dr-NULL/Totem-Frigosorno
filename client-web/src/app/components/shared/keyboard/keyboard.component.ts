@@ -117,6 +117,13 @@ export class KeyboardComponent implements OnInit, AfterViewInit {
     let isFocus = true;
 
     switch (key) {
+      case null:
+      case undefined:
+        if (!this.hold) {
+          this.anime.mode = 'default';
+        }
+        break;
+
       case SYS.BACK.value:
         this.writter.delete();
         break;

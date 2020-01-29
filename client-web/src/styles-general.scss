@@ -30,6 +30,8 @@ mat-form-field {
 
 /* MODAL DIALOG */
 mat-dialog-container {
+  overflow: hidden!important;
+
   > .ng-star-inserted:not(.mat-datepicker-content) {
     display: flex;
     flex-flow: column nowrap;

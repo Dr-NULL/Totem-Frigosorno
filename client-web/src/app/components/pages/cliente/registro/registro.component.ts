@@ -171,9 +171,9 @@ export class RegistroComponent implements OnInit {
           'ERROR!',
           'El Email que ha ingresado no es válido, por favor verifique'
           + 'que su correo se haya ingresado con el formato correcto '
-          + '(ej: ejemplo@proveedor.com). Si no desea colocar'
+          + '(ej: ejemplo@proveedor.com). Si no desea colocar '
           + 'su Email puede omitir este campo.',
-          2500
+          // 2500
         );
         this.email = '';
         ref.focus();
@@ -209,6 +209,7 @@ export class RegistroComponent implements OnInit {
       const lol = this.dialogCtrl.open(
         ModalBasicComponent,
         {
+          width: 'calc(100vw - 4rem)',
           data: {
             title,
             message,

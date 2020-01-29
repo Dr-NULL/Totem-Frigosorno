@@ -44,12 +44,6 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
             // Create File
             let file = new File(filename)
             file.writeSync(data)
-    
-            // Set IP
-            let printerIp = totem.printerIp
-            if (printerIp == null) {
-                printerIp = totem.ip
-            }
 
             // Print Document
             try {

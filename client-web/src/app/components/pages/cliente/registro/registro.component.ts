@@ -177,6 +177,7 @@ export class RegistroComponent implements OnInit {
           3000
         );
         this.email = '';
+        this.onBlurAll();
         ref.focus();
       }
     }

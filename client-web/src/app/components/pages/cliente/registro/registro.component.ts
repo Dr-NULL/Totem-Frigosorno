@@ -80,7 +80,7 @@ export class RegistroComponent implements OnInit {
         'ERROR!',
         'El RUT que ha ingresado no es válido, por favor verifique '
         + 'que los números ingresados sean los correctos.',
-        2500
+        3000
       );
       (ev.target as HTMLElement).focus();
     } else {
@@ -173,7 +173,7 @@ export class RegistroComponent implements OnInit {
           + 'que su correo se haya ingresado con el formato correcto '
           + '(ej: ejemplo@proveedor.com). Si no desea colocar '
           + 'su Email puede omitir este campo.',
-          // 2500
+          3000
         );
         this.email = '';
         ref.focus();
@@ -242,7 +242,7 @@ export class RegistroComponent implements OnInit {
       await this.openDialog(
         'FINALIZADO:',
         'Se ha generado exitosamente su nuevo usuario.',
-        2500
+        3000
       );
     } catch (err) {
       await this.openDialog(
@@ -272,7 +272,7 @@ export class RegistroComponent implements OnInit {
       await this.openDialog(
         'FINALIZADO:',
         'Se han actualizado exitosamente sus datos.',
-        2500
+        3000
       );
     } catch (err) {
       await this.openDialog(

@@ -7,6 +7,8 @@ import { Err404Component } from './components/pages/err404/err404.component';
 import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
 import { RegistroComponent } from './components/pages/cliente/registro/registro.component';
 import { PrintRutComponent } from './components/pages/cliente/print-rut/print-rut.component';
+import { VisorColaComponent } from './components/pages/visor/visor-cola/visor-cola.component';
+import { SelectTotemComponent } from './components/pages/visor/select-totem/select-totem.component';
 
 const routes: Routes = [
   {
@@ -25,6 +27,14 @@ const routes: Routes = [
   {
     path: 'cliente/registro',
     component: RegistroComponent
+  },
+  {
+    path: 'visor/select',
+    component: SelectTotemComponent
+  },
+  {
+    path: 'visor/cola/:ip',
+    component: VisorColaComponent
   },
   {
     path: 'info',

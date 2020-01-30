@@ -15,4 +15,8 @@ export class TotemService {
   info() {
     return this.httpServ.get<Totem>('/api/totem/info');
   }
+
+  todos() {
+    return this.httpServ.get<Totem[]>('/api/totem/todos');
+  }
 }

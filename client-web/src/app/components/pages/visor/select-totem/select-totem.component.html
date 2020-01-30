@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-title>Visores de Cola</mat-card-title>
+  <mat-card-subtitle>Seleccione una sala de Ventas:</mat-card-subtitle>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <ul class="list-totem">
+      <li *ngFor="let item of this.data">
+        <div class="icon">
+          <i class="far fa-window-maximize"></i>
+        </div>
+        <div class="text">
+          <h3>{{ item.descripc }}</h3>
+          <p>{{ item.ip }}</p>
+        </div>
+        <div class="action">
+          <a routerLink="/visor/cola/{{ item.ip }}" mat-raised-button color="primary">
+            <span>Ir</span>
+            <i class="fas fa-caret-right"></i>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>

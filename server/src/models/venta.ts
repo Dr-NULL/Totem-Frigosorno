@@ -13,6 +13,9 @@ export class Venta extends BaseEntity {
 
     @Column({ type: 'datetime', default: () => "CURRENT_TIMESTAMP" })
     fecha: Date;
+
+    @Column({ type: 'bit', default: 0 })
+    isServed: boolean;
     
     @ManyToOne(type => TipoAte, TipoAte => TipoAte.id, { eager: true })
     tipoAte: TipoAte;

@@ -55,7 +55,6 @@ corrNext.callback = async (req, res) => {
     
         // Comprobar si estamos en el mismo día
         let now = new Date()
-        totem.currFecha = new Date()
         if (
             (totem.currFecha.getFullYear() == now.getFullYear()) &&
             (totem.currFecha.getMonth() == now.getMonth()) &&

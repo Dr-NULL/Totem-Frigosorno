@@ -5,6 +5,9 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Socket.IO
+import { SocketIoModule } from 'ngx-socket-io';
+
 // Custom Modules
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './app-material.module';
@@ -21,6 +24,8 @@ import { ModalBasicComponent } from './components/shared/modal-basic/modal-basic
 import { ModalCustomComponent } from './components/shared/modal-custom/modal-custom.component';
 import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
 import { KeyboardDirective } from './directives/keyboard/keyboard.directive';
+import { SelectTotemComponent } from './components/pages/visor/select-totem/select-totem.component';
+import { VisorColaComponent } from './components/pages/visor/visor-cola/visor-cola.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,9 @@ import { KeyboardDirective } from './directives/keyboard/keyboard.directive';
     ModalBasicComponent,
     ModalCustomComponent,
     KeyboardComponent,
-    KeyboardDirective
+    KeyboardDirective,
+    SelectTotemComponent,
+    VisorColaComponent
   ],
   imports: [
     // System Modules
@@ -44,7 +51,10 @@ import { KeyboardDirective } from './directives/keyboard/keyboard.directive';
 
     // Custom Modules
     AppRoutingModule,
-    AppMaterialModule
+    AppMaterialModule,
+    SocketIoModule.forRoot({
+      url: location.origin
+    })
   ],
   providers: [
     {

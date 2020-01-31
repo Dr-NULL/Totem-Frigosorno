@@ -67,6 +67,7 @@ export class File{
             fs.unlinkSync(this.fullPath)
         }
 
+        fs.mkdirSync(this.folder)
         fs.writeFileSync(this.fullPath, "", { encoding: "utf8" })
     }
 
@@ -112,6 +113,7 @@ export class File{
 
     public write(data: Buffer){
         return new Promise<void>((resolve, reject) => {
+            fs.mkdirSync(this.folder)
             fs.writeFile(this.fullPath, data, fail => {
                 if (fail != null) {
                     reject(`No es posible escribir el archivo.\nPath = "${this.fullPath}"`)
@@ -124,6 +126,7 @@ export class File{
 
     public writeSync(data: Buffer) {
         try {
+            fs.mkdirSync(this.folder)
             fs.writeFileSync(this.fullPath, data)
         } catch {
             throw `No es posible escribir el archivo.\nPath = "${this.fullPath}"`
@@ -132,6 +135,7 @@ export class File{
 
     public writeText(data: string){
         return new Promise<void>((resolve, reject) => {
+            fs.mkdirSync(this.folder)
             fs.writeFile(this.fullPath, data, { encoding: "utf8" }, fail => {
                 if (fail != null) {
                     reject(`No es posible escribir el archivo.\nPath = "${this.fullPath}"`)
@@ -144,6 +148,7 @@ export class File{
 
     public writeTextSync(data: string) {
         try {
+            fs.mkdirSync(this.folder)
             fs.writeFileSync(this.fullPath, data, { encoding: "utf8" })
         } catch {
             throw `No es posible escribir el archivo.\nPath = "${this.fullPath}"`

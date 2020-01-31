@@ -9,6 +9,7 @@
 }
 
 .container {
+  z-index: 5000!important;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-end;
@@ -89,6 +90,7 @@
 }
 
 .serve {
+  z-index: 10000!important;
   position: fixed;
   bottom: 1rem;
   padding: 0.5rem;

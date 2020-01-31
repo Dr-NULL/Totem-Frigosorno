@@ -57,6 +57,7 @@ export class File{
         let tmp = path.replace(/(\\|\/)(.(?!(\\|\/)))+.$/gi, "")
 
         this._folder = tmp + "/"
+        this._folder = this.folder.replace(/^(\\|\/)+/gi, "/")
         this._name = path.replace(tmp, "")
         this._name = this._name.replace(/^(\\|\/)+/gi, "")
     }
@@ -67,7 +68,7 @@ export class File{
             fs.unlinkSync(this.fullPath)
         }
 
-        fs.mkdirSync(this.folder)
+        this.createFolder()
         fs.writeFileSync(this.fullPath, "", { encoding: "utf8" })
     }
 
@@ -113,7 +114,7 @@ export class File{
 
     public write(data: Buffer){
         return new Promise<void>((resolve, reject) => {
-            fs.mkdirSync(this.folder)
+            this.createFolder()
             fs.writeFile(this.fullPath, data, fail => {
                 if (fail != null) {
                     reject(`No es posible escribir el archivo.\nPath = "${this.fullPath}"`)
@@ -126,16 +127,16 @@ export class File{
 
     public writeSync(data: Buffer) {
         try {
-            fs.mkdirSync(this.folder)
+            this.createFolder()
             fs.writeFileSync(this.fullPath, data)
-        } catch {
+        } catch (err) {
             throw `No es posible escribir el archivo.\nPath = "${this.fullPath}"`
         }
     }
 
     public writeText(data: string){
         return new Promise<void>((resolve, reject) => {
-            fs.mkdirSync(this.folder)
+            this.createFolder()
             fs.writeFile(this.fullPath, data, { encoding: "utf8" }, fail => {
                 if (fail != null) {
                     reject(`No es posible escribir el archivo.\nPath = "${this.fullPath}"`)
@@ -148,7 +149,7 @@ export class File{
 
     public writeTextSync(data: string) {
         try {
-            fs.mkdirSync(this.folder)
+            this.createFolder()
             fs.writeFileSync(this.fullPath, data, { encoding: "utf8" })
         } catch {
             throw `No es posible escribir el archivo.\nPath = "${this.fullPath}"`
@@ -160,6 +161,15 @@ export class File{
             fs.unlinkSync(this.fullPath)
         } catch {
             throw `No es posible eliminar el archivo.\nPath = "${this.fullPath}"`
+        }
+    }
+
+    private createFolder() {
+        try {
+            fs.mkdirSync(this.folder)
+        } catch {
+            console.log('>> file.ts -> carpeta ya existente...')
+            console.log('              ' + this.folder)
         }
     }
 }

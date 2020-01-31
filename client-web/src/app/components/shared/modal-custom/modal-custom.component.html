@@ -5,7 +5,7 @@
 <mat-divider></mat-divider>
 <mat-card-actions>
   <button mat-raised-button *ngFor="let item of this.data.buttons"
-  color="primary"
+  [color]="item.color"
   (click)="this.execute(item.dissmiss, item.callback)"
   >
     <i class="{{ item.icon }}"></i>

@@ -2,10 +2,10 @@ import { EndPoint } from '../tool/end-point';
 import { Totem } from '../models/totem';
 import { Not } from 'typeorm';
 
-export const totemTodos = new EndPoint()
-totemTodos.method = 'get'
-totemTodos.path = '/totem/todos'
-totemTodos.callback = async (req, res) => {
+export const TOTEM_TODOS = new EndPoint()
+TOTEM_TODOS.method = 'get'
+TOTEM_TODOS.path = '/totem/todos'
+TOTEM_TODOS.callback = async (req, res) => {
     try {
         let data: Array<Totem> = []
         if (req.ip != '127.0.0.1') {

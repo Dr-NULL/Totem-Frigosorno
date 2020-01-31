@@ -52,7 +52,7 @@ mat-card-content {
 
     .text {
       padding: 1rem 0;
-      width: calc(100% - 8.5rem);
+      width: calc(100% - 25rem);
 
       flex-flow: column nowrap;
       justify-content: center;
@@ -70,7 +70,7 @@ mat-card-content {
 
     .action {
       justify-content: flex-end;
-      width: 5rem;
+      width: 20rem;
 
       a {
         flex-flow: row wrap;
@@ -79,12 +79,16 @@ mat-card-content {
         padding: 0.5rem 1rem;
 
         span, i {
-          font-size: 1.5rem!important;
+          font-size: 1rem!important;
         }
 
         span {
           margin-right: 1rem;
         }
+      }
+
+      :first-child {
+        margin-right: 1rem;
       }
     }
   }

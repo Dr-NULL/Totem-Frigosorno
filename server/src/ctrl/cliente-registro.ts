@@ -3,10 +3,10 @@ import { Cliente } from '../models/cliente';
 import { StatusCodes } from '../tool/api';
 import '../tool/capitalize';
 
-export const clienteRegistro = new EndPoint();
-clienteRegistro.method = 'post'
-clienteRegistro.path = '/cliente/registro'
-clienteRegistro.callback = async(req, res) => {
+export const CLIENTE_REGISTRO = new EndPoint();
+CLIENTE_REGISTRO.method = 'post'
+CLIENTE_REGISTRO.path = '/cliente/registro'
+CLIENTE_REGISTRO.callback = async(req, res) => {
     try {
         let data: Cliente = req.body
         let cli = await Cliente.findOne({ rut: data.rut.replace(/[^0-9k]/gi, '') })

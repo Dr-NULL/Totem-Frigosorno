@@ -8,26 +8,28 @@ export class Event {
         return this._path;
     }
     public set path(v : string) {
-        // Borrar Prefijo si es que existe
-        const reg = new RegExp(`^${Event.prefix}`, 'gi')
-        if (v.match(v) != null) {
-            v = v.replace(reg, '')
-        }
+        this._path = v;
 
-        // Añadir slash al inicio
-        if (v.match(/^\//gi) == null) {
-            v = '/' + v;
-        }
+        // // Borrar Prefijo si es que existe
+        // const reg = new RegExp(`^${Event.prefix}`, 'gi')
+        // if (v.match(v) != null) {
+        //     v = v.replace(reg, '')
+        // }
+
+        // // Añadir slash al inicio
+        // if (v.match(/^\//gi) == null) {
+        //     v = '/' + v;
+        // }
         
-        // Agregar Prefijo
-        this._path = Event.prefix + v;
+        // // Agregar Prefijo
+        // this._path = Event.prefix + v;
     }
     
-    private _callback : (data?: any) => void;
-    public get callback() : (data?: any) => void {
+    private _callback : (socket: Socket, data?: any) => void;
+    public get callback() : (socket: Socket, data?: any) => void {
         return this._callback;
     }
-    public set callback(v : (data?: any) => void) {
+    public set callback(v : (socket: Socket, data?: any) => void) {
         this._callback = v;
     }
     

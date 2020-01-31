@@ -48,9 +48,9 @@ export class RegistroComponent implements OnInit {
   ngOnInit() {
     this.enabled = false;
     this.editing = false;
-    this.maxDate = moment()
-      .add(-1, 'days')
-      .toDate();
+    // this.maxDate = moment()
+    //   .add(-1, 'days')
+    //   .toDate();
 
     this.id = null;
     this.rut = '';
@@ -195,7 +195,11 @@ export class RegistroComponent implements OnInit {
       (this.rutIsValid) &&
       (this.nombres.length > 0) &&
       (this.apellidoP.length > 0) &&
-      (this.fechaNac != null) &&
+      (
+        (this.fechaNac != null) &&
+        (moment(new Date()).diff(this.fechaNac, 'years') >= 16) &&
+        (moment(new Date()).diff(this.fechaNac, 'years') <= 110)
+      ) &&
       (this.phoneIsValid ||
         (this.phone.length === 0)
       ) &&
@@ -225,7 +229,7 @@ export class RegistroComponent implements OnInit {
   }
 
   onBack() {
-    this.routerCtrl.navigateByUrl('/cliente/metodo');
+    this.routerCtrl.navigateByUrl('/cliente/totem');
   }
 
   async onRegister() {
@@ -240,10 +244,37 @@ export class RegistroComponent implements OnInit {
         email: this.email.trim()
       });
 
-      await this.openDialog(
-        'FINALIZADO:',
-        'Se ha generado exitosamente su nuevo usuario.',
-        3000
+      // consultar si desea imprimir Voucher
+      this.dialogCtrl.open(
+        ModalCustomComponent,
+        {
+          data: {
+            title: 'Finalizado:',
+            message: 'Se ha generado exitosamente su nuevo usuario.',
+            duration: 3000,
+            buttons: [
+              {
+                icon: 'fas fa-print',
+                text: 'Imprimir',
+                color: 'accent',
+                dissmiss: true,
+                callback: () => {
+                  this.voucherServ.printRut(this.rut);
+                  this.onBack();
+                }
+              },
+              {
+                icon: 'fas fa-thumbs-up',
+                text: 'Ok',
+                color: 'primary',
+                dissmiss: true,
+                callback: () => {
+                  this.onBack();
+                }
+              }
+            ]
+          } as ModalCustomData
+        }
       );
     } catch (err) {
       await this.openDialog(

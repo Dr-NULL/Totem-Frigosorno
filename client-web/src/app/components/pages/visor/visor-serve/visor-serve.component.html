@@ -1,0 +1,24 @@
+<div class="container current">
+  <h3>Atendiendo a:</h3>
+  <div class="number">
+    {{ this.data[0].tipo }} {{ this.data[0].corr }}
+  </div>
+  <div class="name">
+    {{ this.data[0].nombre }}
+  </div>
+</div>
+
+<div class="container previous">
+  <h3>Siguiente:</h3>
+  <div class="number">
+    {{ this.data[1].tipo }} {{ this.data[1].corr }}
+  </div>
+  <div class="name">
+    {{ this.data[1].nombre }}
+  </div>
+</div>
+
+<button class="serve" mat-raised-button color="accent" (click)="this.onServe()">
+  <i class="fas fa-forward"></i>
+  <span>Siguiente</span>
+</button>

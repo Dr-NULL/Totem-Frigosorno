@@ -92,12 +92,12 @@ export class PrintRutComponent implements OnInit {
     } catch (err) {
       this.snackCtrl.open(err.details, 'Aceptar', { duration: 2500 });
     } finally {
-      this.routerCtrl.navigate(['cliente/metodo']);
+      this.routerCtrl.navigate(['cliente/totem']);
     }
   }
 
   onBack() {
     this.rawValue = '';
-    this.routerCtrl.navigate(['cliente/metodo']);
+    this.routerCtrl.navigate(['cliente/totem']);
   }
 }

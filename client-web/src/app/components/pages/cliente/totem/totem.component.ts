@@ -4,10 +4,10 @@ import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-metodo',
-  templateUrl: './metodo.component.html',
-  styleUrls: ['./metodo.component.scss']
+  templateUrl: './totem.component.html',
+  styleUrls: ['./totem.component.scss']
 })
-export class MetodoComponent implements OnInit {
+export class TotemComponent implements OnInit {
 
   constructor(
     private voucherServ: VoucherService,

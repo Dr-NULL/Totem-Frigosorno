@@ -5,7 +5,7 @@ import { startServer } from './app/.';
 import { loadSeeds } from './seeds/.';
 import { test } from './test';
 
-export const config = setup()
+export const CONFIG = setup()
 console.clear()
 switch(read()[0]) {
     case 'test':

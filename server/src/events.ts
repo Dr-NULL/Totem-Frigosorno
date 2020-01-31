@@ -1,9 +1,7 @@
 import { Event } from './tool/event';
 
-export const eventsForEveryone: Event[] = [
-    
-]
+import { JOIN_TO_TOTEM } from './events/join-to-totem';
 
-export const eventsForUser: Event[] = [
-    
+export const EVENTS: Event[] = [
+    JOIN_TO_TOTEM
 ]

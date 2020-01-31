@@ -1,8 +1,8 @@
-import { app } from '.';
+import { APP } from '.';
 import { Api } from '../tool/api';
 
 export function configApi() {
-    app.use((req, res, nxt) => {
+    APP.use((req, res, nxt) => {
         res.api = new Api(req, res)
 
         nxt()

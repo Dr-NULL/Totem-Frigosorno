@@ -1,0 +1,95 @@
+:host {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: center;
+
+  h3 {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.number {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.name {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+
+.current {
+  background: rgba(255, 255, 255, 0.1);
+  width: calc(50vw);
+  height: calc(100vh - 8rem);
+  z-index: 10000;
+  box-shadow: 2rem 0 4rem -0.5rem rgba(0, 0, 0, 0.2);
+
+  h3 {
+    height: 5rem;
+    font-size: 2rem!important;
+  }
+
+  .number {
+    width: 100%;
+    height: calc(100% - 6rem - 7rem);
+    font-size: 8rem!important;
+  }
+
+  .name {
+    font-size: 3rem!important;
+    height: 8rem;
+  }
+}
+
+.previous {
+  background: rgba(255, 255, 255, 0.05);
+  width: calc(50vw - 5rem);
+  height: calc(100vh - 10rem);
+
+  h3 {
+    height: 5rem;
+    font-size: 1.5rem!important;
+  }
+
+  .number {
+    width: 80%;
+    height: calc(100% - 4rem - 7rem);
+    font-size: 5rem!important;
+  }
+
+  .name {
+    font-size: 2rem!important;
+    height: 7rem;
+  }
+}
+
+.serve {
+  position: fixed;
+  bottom: 1rem;
+  padding: 0.5rem;
+}

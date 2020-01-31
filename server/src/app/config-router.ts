@@ -1,29 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import { routes } from '../router';
-import { app } from '.';
+import { ROUTES } from '../router';
+import { APP } from '.';
 
 export function configRouter() {
-    for (let route of routes) {
+    for (let route of ROUTES) {
         route.path = "/api" + route.path
 
         switch (route.method) {
             case "get":
-                app.get(route.path, wrapAsync(route.callback))
+                APP.get(route.path, wrapAsync(route.callback))
                 break
             case "post":
-                app.post(route.path, wrapAsync(route.callback))
+                APP.post(route.path, wrapAsync(route.callback))
                 break
             case "options":
-                app.options(route.path, wrapAsync(route.callback))
+                APP.options(route.path, wrapAsync(route.callback))
                 break
             case "put":
-                app.put(route.path, wrapAsync(route.callback))
+                APP.put(route.path, wrapAsync(route.callback))
                 break
             case "merge":
-                app.merge(route.path, wrapAsync(route.callback))
+                APP.merge(route.path, wrapAsync(route.callback))
                 break
             case "delete":
-                app.delete(route.path, wrapAsync(route.callback))
+                APP.delete(route.path, wrapAsync(route.callback))
                 break
         }
     }

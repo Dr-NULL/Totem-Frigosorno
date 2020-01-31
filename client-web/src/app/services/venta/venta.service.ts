@@ -3,11 +3,6 @@ import { HttpService } from '../http/http.service';
 import { Venta } from '../../interfaces/venta';
 
 export { Venta };
-interface Voucher {
-  id: number;
-  corr: number;
-  tipo: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +15,13 @@ export class VentaService {
 
   get(ip: string) {
     return this.httpServ.get<Venta[]>(
-      '/api/corr/get/' + ip.trim()
+      '/api/correlativo/get/' + ip.trim()
+    );
+  }
+
+  serve(ip: string) {
+    return this.httpServ.get<Venta[]>(
+      '/api/correlativo/serve/' + ip.trim()
     );
   }
 }

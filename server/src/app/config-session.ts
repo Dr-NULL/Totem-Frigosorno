@@ -1,11 +1,11 @@
 import { crossover } from 'session-crossover';
 
-import { config } from '../.';
-import { app } from '.';
+import { CONFIG } from '../.';
+import { APP } from '.';
 
 export function configSession() {
-    app.use(crossover({
-        path: config.folder.session,
+    APP.use(crossover({
+        path: CONFIG.folder.session,
         expires: 30,        // En minutos...
         isEncrypted: true
     }))

@@ -1,14 +1,14 @@
 import { json, urlencoded } from 'body-parser';
-import { app } from '.';
+import { APP } from '.';
 
 export function configJson() {
-    app.use(json({
+    APP.use(json({
         strict: false,
         type: "application/vnd.api+json",
         limit: "50mb"
     }))
 
-    app.use(urlencoded({
+    APP.use(urlencoded({
         extended: false
     }))
 }

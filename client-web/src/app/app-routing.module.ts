@@ -3,22 +3,23 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Components
 import { InfoComponent } from './components/pages/info/info.component';
+import { IndexComponent } from './components/pages/index/index.component';
 import { Err404Component } from './components/pages/err404/err404.component';
-import { MetodoComponent } from './components/pages/cliente/metodo/metodo.component';
+import { TotemComponent } from './components/pages/cliente/totem/totem.component';
 import { RegistroComponent } from './components/pages/cliente/registro/registro.component';
 import { PrintRutComponent } from './components/pages/cliente/print-rut/print-rut.component';
 import { VisorColaComponent } from './components/pages/visor/visor-cola/visor-cola.component';
+import { VisorServeComponent } from './components/pages/visor/visor-serve/visor-serve.component';
 import { SelectTotemComponent } from './components/pages/visor/select-totem/select-totem.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'cliente/metodo',
-    pathMatch: 'full'
+    component: IndexComponent
   },
   {
-    path: 'cliente/metodo',
-    component: MetodoComponent
+    path: 'cliente/totem',
+    component: TotemComponent
   },
   {
     path: 'cliente/print-rut',
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: 'visor/cola/:ip',
     component: VisorColaComponent
+  },
+  {
+    path: 'visor/serve/:ip',
+    component: VisorServeComponent
   },
   {
     path: 'info',

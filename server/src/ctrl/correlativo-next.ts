@@ -2,16 +2,17 @@ import CMDPrinter from "cmd-printer";
 import { EndPoint } from '../tool/end-point';
 import { StatusCodes } from '../tool/api';
 import { makeVoucher } from '../tool/voucher';
+import { IO } from '../app/.';
 
 import { TipoAte } from '../models/tipo-ate';
 import { Cliente } from '../models/cliente';
 import { Venta } from '../models/venta';
 import { Totem } from '../models/totem';
 
-export const corrNext = new EndPoint()
-corrNext.method = 'get'
-corrNext.path = '/corr/next/:rut?'
-corrNext.callback = async (req, res) => {
+export const CORRELATIVO_NEXT = new EndPoint()
+CORRELATIVO_NEXT.method = 'get'
+CORRELATIVO_NEXT.path = '/correlativo/next/:rut?'
+CORRELATIVO_NEXT.callback = async (req, res) => {
     try {
         let tipo: TipoAte
         let rut: string = req.params.rut
@@ -78,6 +79,7 @@ corrNext.callback = async (req, res) => {
         venta.save()
 
         await makeVoucher(venta, totem)
+        IO.to(totem.ip).emit('correlativo-update')
         res.api.send(venta)
     } catch (err) {
         res.api.catch(err)

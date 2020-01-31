@@ -1,20 +1,21 @@
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { VentaService, Venta } from 'src/app/services/venta/venta.service';
 import { Socket } from 'ngx-socket-io';
 
-import { VentaService, Venta } from 'src/app/services/venta/venta.service';
 interface Voucher {
   id: number;
   corr: string;
   tipo: string;
+  nombre: string;
 }
 
 @Component({
-  selector: 'app-visor-cola',
-  templateUrl: './visor-cola.component.html',
-  styleUrls: ['./visor-cola.component.scss']
+  selector: 'app-visor-serve',
+  templateUrl: './visor-serve.component.html',
+  styleUrls: ['./visor-serve.component.scss']
 })
-export class VisorColaComponent implements OnInit {
+export class VisorServeComponent implements OnInit {
   ip: string;
   data: Voucher[];
 
@@ -22,7 +23,7 @@ export class VisorColaComponent implements OnInit {
     private ventaServ: VentaService,
     private route: ActivatedRoute,
     private io: Socket
-) { }
+  ) { }
 
   // Lee parámetros de la URL e inicializa el Socket
   ngOnInit() {
@@ -63,10 +64,16 @@ export class VisorColaComponent implements OnInit {
   setVoucher(data: Venta[]) {
     const tmp: Voucher[] = [];
     for (const venta of data) {
+      const nombre = venta
+        .cliente
+        .nombres
+        .split(/\s+/gi)[0];
+
       tmp.push({
         id: venta.id,
+        tipo: venta.tipoAte.cod,
         corr: venta.correlat.toString(),
-        tipo: venta.tipoAte.cod
+        nombre: nombre + ' ' + venta.cliente.apellidoP
       });
     }
 
@@ -74,10 +81,19 @@ export class VisorColaComponent implements OnInit {
       tmp.push({
         id: 0,
         corr: '--',
-        tipo: '-'
+        tipo: '-',
+        nombre: '-----'
       });
     }
 
     this.data = tmp;
+  }
+
+  async onServe() {
+    try {
+      await this.ventaServ.serve(this.ip);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

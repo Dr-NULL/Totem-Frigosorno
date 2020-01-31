@@ -1,35 +1,12 @@
-import { Socket } from 'socket.io';
-
-import { eventsForEveryone, eventsForUser } from '../events';
+import { EVENTS } from '../events';
 import { Log } from '../tool/log';
-import { io } from '.';
+import { IO } from '.';
 
 export function configEvents() {
-    Log.ev('Declarando Eventos')
-    let i = 0;
     // Setear eventos para Usuario
-    for (const event of eventsForUser) {
-        if (
-            (event.path != null) &&
-            (event.callback != null)
-        ) {
-            // Declarar evento
-            socket.on(
-                event.path,
-                event.callback
-            )
-
-            Log.ok(`event[${i}]`)
-        } else {
-            Log.er(`event[${i}] -> Una de sus propiedades es "null".`)
-        }
-        i++
-    }
-
-    i = 0;
-    io.on('connection', socket => {
-        // Setear eventos para Usuario
-        for (const event of eventsForUser) {
+    IO.on('connection', socket => {
+        Log.ev('Nuevo Usuario Detectado!')
+        for (const event of EVENTS) {
             if (
                 (event.path != null) &&
                 (event.callback != null)
@@ -37,14 +14,15 @@ export function configEvents() {
                 // Declarar evento
                 socket.on(
                     event.path,
-                    event.callback
+                    data => {
+                        event.callback(
+                            socket,
+                            data
+                        )
+                    }
                 )
-
-                Log.ok(`event[${i}]`)
-            } else {
-                Log.er(`event[${i}] -> Una de sus propiedades es "null".`)
             }
-            i++
         }
+        Log.ok('Eventos asignados.\n')
     })
 }

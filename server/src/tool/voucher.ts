@@ -2,7 +2,7 @@ import PDFKit from 'pdfkit';
 
 import { Venta } from '../models/venta';
 import { Totem } from '../models/totem';
-import { config } from '../.';
+import { CONFIG } from '../.';
 
 import { File } from '../tool/file';
 import { join } from 'path';
@@ -10,7 +10,7 @@ import moment from 'moment';
 import CmdPrinter from 'cmd-printer';
 import Barcode from '../tool/barcode';
 
-export const makeVoucher = (venta: Venta, totem: Totem) => {
+export function makeVoucher (venta: Venta, totem: Totem) {
     return new Promise((resolve, reject) => {
         // Cancel if not printer provided
         if (totem.printerName == null) {
@@ -19,8 +19,8 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
     
         // Create a Filename
         const filename = join(
-            config.folder.root + '/'
-                + config.folder.pdf,
+            CONFIG.folder.root + '/'
+                + CONFIG.folder.pdf,
             'v'
                 + String(venta.correlat)
                 + moment().format('YYYYMMDD - hhmmss') 
@@ -69,12 +69,12 @@ export const makeVoucher = (venta: Venta, totem: Totem) => {
     
         // Build the document
         let pingFang = join(
-            config.folder.root,
+            CONFIG.folder.root,
             'data',
             'PingFang.ttf'
         )
         let code128 = join(
-            config.folder.root,
+            CONFIG.folder.root,
             'data',
             'code128.ttf'
         )

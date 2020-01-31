@@ -3,10 +3,10 @@ import { Cliente } from '../models/cliente';
 import { EndPoint } from '../tool/end-point';
 import { StatusCodes } from '../tool/api';
 
-export const clienteActualizar = new EndPoint()
-clienteActualizar.method = 'post'
-clienteActualizar.path = '/cliente/actualizar'
-clienteActualizar.callback = async (req, res) => {
+export const CLIENTE_ACTUALIZAR = new EndPoint()
+CLIENTE_ACTUALIZAR.method = 'post'
+CLIENTE_ACTUALIZAR.path = '/cliente/actualizar'
+CLIENTE_ACTUALIZAR.callback = async (req, res) => {
     try {
         // Comprobar Tótem
         const dev = await Totem.findOne({ ip: req.ip })

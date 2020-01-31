@@ -14,7 +14,11 @@
         </div>
         <div class="action">
           <a routerLink="/visor/cola/{{ item.ip }}" mat-raised-button color="primary">
-            <span>Ir</span>
+            <span>Visor</span>
+            <i class="fas fa-caret-right"></i>
+          </a>
+          <a routerLink="/visor/serve/{{ item.ip }}" mat-raised-button color="accent">
+            <span>Atendedor</span>
             <i class="fas fa-caret-right"></i>
           </a>
         </div>

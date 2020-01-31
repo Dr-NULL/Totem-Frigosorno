@@ -1,14 +1,13 @@
-import { StatusCodes } from '../tool/api';
 import { EndPoint } from '../tool/end-point';
+import { StatusCodes } from '../tool/api';
 
 import { Totem } from '../models/totem';
-import { Venta } from '../models/venta';
-import { io } from '../app/.';
+import { Venta } from "../models/venta";
 
-export const corrServe = new EndPoint()
-corrServe.method = 'get'
-corrServe.path = '/corr/serve'
-corrServe.callback = async (req, res) => {
+export const CORRELATIVO_GET = new EndPoint()
+CORRELATIVO_GET.method = 'get'
+CORRELATIVO_GET.path = '/correlativo/get/:ip'
+CORRELATIVO_GET.callback = async (req, res) => {
     try {
         // Buscar Los primeros 3 correlativos sin atender
         const totem = await Totem.findOne({ ip: req.params.ip.trim() })
@@ -20,7 +19,20 @@ corrServe.callback = async (req, res) => {
             })
             return
         }
+    
+        const data = await Venta.find({
+            take: 3,
+            where: {
+                totem: totem,
+                isServed: false
+            },
+            order: {
+                tipoAte: 'ASC',
+                id: 'ASC'
+            }
+        })
 
+        res.api.send(data)
     } catch (err) {
         res.api.catch(err)
     }

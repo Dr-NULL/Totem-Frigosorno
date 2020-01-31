@@ -3,7 +3,9 @@ import { RutService } from '../../../../services/rut/rut.service';
 import { HtmlElem } from '../../../../decorators';
 import { Router } from '@angular/router';
 import { VoucherService } from '../../../../services/voucher/voucher.service';
-import { MatSnackBar } from '@angular/material';
+
+import { MatDialog } from '@angular/material';
+import { ModalBasicComponent, ModalBasicData } from '../../../shared/modal-basic/modal-basic.component';
 
 @Component({
   selector: 'app-print-rut',
@@ -42,7 +44,7 @@ export class PrintRutComponent implements OnInit {
   constructor(
     private rutServ: RutService,
     private voucherServ: VoucherService,
-    private snackCtrl: MatSnackBar,
+    private dialogCtrl: MatDialog,
     private routerCtrl: Router
   ) { }
 
@@ -90,7 +92,17 @@ export class PrintRutComponent implements OnInit {
     try {
       await this.voucherServ.printRut(this.rawValue);
     } catch (err) {
-      this.snackCtrl.open(err.details, 'Aceptar', { duration: 2500 });
+      this.dialogCtrl.open(
+        ModalBasicComponent,
+        {
+          width: 'calc(100vw - 4rem)',
+          data: {
+            title: 'ERROR:',
+            message: err.details,
+            duration: 3000
+          } as ModalBasicData
+        }
+      );
     } finally {
       this.routerCtrl.navigate(['cliente/totem']);
     }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { VoucherService } from '../../../../services/voucher/voucher.service';
-import { MatSnackBar } from '@angular/material';
+import { ModalBasicComponent, ModalBasicData } from 'src/app/components/shared/modal-basic/modal-basic.component';
 
 @Component({
   selector: 'app-metodo',
@@ -11,7 +12,7 @@ export class TotemComponent implements OnInit {
 
   constructor(
     private voucherServ: VoucherService,
-    private snackCtrl: MatSnackBar
+    private dialogCtrl: MatDialog
   ) { }
 
   ngOnInit() {
@@ -21,7 +22,17 @@ export class TotemComponent implements OnInit {
     try {
       await this.voucherServ.print();
     } catch (err) {
-      this.snackCtrl.open(err.details, 'Aceptar', { duration: 2500 });
+      this.dialogCtrl.open(
+        ModalBasicComponent,
+        {
+          width: 'calc(100vw - 4rem)',
+          data: {
+            title: 'ERROR:',
+            message: err.details,
+            duration: 3000
+          } as ModalBasicData
+        }
+      );
     }
   }
 }

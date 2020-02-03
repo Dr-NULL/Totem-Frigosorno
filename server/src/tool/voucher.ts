@@ -91,10 +91,15 @@ export function makeVoucher (venta: Venta, totem: Totem) {
             }
         )
 
+        let rut = venta.typedRut
+        if (rut == null) {
+            rut = venta.cliente.rut
+        }
+        
         pdf.font(code128)
         pdf.fontSize(55)
         pdf.text(
-            Barcode.to128(venta.cliente.rut),
+            Barcode.to128(rut),
             mm(0),
             mm(12),
             {
@@ -105,7 +110,7 @@ export function makeVoucher (venta: Venta, totem: Totem) {
         pdf.fontSize(18)
         pdf.font(pingFang)
         pdf.text(
-            venta.cliente.rut,
+            rut,
             mm(15),
             mm(34),
             {

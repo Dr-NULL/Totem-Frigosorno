@@ -6,10 +6,10 @@ import { Totem } from '../models/totem';
 import { Venta } from '../models/venta';
 import { IO } from '../app';
 
-export const CORRELATIVO_SERVE = new EndPoint()
-CORRELATIVO_SERVE.method = 'get'
-CORRELATIVO_SERVE.path = '/correlativo/serve/:ip'
-CORRELATIVO_SERVE.callback = async (req, res) => {
+export const CORRELAT_SERVE = new EndPoint()
+CORRELAT_SERVE.method = 'get'
+CORRELAT_SERVE.path = '/correlat/serve/:ip'
+CORRELAT_SERVE.callback = async (req, res) => {
     try {
         // Buscar el Totem al que hace referencia
         const totem = await Totem.findOne({ ip: req.params.ip.trim() })
@@ -21,7 +21,6 @@ CORRELATIVO_SERVE.callback = async (req, res) => {
             })
             return
         }
-
         
         // Buscar posición actual para atender
         const tipo = await TipoAte.findOne({ cod: 'A' })

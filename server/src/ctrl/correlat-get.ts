@@ -4,10 +4,10 @@ import { StatusCodes } from '../tool/api';
 import { Totem } from '../models/totem';
 import { Venta } from "../models/venta";
 
-export const CORRELATIVO_GET = new EndPoint()
-CORRELATIVO_GET.method = 'get'
-CORRELATIVO_GET.path = '/correlativo/get/:ip'
-CORRELATIVO_GET.callback = async (req, res) => {
+export const CORRELAT_GET = new EndPoint()
+CORRELAT_GET.method = 'get'
+CORRELAT_GET.path = '/correlat/get/:ip'
+CORRELAT_GET.callback = async (req, res) => {
     try {
         // Buscar Los primeros 3 correlativos sin atender
         const totem = await Totem.findOne({ ip: req.params.ip.trim() })

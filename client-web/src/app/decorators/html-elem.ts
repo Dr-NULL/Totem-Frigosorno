@@ -21,7 +21,7 @@ export function HtmlElem(name: string = null, selector: string = 'h') {
       } else {
         query = `app-${query} *[${selector}=${name}]`;
       }
-  
+
       // Bindear Propiedad
       Object.defineProperty(target, key, {
         get: () => {
@@ -35,4 +35,3 @@ export function HtmlElem(name: string = null, selector: string = 'h') {
       });
     };
   }
-  

@@ -15,7 +15,6 @@ import { AppMaterialModule } from './app-material.module';
 // Components
 import { AppComponent } from './app.component';
 import { IndexComponent } from './components/pages/index/index.component';
-import { PrintRutComponent } from './components/pages/cliente/print-rut/print-rut.component';
 import { TotemComponent } from './components/pages/cliente/totem/totem.component';
 import { InfoComponent } from './components/pages/info/info.component';
 import { Err404Component } from './components/pages/err404/err404.component';
@@ -27,14 +26,12 @@ import { KeyboardDirective } from './directives/keyboard/keyboard.directive';
 import { SelectTotemComponent } from './components/pages/visor/select-totem/select-totem.component';
 import { VisorColaComponent } from './components/pages/visor/visor-cola/visor-cola.component';
 import { VisorServeComponent } from './components/pages/visor/visor-serve/visor-serve.component';
-import { MainComponent } from './components/pages/cliente/main/main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IndexComponent,
     TotemComponent,
-    PrintRutComponent,
     InfoComponent,
     Err404Component,
     RegistroComponent,
@@ -44,8 +41,7 @@ import { MainComponent } from './components/pages/cliente/main/main.component';
     KeyboardDirective,
     SelectTotemComponent,
     VisorColaComponent,
-    VisorServeComponent,
-    MainComponent
+    VisorServeComponent
   ],
   imports: [
     // System Modules

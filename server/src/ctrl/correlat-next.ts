@@ -2,17 +2,17 @@ import moment from 'moment';
 import { EndPoint } from '../tool/end-point';
 import { StatusCodes } from '../tool/api';
 import { makeVoucher } from '../tool/voucher';
-import { IO } from '../app/.';
+import { IO } from '../app';
 
 import { TipoAte } from '../models/tipo-ate';
 import { Cliente } from '../models/cliente';
 import { Venta } from '../models/venta';
 import { Totem } from '../models/totem';
 
-export const CORRELATIVO_NEXT = new EndPoint()
-CORRELATIVO_NEXT.method = 'get'
-CORRELATIVO_NEXT.path = '/correlativo/next/:rut?'
-CORRELATIVO_NEXT.callback = async (req, res) => {
+export const CORRELAT_NEXT = new EndPoint()
+CORRELAT_NEXT.method = 'get'
+CORRELAT_NEXT.path = '/correlat/next/:rut?'
+CORRELAT_NEXT.callback = async (req, res) => {
     try {
         // Buscar Tótem
         let totem = await Totem.findOne({ ip: req.ip })

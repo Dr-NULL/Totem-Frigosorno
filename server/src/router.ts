@@ -1,9 +1,9 @@
 import { EndPoint } from './tool/end-point';
 
 // Routes
-import { CORRELATIVO_GET } from './ctrl/correlativo-get';
-import { CORRELATIVO_NEXT } from './ctrl/correlativo-next';
-import { CORRELATIVO_SERVE } from './ctrl/correlativo-serve';
+import { CORRELAT_GET } from './ctrl/correlat-get';
+import { CORRELAT_NEXT } from './ctrl/correlat-next';
+import { CORRELAT_SERVE } from './ctrl/correlat-serve';
 import { TOTEM_INFO } from './ctrl/totem-info';
 import { TOTEM_TODOS } from './ctrl/totem-todos';
 import { CLIENTE_BUSCAR } from './ctrl/cliente-buscar';
@@ -12,9 +12,9 @@ import { CLIENTE_ACTUALIZAR } from './ctrl/cliente-actualizar';
 
 // Ref
 export const ROUTES: EndPoint[] = [
-    CORRELATIVO_GET,
-    CORRELATIVO_NEXT,
-    CORRELATIVO_SERVE,
+    CORRELAT_GET,
+    CORRELAT_NEXT,
+    CORRELAT_SERVE,
     TOTEM_INFO,
     TOTEM_TODOS,
     CLIENTE_BUSCAR,

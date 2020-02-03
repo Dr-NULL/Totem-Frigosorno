@@ -81,7 +81,7 @@ export class RegistroComponent implements OnInit {
         'ERROR!',
         'El RUT que ha ingresado no es válido, por favor verifique '
         + 'que los números ingresados sean los correctos.',
-        3000
+        4000
       );
       (ev.target as HTMLElement).focus();
     } else {
@@ -92,7 +92,7 @@ export class RegistroComponent implements OnInit {
           'ERROR!',
           'El RUT que ha ingresado ya se encuentra registrado. '
           + 'Utilice la opción "impresión con RUT" en su lugar.',
-          3000
+          4000
         );
         this.onBack();
 
@@ -251,7 +251,7 @@ export class RegistroComponent implements OnInit {
           data: {
             title: 'Finalizado:',
             message: 'Se ha generado exitosamente su nuevo usuario.',
-            duration: 3000,
+            duration: 4000,
             buttons: [
               {
                 icon: 'fas fa-print',

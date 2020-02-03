@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { RutService } from '../../../../services/rut/rut.service';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { VoucherService } from '../../../../services/voucher/voucher.service';
+import { RutService } from '../../../../services/rut/rut.service';
 
 import { MatDialog, MatTooltip } from '@angular/material';
 import { ModalBasicComponent, ModalBasicData } from '../../../shared/modal-basic/modal-basic.component';
@@ -30,7 +29,7 @@ export class TotemComponent implements OnInit {
       this.rawValue = v;
       this.isNull = false;
     } else {
-      this.rawValue = 'Inserte su RUT aquí...';
+      this.rawValue = 'Ingrese su RUT.';
       this.isNull = true;
     }
   }
@@ -38,8 +37,7 @@ export class TotemComponent implements OnInit {
   constructor(
     private rutServ: RutService,
     private voucherServ: VoucherService,
-    private dialogCtrl: MatDialog,
-    private routerCtrl: Router
+    private dialogCtrl: MatDialog
   ) { }
 
   ngOnInit() {
@@ -85,6 +83,19 @@ export class TotemComponent implements OnInit {
   async onPrint() {
     try {
       await this.voucherServ.printRut(this.rawValue);
+      this.dialogCtrl.open(
+        ModalBasicComponent,
+        {
+          width: 'calc(100vw - 4rem)',
+          data: {
+            title: 'COMPLETADO:',
+            message: 'Voucher impreso, por favor retírelo de la ranura inferior y espere su turno.',
+            duration: 4000
+          } as ModalBasicData
+        }
+      );
+
+      this.value = null;
     } catch (err) {
       this.dialogCtrl.open(
         ModalBasicComponent,

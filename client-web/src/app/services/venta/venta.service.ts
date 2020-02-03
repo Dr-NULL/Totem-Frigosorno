@@ -15,13 +15,13 @@ export class VentaService {
 
   get(ip: string) {
     return this.httpServ.get<Venta[]>(
-      '/api/correlativo/get/' + ip.trim()
+      '/api/correlat/get/' + ip.trim()
     );
   }
 
   serve(ip: string) {
     return this.httpServ.get<Venta[]>(
-      '/api/correlativo/serve/' + ip.trim()
+      '/api/correlat/serve/' + ip.trim()
     );
   }
 }

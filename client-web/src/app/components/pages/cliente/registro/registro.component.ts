@@ -244,7 +244,7 @@ export class RegistroComponent implements OnInit {
         email: this.email.trim()
       });
 
-      // consultar si desea imprimir Voucher
+      // Consultar si desea imprimir Voucher
       this.dialogCtrl.open(
         ModalCustomComponent,
         {

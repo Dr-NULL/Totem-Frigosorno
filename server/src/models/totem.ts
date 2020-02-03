@@ -12,7 +12,7 @@ export class Totem extends BaseEntity {
     ip: string;
 
     @Column({ type: "int", default: 0 })
-    currCorr: number;
+    currCorrelat: number;
     
     @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
     currFecha: Date;

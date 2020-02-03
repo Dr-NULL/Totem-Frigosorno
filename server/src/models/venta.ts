@@ -16,6 +16,9 @@ export class Venta extends BaseEntity {
 
     @Column({ type: 'bit', default: 0 })
     isServed: boolean;
+
+    @Column({ type: 'varchar', length: 12, nullable: true })
+    typedRut: string;
     
     @ManyToOne(type => TipoAte, TipoAte => TipoAte.id, { eager: true })
     tipoAte: TipoAte;

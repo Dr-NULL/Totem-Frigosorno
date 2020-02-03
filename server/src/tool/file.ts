@@ -165,11 +165,8 @@ export class File{
     }
 
     private createFolder() {
-        try {
+        if (!fs.existsSync(this.folder)) {
             fs.mkdirSync(this.folder)
-        } catch {
-            console.log('>> file.ts -> carpeta ya existente...')
-            console.log('              ' + this.folder)
         }
     }
 }

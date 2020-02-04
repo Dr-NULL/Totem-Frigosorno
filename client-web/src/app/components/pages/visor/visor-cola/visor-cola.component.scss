@@ -68,13 +68,21 @@
     z-index: 10;
     background: #303030;
 
+    hr {
+      margin: 0;
+      height: 1px;
+      width: calc(100% - 2rem);
+      border: none;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+    }
+
     @media screen and (orientation: landscape) {
       margin: 2rem 2rem 2rem 0;
       width: calc(40% - 2rem);
       height: calc(100% - 4rem);
 
       h3 {
-        height: 10vh;
+        height: calc(10vh - 1px);
         font-size: 3.5vh!important;
       }
 
@@ -89,7 +97,7 @@
       height: calc(50% - 2rem);
 
       h3 {
-        height: 10vw;
+        height: calc(10vw - 1px);
         font-size: 3.5vw!important;
       }
 

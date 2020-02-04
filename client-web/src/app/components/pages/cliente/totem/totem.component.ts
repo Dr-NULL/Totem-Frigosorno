@@ -6,7 +6,7 @@ import { MatDialog, MatTooltip } from '@angular/material';
 import { ModalBasicComponent, ModalBasicData } from '../../../shared/modal-basic/modal-basic.component';
 
 @Component({
-  selector: 'app-metodo',
+  selector: 'app-totem',
   templateUrl: './totem.component.html',
   styleUrls: ['./totem.component.scss']
 })

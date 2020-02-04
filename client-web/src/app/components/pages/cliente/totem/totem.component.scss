@@ -1,12 +1,13 @@
 $scale: 2;
 
 .mat-input-element {
-  font-size: 1.5rem!important;
+  font-size: calc(100vw * 0.05)!important;
 }
 
 :host {
   display: flex;
-  justify-content: center;
+  flex-flow: column wrap;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -154,12 +155,23 @@ $scale: 2;
   }
 }
 
-.bottom-btn {
-  position: fixed;
-  bottom: 1rem;
-
+.container-top {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: calc(100% - 4.5rem);
+}
+
+.container-bottom {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  height: 4.5rem;
 
   a {
     flex: 1;
@@ -178,9 +190,4 @@ $scale: 2;
       align-items: center;
     }
   }
-}
-
-.custom-tooltip::ng-deep {
-  width: 80vw!important;
-  max-width: 80vw!important;
 }

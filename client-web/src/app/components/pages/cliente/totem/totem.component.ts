@@ -95,6 +95,7 @@ export class TotemComponent implements OnInit {
         }
       );
 
+      this.disabled = true;
       this.value = null;
     } catch (err) {
       this.dialogCtrl.open(

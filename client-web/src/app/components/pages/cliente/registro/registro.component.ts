@@ -73,17 +73,51 @@ export class RegistroComponent implements OnInit {
 
   // Validar RUT
   async onBlurRut(ev: KeyboardEvent) {
-    this.rutIsValid = this.rutServ.isValid(this.rut);
-    this.onBlurAll();
+    const num = this.rut
+      .replace(/[^0-9]/gi, '')
+      .match(/^[0-9]+$/gi);
 
+    if (num == null) {
+      this.rutIsValid = false;
+    } else if (parseInt(num[0], 10) < 1000000) {
+      this.rutIsValid = false;
+    } else {
+      this.rutIsValid = this.rutServ.isValid(this.rut);
+    }
+
+    this.onBlurAll();
     if (!this.rutIsValid) {
-      await this.openDialog(
-        'ERROR!',
-        'El RUT que ha ingresado no es válido, por favor verifique '
-        + 'que los números ingresados sean los correctos.',
-        4000
+      this.dialogCtrl.open(
+        ModalCustomComponent,
+        {
+          data: {
+            title: 'ERROR!',
+            message: 'El RUT que ha ingresado no es válido, por favor verifique '
+            + 'que los números ingresados sean los correctos.',
+            duration: 4000,
+            buttons: [
+              {
+                icon: 'far fa-thumbs-up',
+                text: 'Aceptar',
+                color: 'primary',
+                dissmiss: true,
+                callback: () => {
+                  (ev.target as HTMLElement).focus();
+                }
+              },
+              {
+                icon: 'fas fa-angle-double-left',
+                text: 'Volver',
+                color: 'accent',
+                dissmiss: true,
+                callback: () => {
+                  this.onBack();
+                }
+              }
+            ]
+          } as ModalCustomData
+        }
       );
-      (ev.target as HTMLElement).focus();
     } else {
       // Buscar Usuario
       try {

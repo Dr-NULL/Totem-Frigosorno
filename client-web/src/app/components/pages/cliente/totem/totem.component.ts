@@ -74,7 +74,17 @@ export class TotemComponent implements OnInit {
   onValidation() {
     if (this.value != null) {
       this.value = this.rutServ.format(this.value);
-      this.disabled = !this.rutServ.isValid(this.value);
+      const num = this.value
+        .replace(/[^0-9]/gi, '')
+        .match(/^[0-9]+$/gi);
+
+      if (num == null) {
+        this.disabled = true;
+      } else if (parseInt(num[0], 10) < 1000000) {
+        this.disabled = true;
+      } else {
+        this.disabled = !this.rutServ.isValid(this.value);
+      }
     } else {
       this.disabled = true;
     }

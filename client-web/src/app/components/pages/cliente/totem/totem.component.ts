@@ -112,6 +112,39 @@ export class TotemComponent implements OnInit {
     }
   }
 
+  async onPrintNoRut() {
+    try {
+      await this.voucherServ.printRut('');
+      this.dialogCtrl.open(
+        ModalBasicComponent,
+        {
+          width: 'calc(100vw - 4rem)',
+          data: {
+            title: 'COMPLETADO:',
+            message: 'Voucher impreso, por favor retírelo de la ranura inferior y espere su turno.',
+            duration: 4000
+          } as ModalBasicData
+        }
+      );
+
+      this.disabled = true;
+      this.value = null;
+    } catch (err) {
+      this.dialogCtrl.open(
+        ModalBasicComponent,
+        {
+          width: 'calc(100vw - 4rem)',
+          data: {
+            title: 'ERROR:',
+            message: err.details,
+            duration: 3000
+          } as ModalBasicData
+        }
+      );
+    }
+  }
+
+
   onInfo() {
     this.tooltip.show();
 

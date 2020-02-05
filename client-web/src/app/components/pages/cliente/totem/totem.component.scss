@@ -1,4 +1,4 @@
-$size-w: 12;
+$size-w: 11;
 $size-h: 9;
 
 :host {
@@ -20,6 +20,7 @@ $size-h: 9;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 
   @media screen and (orientation: portrait) {
     width: 100%;

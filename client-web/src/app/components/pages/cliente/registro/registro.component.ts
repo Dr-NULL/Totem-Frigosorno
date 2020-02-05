@@ -59,7 +59,7 @@ export class RegistroComponent implements OnInit {
     this.apellidoP = '';
     this.apellidoM = '';
     this.fechaNac = new Date();
-    this.phone = '';
+    this.phone = '+56 9 ';
     this.phoneIsValid = false;
     this.email = '';
     this.emailIsValid = false;
@@ -135,15 +135,71 @@ export class RegistroComponent implements OnInit {
     }
   }
 
+  onFocusPhone(target: HTMLInputElement) {
+    this.phone = '+56 9 ';
+    target.selectionStart = this.phone.length - 1;
+    target.selectionEnd = target.selectionStart;
+    target.value = this.phone;
+  }
+
+  onKeyUpPhone(target: HTMLInputElement) {
+    const raw = this.phone
+      .replace(/\s+/gi, '')
+      .replace(/^\+569/gi, '');
+
+    if (raw === '') {
+      this.phoneIsValid = true;
+      this.phone = '+56 9 ';
+      target.value = this.phone;
+    } else {
+      const input = raw.match(/[0-9]/gi);
+      let out = '+56 9 ';
+
+      if (input != null) {
+        for (let i = 0; (i < input.length) && (i < 8); i++) {
+          switch (i) {
+            case 4:
+              out += ' ';
+              out += input[i];
+              break;
+            default:
+              out += input[i];
+          }
+        }
+      }
+
+      this.phone = out;
+      target.value = out;
+
+      if (input.length >= 8) {
+        this.phoneIsValid = true;
+      } else {
+        this.phoneIsValid = false;
+      }
+
+      this.onBlurAll();
+    }
+  }
+
   async onBlurPhone(ref: HTMLInputElement) {
-    this.phone = this.phone.trim();
-    if (this.phone.length === 0) {
+    const raw = this.phone
+      .replace(/\s+/gi, '')
+      .replace(/^\+569/gi, '');
+
+    if (raw.length === 0) {
+      this.phone = '';
+      ref.value = this.phone;
+
       this.phoneIsValid = true;
       this.onBlurAll();
     } else {
-      this.phoneIsValid = !isNaN(parseInt(this.phone, 10));
-      this.onBlurAll();
+      if (raw.length < 8) {
+        this.phoneIsValid = false;
+      } else {
+        this.phoneIsValid = !isNaN(parseInt(this.phone, 10));
+      }
 
+      this.onBlurAll();
       if (!this.phoneIsValid) {
         await this.openDialog(
           'ERROR!',
@@ -200,9 +256,7 @@ export class RegistroComponent implements OnInit {
         (moment(new Date()).diff(this.fechaNac, 'years') >= 16) &&
         (moment(new Date()).diff(this.fechaNac, 'years') <= 110)
       ) &&
-      (this.phoneIsValid ||
-        (this.phone.length === 0)
-      ) &&
+      (this.phoneIsValid) &&
       (this.emailIsValid ||
         (this.email.length === 0)
       )

@@ -29,10 +29,16 @@ CLIENTE_REGISTRO.callback = async(req, res) => {
         }
 
         cli.fechaNac = data.fechaNac
-        cli.telefono = data.telefono.trim()
-        cli.email = data.email.trim().toLowerCase()
-        await cli.save()
 
+        if (data.telefono.trim() != '') {
+            cli.telefono = data.telefono.trim()
+        }
+
+        if (data.email.trim() != '') {
+            cli.email = data.email.trim().toLowerCase()
+        }
+
+        await cli.save()
         res.api.send()
     } catch(err) {
         res.api.catch(err)

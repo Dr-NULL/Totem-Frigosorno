@@ -60,7 +60,7 @@ export class RegistroComponent implements OnInit {
     this.apellidoP = '';
     this.apellidoM = '';
     this.fechaNac = new Date();
-    this.phone = '+56 9 ';
+    this.phone = '';
     this.phoneIsValid = false;
     this.email = '';
     this.emailIsValid = false;
@@ -341,6 +341,9 @@ export class RegistroComponent implements OnInit {
             title: 'Finalizado:',
             message: 'Se ha generado exitosamente su nuevo usuario.',
             duration: 4000,
+            callback: () => {
+              this.onBack();
+            },
             buttons: [
               {
                 icon: 'fas fa-print',
@@ -371,7 +374,6 @@ export class RegistroComponent implements OnInit {
         err.details,
         3000
       );
-    } finally {
       this.ngOnInit();
       this.onBack();
     }

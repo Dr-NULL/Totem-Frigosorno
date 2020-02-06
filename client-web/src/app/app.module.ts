@@ -26,6 +26,7 @@ import { KeyboardDirective } from './directives/keyboard/keyboard.directive';
 import { SelectTotemComponent } from './components/pages/visor/select-totem/select-totem.component';
 import { VisorColaComponent } from './components/pages/visor/visor-cola/visor-cola.component';
 import { VisorServeComponent } from './components/pages/visor/visor-serve/visor-serve.component';
+import { TooltipComponent } from './components/shared/tooltip/tooltip.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { VisorServeComponent } from './components/pages/visor/visor-serve/visor-
     KeyboardDirective,
     SelectTotemComponent,
     VisorColaComponent,
-    VisorServeComponent
+    VisorServeComponent,
+    TooltipComponent
   ],
   imports: [
     // System Modules

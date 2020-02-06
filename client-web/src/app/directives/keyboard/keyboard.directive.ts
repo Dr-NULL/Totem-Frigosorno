@@ -1,5 +1,6 @@
 import { Directive, OnInit, OnDestroy, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { KeyboardComponent, Writter } from '../../components/shared/keyboard/keyboard.component';
+import { Html } from '../../tool/.';
 
 @Directive({
   selector: '[appKeyboard]'

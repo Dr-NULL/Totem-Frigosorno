@@ -11,6 +11,7 @@ import { ModalBasicComponent, ModalBasicData } from 'src/app/components/shared/m
 import { ModalCustomComponent, ModalCustomData } from 'src/app/components/shared/modal-custom/modal-custom.component';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { HtmlCollection } from '../../../../tool/.';
 
 @Component({
   selector: 'app-registro',

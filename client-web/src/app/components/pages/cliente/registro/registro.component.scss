@@ -36,7 +36,7 @@ mat-card {
     top: 0;
     left: 0;
 
-    width: 100%;
+    width: calc(100% - 1.5rem);
     height: 2rem;
 
     z-index: 1000;

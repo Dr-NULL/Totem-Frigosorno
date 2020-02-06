@@ -11,15 +11,10 @@
         [(value)]="this.rut"
         (keyup)="this.rut = $event.target.value"
         (keyup)="this.onKeyUpRut()"
-        (focusOut)="this.onBlurRut($event)"
-
-        #tipRut="matTooltip"
-        matTooltip="Solicitamos su RUT para que a futuro usted pueda sacar su número de atención ingresando su RUT, y de esa forma obtener una atención personalizada."
-
-      >
-      <span matSuffix (click)="this.tipRut.toggle()">
-        <i class="far fa-question-circle"></i>
-      </span>
+        (focusOut)="this.onBlurRut($event)">
+      <app-tooltip faIcon="far fa-question-circle" duration="4000" horAlign="left" width="calc(100vw - 6rem)">
+        Se usará para brindarle una atención personalizada, identificar sus compras, y de esta forma ofrecerle promociones en base a los productos que más sule consumir.
+      </app-tooltip>
     </mat-form-field>
     <mat-form-field class="col-8">
       <input matInput appKeyboard
@@ -29,8 +24,7 @@
         [(value)]="this.nombres"
         (keyup)="this.nombres = $event.target.value"
         (keyup)="onBlurAll()"
-        (focusOut)="this.onBlurAll()"
-      >
+        (focusOut)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
       <input matInput appKeyboard
@@ -40,8 +34,7 @@
         [(value)]="this.apellidoP"
         (keyup)="this.apellidoP = $event.target.value"
         (keyup)="onBlurAll()"
-        (focusOut)="this.onBlurAll()"
-      >
+        (focusOut)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
       <input matInput appKeyboard
@@ -51,12 +44,10 @@
         [(value)]="this.apellidoM"
         (keyup)="this.apellidoM = $event.target.value"
         (keyup)="onBlurAll()"
-        (focusOut)="this.onBlurAll()"
-      >
+        (focusOut)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
       <div class="datePickerFG" (click)="datePicker.open()"></div>
-      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
       <mat-datepicker #datePicker disabled="false" [touchUi]="true"></mat-datepicker>
       <input matInput
         type="text" [max]="this.maxDate"
@@ -64,15 +55,12 @@
         [(value)]="this.fechaNac"
         placeholder="F. Nacim (requerido):"
         (dateChange)="this.onCheckDate($event.value)"
-
-        #tipNacim="matTooltip"
-        matTooltip="Por medio de su fecha de nacimiento podremos ofrecerle ofertas por el día de su cumpleaños."
         disabled>
-        <span matSuffix (click)="this.tipNacim.toggle()">
-          <i class="far fa-question-circle"></i>
-        </span>
+      <app-tooltip faIcon="far fa-question-circle" duration="4000">
+        Por medio de su fecha de nacimiento podremos ofrecerle ofertas por el día de su cumpleaños.
+      </app-tooltip>
     </mat-form-field>
-    <mat-form-field class="col-6" >
+    <mat-form-field class="col-6">
       <input matInput appKeyboard
         type="text"
         keyboard="num"
@@ -81,14 +69,10 @@
         (keyup)="this.phone = $event.target.value"
         (keyup)="this.onKeyUpPhone($event.target)"
         (focus)="this.onFocusPhone($event.target)"
-        (focusOut)="this.onBlurPhone($event.target)"
-
-        #tipPhone="matTooltip"
-        matTooltip="En caso de que coloque su número de teléfono, le enviaremos ofertas por medio de Whatsapp."
-      >
-      <span matSuffix (click)="this.tipPhone.toggle()">
-        <i class="far fa-question-circle"></i>
-      </span>
+        (focusOut)="this.onBlurPhone($event.target)">
+      <app-tooltip faIcon="far fa-question-circle" duration="4000">
+        En caso de que coloque su número de teléfono, le enviaremos ofertas por medio de Whatsapp.
+      </app-tooltip>
     </mat-form-field>
     <mat-form-field class="col-12">
       <input matInput appKeyboard
@@ -98,14 +82,10 @@
         [(value)]="this.email"
         (keyup)="this.email = $event.target.value"
         (keyup)="onBlurAll()"
-        (focusOut)="this.onBlurEmail($event.target)"
-
-        #tipEmail="matTooltip"
-        matTooltip="En caso de que coloque su correo electrónico, le enviaremos ofertas por medio de éste."
-      >
-      <span matSuffix (click)="this.tipEmail.toggle()">
-        <i class="far fa-question-circle"></i>
-      </span>
+        (focusOut)="this.onBlurEmail($event.target)">
+      <app-tooltip faIcon="far fa-question-circle" duration="4000">
+        En caso de que coloque su correo electrónico, le enviaremos ofertas por medio de éste.
+      </app-tooltip>
     </mat-form-field>
   </mat-card-content>
   <mat-divider></mat-divider>

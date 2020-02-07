@@ -40,17 +40,6 @@ export class VisorServeComponent implements OnInit {
       this.io.emit('join-to-totem', this.ip);
     }).bind(this));
 
-    // Reconectar cuando se desconecte del cliente
-    this.io.on(
-      'connect_timeout',
-      (() => {
-        this.io.connect();
-
-        // Conectarse a una Sala
-        this.io.emit('join-to-totem', this.ip);
-      }).bind(this)
-    );
-
     // Registrar evento del Socket
     this.io.on(
       'correlativo-update',

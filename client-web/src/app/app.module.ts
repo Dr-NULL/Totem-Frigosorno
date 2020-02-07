@@ -55,7 +55,10 @@ import { TooltipComponent } from './components/shared/tooltip/tooltip.component'
     AppRoutingModule,
     AppMaterialModule,
     SocketIoModule.forRoot({
-      url: location.origin
+      url: location.origin,
+      options: {
+        transports: ['polling', 'websocket']
+      }
     })
   ],
   providers: [

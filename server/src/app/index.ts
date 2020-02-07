@@ -17,7 +17,8 @@ import { createConnection } from 'typeorm';
 export const APP = express()
 export const HTTP = createServer(APP)
 export const IO = SocketIO(HTTP, {
-    transports: ['polling', 'websocket']
+    transports: ['polling', 'websocket'],
+    pingTimeout: 5000
 })
 
 export async function startServer() {

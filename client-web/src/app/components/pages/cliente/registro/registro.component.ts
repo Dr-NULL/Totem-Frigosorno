@@ -171,10 +171,12 @@ export class RegistroComponent implements OnInit {
   }
 
   onFocusPhone(target: HTMLInputElement) {
-    this.phone = '+56 9 ';
-    target.selectionStart = this.phone.length - 1;
-    target.selectionEnd = target.selectionStart;
-    target.value = this.phone;
+    if (this.phone.trim() === '') {
+      this.phone = '+56 9 ';
+      target.selectionStart = this.phone.length - 1;
+      target.selectionEnd = target.selectionStart;
+      target.value = this.phone;
+    }
   }
 
   onKeyUpPhone(target: HTMLInputElement) {

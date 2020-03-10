@@ -2,6 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { VentaService, Venta } from 'src/app/services/venta/venta.service';
 import { Socket } from 'ngx-socket-io';
+import { Log } from 'src/app/tool/log';
 
 interface Voucher {
   id: number;
@@ -18,6 +19,7 @@ interface Voucher {
 export class VisorServeComponent implements OnInit {
   ip: string;
   data: Voucher[];
+  private socketTimer: any;
 
   constructor(
     private ventaServ: VentaService,
@@ -27,45 +29,44 @@ export class VisorServeComponent implements OnInit {
 
   // Lee parámetros de la URL e inicializa el Socket
   ngOnInit() {
-    // Iniciar Formulario
-    this.drawElem();
-    this.io.connect();
+    this.drawElem([]);
+    this.route.paramMap.subscribe((params => {
+      // Asignar el parámetro IP
+      this.ip = params.get('ip');
+
+      // Conectar Socket
+      this.io.disconnect();
+      this.io.connect();
+    }).bind(this));
 
     // Registrar evento del Socket
     this.io.on(
-      'correlativo-update',
-      this.onUpdate.bind(this)
+      'connect',
+      this.socketConnect.bind(this)
     );
 
-    // Reconectar
     this.io.on(
-      'disconnect',
-      this.onDisconnect.bind(this)
+      'error',
+      this.socketError.bind(this)
     );
 
-    // Escuchar cambios de URL
-    this.route
-      .paramMap
-      .subscribe(this.onLoad.bind(this));
+    this.io.on(
+      'correlativo-update',
+      this.onLoad.bind(this)
+    );
   }
 
-  async onLoad(params: any) {
+  // Realiza la Petición HTTP para obtener los correlativos actuales
+  async onLoad() {
     try {
-      // Asignar el parámetro IP
-      this.ip = params.get('ip');
-      this.io.emit('join-to-totem', this.ip);
-      this.onUpdate();
+      const res = await this.ventaServ.get(this.ip);
+      this.drawElem(res.data);
 
     } catch (err) {
       console.log(err);
     }
   }
 
-  // Llena los correlativos faltantes
-  async onUpdate() {
-    const res = await this.ventaServ.get(this.ip);
-    this.drawElem(res.data);
-  }
   async drawElem(data: Venta[] = []) {
     const tmp: Voucher[] = [];
     for (const venta of data) {
@@ -94,15 +95,22 @@ export class VisorServeComponent implements OnInit {
     this.data = tmp;
   }
 
-  onDisconnect() {
-    this.io.connect()
+  socketConnect() {
+    Log.ok('Socket.IO Conectado!');
+
+    if (this.socketTimer != null) {
+      clearInterval(this.socketTimer);
+      this.socketTimer = null;
+    }
+
+    this.io.emit('join-to-totem', this.ip);
   }
 
-  async onServe() {
-    try {
-      await this.ventaServ.serve(this.ip);
-    } catch (err) {
-      console.log(err);
-    }
+  socketError() {
+    Log.ev('Socket.IO Desconectado.');
+    Log.ln('Reconectando...');
+    this.socketTimer = setInterval(() => {
+      this.io.connect();
+    }, 250);
   }
 }

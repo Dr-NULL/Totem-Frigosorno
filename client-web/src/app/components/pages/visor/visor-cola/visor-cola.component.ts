@@ -1,6 +1,7 @@
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { Log } from 'src/app/tool/log';
 
 import { VentaService, Venta } from 'src/app/services/venta/venta.service';
 interface Voucher {
@@ -17,6 +18,7 @@ interface Voucher {
 export class VisorColaComponent implements OnInit {
   ip: string;
   data: Voucher[];
+  private socketTimer: any;
 
   constructor(
     private ventaServ: VentaService,
@@ -26,25 +28,30 @@ export class VisorColaComponent implements OnInit {
 
   // Lee parámetros de la URL e inicializa el Socket
   ngOnInit() {
-    this.setVoucher([]);
+    this.drawElem([]);
     this.route.paramMap.subscribe((params => {
       // Asignar el parámetro IP
+      console.log('test');
       this.ip = params.get('ip');
 
       // Conectar Socket
-      this.io.disconnect();
       this.io.connect();
-
-      // Conectarse a una Sala
-      this.io.emit('join-to-totem', this.ip);
     }).bind(this));
 
     // Registrar evento del Socket
     this.io.on(
+      'connect',
+      this.socketConnect.bind(this)
+    );
+
+    this.io.on(
+      'error',
+      this.socketError.bind(this)
+    );
+
+    this.io.on(
       'correlativo-update',
-      (() => {
-        this.onLoad();
-      }).bind(this)
+      this.onLoad.bind(this)
     );
   }
 
@@ -52,7 +59,7 @@ export class VisorColaComponent implements OnInit {
   async onLoad() {
     try {
       const res = await this.ventaServ.get(this.ip);
-      this.setVoucher(res.data);
+      this.drawElem(res.data);
 
     } catch (err) {
       console.log(err);
@@ -60,7 +67,7 @@ export class VisorColaComponent implements OnInit {
   }
 
   // Llena los correlativos faltantes
-  setVoucher(data: Venta[]) {
+  drawElem(data: Venta[]) {
     const tmp: Voucher[] = [];
     for (const venta of data) {
       tmp.push({
@@ -79,5 +86,25 @@ export class VisorColaComponent implements OnInit {
     }
 
     this.data = tmp;
+  }
+
+  socketConnect() {
+    Log.ok('Socket.IO Conectado!');
+
+    if (this.socketTimer != null) {
+      clearInterval(this.socketTimer);
+      this.socketTimer = null;
+    }
+
+    this.io.emit('join-to-totem', this.ip);
+  }
+
+  socketError() {
+    Log.ev('Socket.IO Desconectado.');
+    Log.ln('Reconectando...');
+
+    this.socketTimer = setInterval(() => {
+      this.io.connect();
+    }, 250);
   }
 }

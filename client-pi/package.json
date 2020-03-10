@@ -1,0 +1,19 @@
+{
+  "name": "client-pi",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "nodemon dist/index.js",
+    "start": "node dist/index.js"
+  },
+  "author": "Felipe Silva <silvaaguilarfelipe@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^13.9.0",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "onoff": "^5.0.1"
+  }
+}

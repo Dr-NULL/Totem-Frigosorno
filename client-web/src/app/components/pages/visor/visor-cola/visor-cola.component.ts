@@ -31,7 +31,6 @@ export class VisorColaComponent implements OnInit {
     this.drawElem([]);
     this.route.paramMap.subscribe((params => {
       // Asignar el parámetro IP
-      console.log('test');
       this.ip = params.get('ip');
 
       // Conectar Socket

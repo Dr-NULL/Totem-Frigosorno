@@ -1,9 +1,9 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { VentaService, Venta } from 'src/app/services/venta/venta.service';
 import { Socket } from 'ngx-socket-io';
 import { Log } from 'src/app/tool/log';
 
+import { VentaService, Venta } from 'src/app/services/venta/venta.service';
 interface Voucher {
   id: number;
   corr: string;
@@ -20,6 +20,7 @@ export class VisorServeComponent implements OnInit {
   ip: string;
   data: Voucher[];
   private socketTimer: any;
+  private socketTimeout = 5000;
 
   constructor(
     private ventaServ: VentaService,
@@ -111,6 +112,6 @@ export class VisorServeComponent implements OnInit {
     Log.ln('Reconectando...');
     this.socketTimer = setInterval(() => {
       this.io.connect();
-    }, 250);
+    }, this.socketTimeout);
   }
 }

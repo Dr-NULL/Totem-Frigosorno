@@ -4,9 +4,9 @@
   <mat-divider></mat-divider>
   <mat-card-content class="row">
     <mat-form-field class="col-4">
-      <input matInput appKeyboard
+      <input matInput
         type="text"
-        keyboard="rut"
+        appKeyboard="rut"
         placeholder="RUT (requerido):"
         [(value)]="this.rut"
         (keyup)="this.rut = $event.target.value"
@@ -17,9 +17,9 @@
       </app-tooltip>
     </mat-form-field>
     <mat-form-field class="col-8">
-      <input matInput appKeyboard
+      <input matInput
         type="text"
-        keyboard="text"
+        appKeyboard="text"
         placeholder="Nombres (requerido):"
         [(value)]="this.nombres"
         (keyup)="this.nombres = $event.target.value"
@@ -27,9 +27,9 @@
         (focusOut)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
-      <input matInput appKeyboard
+      <input matInput
         type="text"
-        keyboard="text"
+        appKeyboard="text"
         placeholder="Apellido Paterno (requerido):"
         [(value)]="this.apellidoP"
         (keyup)="this.apellidoP = $event.target.value"
@@ -37,9 +37,9 @@
         (focusOut)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
-      <input matInput appKeyboard
+      <input matInput
         type="text"
-        keyboard="text"
+        appKeyboard="text"
         placeholder="Apellido Materno:"
         [(value)]="this.apellidoM"
         (keyup)="this.apellidoM = $event.target.value"
@@ -61,9 +61,9 @@
       </app-tooltip>
     </mat-form-field>
     <mat-form-field class="col-6">
-      <input matInput appKeyboard
+      <input matInput
         type="text"
-        keyboard="num"
+        appKeyboard="num"
         placeholder="Teléfono:"
         [(value)]="this.phone"
         (keyup)="this.phone = $event.target.value"
@@ -75,13 +75,13 @@
       </app-tooltip>
     </mat-form-field>
     <mat-form-field class="col-12">
-      <input matInput appKeyboard
+      <input matInput
         type="text"
-        keyboard="text"
+        appKeyboard="text"
         placeholder="E-Mail:"
         [(value)]="this.email"
         (keyup)="this.email = $event.target.value"
-        (keyup)="onBlurAll()"
+        (keyup)="this.onBlurAll()"
         (focusOut)="this.onBlurEmail($event.target)">
       <app-tooltip faIcon="far fa-question-circle" duration="4000">
         En caso de que coloque su correo electrónico, le enviaremos ofertas por medio de éste.

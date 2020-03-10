@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef } from '@angular/core';
-import { Writter, KeyboardComponent } from '../keyboard/keyboard.component';
+import { StaticRef } from 'src/app/components/shared/keyboard/lib/static-ref';
 import { Html, HtmlCollection } from '../../../tool/.';
 
 @Component({
@@ -59,25 +59,8 @@ export class TooltipComponent implements OnInit, OnDestroy {
     let field = new Html(ev.currentTarget as HTMLElement);
     field = field.getAncestor('mat-form-field');
 
-    if (
-      (Writter.input != null) &&
-      (!field.contains(Writter.input))
-    ) {
-      const attr = Writter.input.attributes.getNamedItem('keyboard');
-      const kbRef = new Html(`app-keyboard[name=${attr.value}]`);
-
-      Writter.input = null;
-      if (kbRef != null) {
-        const key = new KeyboardComponent(new ElementRef(kbRef.raw as HTMLElement));
-        key.anime.hide();
-        key.anime.hide();
-      }
-    }
-
-    if (!this.visible) {
-      this.show();
-    } else {
-      this.hide();
+    for (const key of Object.keys(StaticRef.keyboards)) {
+      StaticRef.keyboards[key].anime.hide();
     }
 
     ev.stopPropagation();

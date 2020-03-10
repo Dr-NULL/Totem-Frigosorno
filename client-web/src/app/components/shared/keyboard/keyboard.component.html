@@ -1,32 +1,35 @@
-<div class="mode default" #keysDefault>
-  <div class="row" *ngFor="let row of this.rawLayout.rows">
-    <button mat-raised-button *ngFor="let key of row"
-      [tabIndex]="-1"
-      [innerHTML]="key.default.label"
-      [style.flex]="key.size"
-      (mousedown)="this.onKeyPress(key.default.value)">
+<div data-mode="default" class="template show">
+  <div *ngFor="let rowKey of this.layoutValue.rows" class="row">
+    <button *ngFor="let key of rowKey"
+    mat-raised-button color="primary"
+    [style.flex]="key.size"
+    (mousedown)="this.onMouseDown($event, key.default)"
+    (mouseup)="this.onMouseUp()">
+    <div [innerHtml]="key.default.label"></div>
     </button>
   </div>
 </div>
 
-<div class="mode shift" #keysShift>
-  <div class="row" *ngFor="let row of this.rawLayout.rows">
-    <button mat-raised-button *ngFor="let key of row"
-      [tabIndex]="-1"
-      [innerHTML]="key.shift.label"
-      [style.flex]="key.size"
-      (mousedown)="this.onKeyPress(key.shift.value)">
+<div data-mode="shift" class="template">
+  <div *ngFor="let rowKey of this.layoutValue.rows" class="row">
+    <button *ngFor="let key of rowKey"
+    mat-raised-button color="primary"
+    [style.flex]="key.size"
+    (mousedown)="this.onMouseDown($event, key.shift)"
+    (mouseup)="this.onMouseUp()">
+    <div [innerHtml]="key.shift.label"></div>
     </button>
   </div>
 </div>
 
-<div class="mode altgr" #keysAltGr>
-  <div class="row" *ngFor="let row of this.rawLayout.rows">
-    <button mat-raised-button *ngFor="let key of row"
-      [tabIndex]="-1"
-      [innerHTML]="key.altgr.label"
-      [style.flex]="key.size"
-      (mousedown)="this.onKeyPress(key.altgr.value)">
+<div data-mode="altgr" class="template">
+  <div *ngFor="let rowKey of this.layoutValue.rows" class="row">
+    <button *ngFor="let key of rowKey"
+    mat-raised-button color="primary"
+    [style.flex]="key.size"
+    (mousedown)="this.onMouseDown($event, key.altgr)"
+    (mouseup)="this.onMouseUp()">
+    <div [innerHtml]="key.altgr.label"></div>
     </button>
   </div>
 </div>

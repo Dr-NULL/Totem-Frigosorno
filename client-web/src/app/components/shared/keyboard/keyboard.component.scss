@@ -1,105 +1,47 @@
 :host {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-
   position: fixed;
-  bottom: 0;
   left: 0;
+  bottom: 0;
 
+  border-radius: 0.25rem 0.25rem 0 0;
+  background: #252525;
+  box-sizing: border-box;
+  width: 100vw;
+}
+
+.template {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.25rem;
   width: 100%;
-  z-index: 10000;
 
-  .mode {
+  .row {
+    box-sizing: border-box;
     display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
-    width: 100%;
-    background: #252525;
-    box-shadow:  none;
-
-    .row {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: center;
-      align-items: center;
-
-      width: 100%;
-      button {
-        flex: 1;
-        margin: 0.25rem;
-        min-width: 0;
-        padding: 0;
-        font-size: 0.9rem!important;
-        height: 64px;
-      }
-    }
+    flex-flow: row nowrap;
   }
 }
 
-// :host.show {
-//   transition-duration: 250ms;
-//   transition-timing-function: ease-out;
-//   bottom: 0;
-// }
+button {
+  box-sizing: border-box;
+  margin: 0.25rem;
+  padding: 0;
+  min-width: auto;
 
-// :host.hide {
-//   transition-duration: 250ms;
-//   transition-timing-function: ease-out;
-//   bottom: -50vh;
-// }
-
-:host.default {
-  .mode {
-    transition-duration: 250ms;
-    transition-timing-function: ease-out;
-    z-index: 0;
-    opacity: 0;
-  }
-
-  .mode.default {
-    transition-duration: 250ms;
-    transition-timing-function: ease-out;
-    z-index: 5000;
-    opacity: 1;
+  & > * {
+    padding: 0;
   }
 }
 
-:host.shift {
-  .mode {
-    transition-duration: 250ms;
-    transition-timing-function: ease-out;
-    z-index: 0;
-    opacity: 0;
-  }
-
-  .mode.shift {
-    transition-duration: 250ms;
-    transition-timing-function: ease-out;
-    z-index: 5000;
-    opacity: 1;
-  }
+/* ANIMATIONS */
+.template {
+  opacity: 0;
+  z-index: 0;
 }
-
-:host.altgr {
-  .mode {
-    transition-duration: 250ms;
-    transition-timing-function: ease-out;
-    z-index: 0;
-    opacity: 0;
-  }
-
-  .mode.altgr {
-    transition-duration: 250ms;
-    transition-timing-function: ease-out;
-    z-index: 5000;
-    opacity: 1;
-  }
+.template.show {
+  opacity: 1;
+  z-index: 5000;
+  transition-timing-function: ease-out;
 }

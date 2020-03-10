@@ -19,6 +19,7 @@ export class VisorColaComponent implements OnInit {
   ip: string;
   data: Voucher[];
   private socketTimer: any;
+  private socketTimeout = 5000;
 
   constructor(
     private ventaServ: VentaService,
@@ -104,6 +105,6 @@ export class VisorColaComponent implements OnInit {
 
     this.socketTimer = setInterval(() => {
       this.io.connect();
-    }, 250);
+    }, this.socketTimeout);
   }
 }

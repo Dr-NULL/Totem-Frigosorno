@@ -1,5 +1,5 @@
-import { Layout } from '../layout';
-import SYS from '../system-keys';
+import { Layout } from '../lib/layout';
+import SYS from '../lib/system-keys';
 
 export const LAYOUT_RUT: Layout = {
   name: 'R.U.T.',

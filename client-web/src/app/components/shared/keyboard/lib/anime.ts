@@ -1,107 +1,52 @@
-import { ElementRef } from '@angular/core';
+import { Renderer2, ElementRef } from '@angular/core';
+
+export type Mode = 'default' | 'shift' | 'altgr';
 
 export class Anime {
-  private self: HTMLElement;
-  get outlet(): HTMLElement {
-    return this.queryOne('app-root > .content > *:not(router-outlet)');
+  private render: Renderer2;
+  private element: HTMLElement;
+  public hold = false;
+
+  private modeValue: Mode;
+  public get mode(): Mode {
+    return this.modeValue;
+  }
+  public set mode(v: Mode) {
+    this.modeValue = v;
+    const len = this.element.children.length;
+    for (let i = 0; i < len; i++) {
+      const node = this.element.children.item(i);
+      if (node.getAttribute('data-mode') === v) {
+        this.render.addClass(node, 'show');
+      } else {
+        this.render.removeClass(node, 'show');
+      }
+    }
   }
 
-  private new = true;
-  private defau: HTMLElement;
-  private shift: HTMLElement;
-  private altgr: HTMLElement;
+  constructor(render: Renderer2, element: ElementRef<HTMLElement>) {
+    this.render = render;
+    this.element = element.nativeElement;
+    this.modeValue = 'default';
 
-  constructor(ref: ElementRef<HTMLElement>) {
-    this.self = ref.nativeElement;
-    this.self.classList.add('default');
-
-    const name = this.self.attributes.getNamedItem('name').value;
-    this.defau = this.queryOne(`app-keyboard[name=${name}] > .mode.default`);
-    this.shift = this.queryOne(`app-keyboard[name=${name}] > .mode.shift`);
-    this.altgr = this.queryOne(`app-keyboard[name=${name}] > .mode.altgr`);
-  }
-
-  queryOne(input: string) {
-    return document.querySelector(input) as HTMLElement;
-  }
-
-  queryAll(input: string) {
-    const data: HTMLElement[] = [];
-    document.querySelectorAll(input).forEach((item: HTMLElement) => {
-      data.push(item);
-    });
-
-    return data;
-  }
-
-  getChildren() {
-    const data: HTMLElement[] = [];
-    this.self.childNodes.forEach((item: HTMLElement) => {
-      data.push(item);
-    });
-
-    return data;
+    this.hide();
   }
 
   show() {
-    this.outlet.style.cssText = `
-      transition-duration: 250ms;
-      transition-timing-function: ease-out;
-      height: calc(100vh - 3rem - ${this.defau.offsetHeight}px)!important
-    `;
+    const node: HTMLElement = this.element.querySelector('.template.show');
+    const height = node.offsetHeight;
 
-    this.self.style.cssText = `
-      transition-duration: 250ms;
-      box-shadow:  0 0 2rem #151515;
-      transition-timing-function: ease-out;
-      height: ${this.defau.offsetHeight}px;
-      bottom: 0;
-    `;
+    this.render.setStyle(this.element, 'opacity', '1');
+    this.render.setStyle(this.element, 'height', `${height}px`);
+    this.render.setStyle(this.element, 'transition-duration', '250ms');
+    this.render.setStyle(this.element, 'transition-timing-function', 'ease-out');
   }
 
   hide() {
-    if (this.new) {
-      this.new = false;
-      this.self.style.bottom = `-${this.defau.offsetHeight}px`;
-    } else {
-      this.outlet.style.cssText = `
-        transition-duration: 250ms;
-        transition-timing-function: ease-out;
-        height: calc(100vh - 3rem)!important
-      `;
-
-      this.self.style.cssText = `
-        transition-duration: 250ms;
-        box-shadow:  none;
-        transition-timing-function: ease-out;
-        height: ${this.defau.offsetHeight}px;
-        bottom: -${this.defau.offsetHeight}px;
-      `;
-    }
+    this.render.setStyle(this.element, 'opacity', '0');
+    this.render.setStyle(this.element, 'height', `0`);
+    this.render.setStyle(this.element, 'transition-duration', '250ms');
+    this.render.setStyle(this.element, 'transition-timing-function', 'ease-in');
   }
 
-  get mode(): 'default' | 'shift' | 'altgr' {
-    if (this.self.classList.contains('shift')) {
-      this.self.classList.remove('default');
-      this.self.classList.remove('altgr');
-      this.self.classList.add('shift');
-      return 'shift';
-    } else if (this.self.classList.contains('altgr')) {
-      this.self.classList.remove('default');
-      this.self.classList.remove('shift');
-      this.self.classList.add('altgr');
-      return 'altgr';
-    } else {
-      this.self.classList.remove('shift');
-      this.self.classList.remove('altgr');
-      this.self.classList.add('default');
-      return 'default';
-    }
-  }
-  set mode(v: 'default' | 'shift' | 'altgr') {
-    this.self.classList.remove('default');
-    this.self.classList.remove('shift');
-    this.self.classList.remove('altgr');
-    this.self.classList.add(v);
-  }
 }

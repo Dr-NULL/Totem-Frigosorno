@@ -1,198 +1,100 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, HostListener, Renderer2, EventEmitter, Output } from '@angular/core';
 import { Layout, normalize } from './lib/layout';
-import { LAYOUT_NUMPAD } from './lib/layouts/numpad';
-import { Writter } from './lib/writter';
+import { StaticRef } from './lib/static-ref';
+import { KeyReader } from './lib/key-reader';
 import { Anime } from './lib/anime';
+import { Key } from './lib/layout';
 import SYS from './lib/system-keys';
-
-export { Writter };
 
 @Component({
   selector: 'app-keyboard',
   templateUrl: './keyboard.component.html',
   styleUrls: ['./keyboard.component.scss']
 })
-export class KeyboardComponent implements OnInit, AfterViewInit {
-  // Propiedad que almacena la plantilla a usar
-  protected rawLayout: Layout;
-  get layout(): Layout {
-    return this.rawLayout;
-  }
-  @Input()
-  set layout(v: Layout) {
-    this.rawLayout = normalize(v);
-  }
+export class KeyboardComponent implements OnInit, OnDestroy {
+  static htmlCurrentInput: ElementRef<HTMLInputElement>;
 
-  // Otras variables internas
-  @Input()
-  name: string;
+  private timerTimeout: any;
+  private timerInterval: any;
+  public anime: Anime;
 
   @Output()
-  callback = new EventEmitter<string>();
+  pressEnter = new EventEmitter<void>();
+  @Output()
+  pressEscape = new EventEmitter<void>();
+  @Output()
+  pressTab = new EventEmitter<void>();
 
-  hold = false;
-  anime: Anime;
-  writter: Writter;
+  @Input()
+  name: string;
+  layoutValue: Layout = normalize({ name: 'empty', rows: [] });
+  public get layout(): Layout {
+    return this.layoutValue;
+  }
+  @Input()
+  public set layout(v: Layout) {
+    this.layoutValue = normalize(v);
+  }
 
   constructor(
-    private rawSelf: ElementRef<HTMLElement>
-  ) {
-    this.anime = new Anime(this.rawSelf);
-    this.writter = new Writter();
-  }
+    private htmlSelf: ElementRef<HTMLElement>,
+    private render: Renderer2
+  ) { }
 
-  ngOnInit() {
-    if (this.layout == null) {
-      this.layout = LAYOUT_NUMPAD;
+  ngOnInit(): void {
+    this.anime = new Anime(this.render, this.htmlSelf);
+    if (StaticRef.keyboards[this.name] == null) {
+      StaticRef.keyboards[this.name] = this;
     }
   }
 
-  ngAfterViewInit() {
-    this.anime = new Anime(this.rawSelf);
-    this.anime.hide();
-  }
-
-  @HostListener('document:mousedown', ['$event'])
-  onMouseUp(ev: MouseEvent) {
-    const target = ev.target as HTMLElement;
-
-    // ev.stopImmediatePropagation();
-    if (Writter.input == null) {
-      this.anime.hide();
-    } else {
-      const shared = Writter.input;
-      const attr = shared.attributes.getNamedItem('keyboard');
-
-      if (
-        (attr.value === this.name) &&
-        (this.getAncestor(target, 'mat-form-field') == null) &&
-        (this.getAncestor(target, 'app-keyboard') == null)
-      ) {
-        setTimeout(() => {
-          this.anime.hide();
-          this.writter.forceBlur(shared);
-        }, 50);
-      }
+  ngOnDestroy(): void {
+    if (StaticRef.keyboards[this.name] != null) {
+      delete StaticRef.keyboards[this.name];
     }
   }
 
-  getAncestor(node: HTMLElement, nodeName: string) {
-    let res = node;
-    if (res == null) {
-      return null;
-    }
+  @HostListener('mousedown', [ '$event' ])
+  onClick(ev: MouseEvent) {
+    ev.preventDefault();
+    ev.stopImmediatePropagation();
 
-    while (res != null) {
-      if (res.nodeName.toUpperCase() === nodeName.toUpperCase()) {
-        return res;
-      }
-      res = res.parentElement;
-    }
+    const staticInput = StaticRef
+      .currentInput
+      .nativeElement;
 
-    return null;
+    if (staticInput != null) {
+      staticInput.focus();
+    }
   }
 
-  // Usar para forzar la actualización del value en la view correspondiente
-  triggerKeyUp(key: string) {
-    const input = Writter.input;
-    const event = new KeyboardEvent(
-      'keyup',
-      {
-        bubbles: false,
-        cancelable: true,
-        composed: false,
-        key,
-        shiftKey: false,
-        ctrlKey: false,
-        altKey: false,
-        metaKey: false
-      }
-    );
-    const target = new EventTarget();
-    input.dispatchEvent(event);
-  }
+  onMouseDown(ev: MouseEvent, value: Key) {
+    const staticInput = StaticRef
+      .currentInput
+      .nativeElement;
 
-  onKeyPress(key: string) {
-    const input = Writter.input;
-    let isFocus = true;
-
-    switch (key) {
-      case null:
-      case undefined:
-        if (!this.hold) {
-          this.anime.mode = 'default';
-        }
+    switch (value) {
+      case SYS.ENTER:
+        this.pressEnter.emit();
         break;
-
-      case SYS.BACK.value:
-        this.writter.delete();
+      case SYS.ESC:
+        this.pressEscape.emit();
         break;
-
-      case SYS.ENTER.value:
-        this.callback.emit(input.value);
+      case SYS.TAB:
+        this.pressTab.emit();
         break;
-
-      case SYS.SHIFT.value:
-        this.hold = false;
-        if (this.anime.mode !== 'shift') {
-          this.anime.mode = 'shift';
-        } else {
-          this.anime.mode = 'default';
-        }
-        break;
-
-      case SYS.CAPS.value:
-        this.hold = !this.hold;
-        if (this.anime.mode !== 'shift') {
-          this.anime.mode = 'shift';
-        } else {
-          this.anime.mode = 'default';
-        }
-        break;
-
-      case SYS.ALTGR.value:
-        this.hold = false;
-        if (this.anime.mode !== 'altgr') {
-          this.anime.mode = 'altgr';
-        } else {
-          this.anime.mode = 'default';
-        }
-        break;
-
-      case SYS.LEFT.value:
-        this.writter.moveLeft();
-        break;
-
-      case SYS.RIGHT.value:
-        this.writter.moveRight();
-        break;
-
-      case SYS.TAB.value:
-        isFocus = false;
-        this.anime.hide();
-        if (this.anime.mode === 'default') {
-          this.writter.nextInput();
-        } else {
-          if (!this.hold) {
-            this.anime.mode = 'default';
-          }
-          this.writter.prevInput();
-        }
-        break;
-
       default:
-        this.writter.write(key);
-        if (!this.hold) {
-          this.anime.mode = 'default';
-        }
-        break;
+        KeyReader.readKey(value, this.anime);
+        this.timerTimeout = setTimeout(() => {
+          this.timerInterval = setInterval(() => {
+            KeyReader.readKey(value, this.anime);
+          }, 50);
+        }, 500);
     }
+  }
 
-    this.triggerKeyUp(key);
-    if (isFocus) {
-      setTimeout(() => {
-        Writter.input.focus();
-      }, 50);
-    }
+  onMouseUp() {
+    clearTimeout(this.timerTimeout);
+    clearInterval(this.timerInterval);
   }
 }

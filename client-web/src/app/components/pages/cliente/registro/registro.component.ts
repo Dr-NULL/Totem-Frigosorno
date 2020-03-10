@@ -33,9 +33,9 @@ export class RegistroComponent implements OnInit {
   apellidoM = '';
   fechaNac = new Date();
   phone = '';
-  phoneIsValid = false;
+  phoneIsValid = true;
   email = '';
-  emailIsValid = false;
+  emailIsValid = true;
 
   constructor(
     private rutServ: RutService,
@@ -240,7 +240,7 @@ export class RegistroComponent implements OnInit {
       if (!this.phoneIsValid) {
         await this.openDialog(
           'ERROR!',
-          'El Número Telefónico que ha ingresado no es válido, por favor verifique'
+          'El Número Telefónico que ha ingresado no es válido, por favor verifique '
           + 'que los números ingresados sean los correctos. Si no desea colocar '
           + 'su número puede omitir este campo.',
           2500

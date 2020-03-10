@@ -22,11 +22,12 @@ import { RegistroComponent } from './components/pages/cliente/registro/registro.
 import { ModalBasicComponent } from './components/shared/modal-basic/modal-basic.component';
 import { ModalCustomComponent } from './components/shared/modal-custom/modal-custom.component';
 import { KeyboardComponent } from './components/shared/keyboard/keyboard.component';
-import { KeyboardDirective } from './directives/keyboard/keyboard.directive';
+import { KeyboardDirective } from './components/shared/keyboard/keyboard.directive';
 import { SelectTotemComponent } from './components/pages/visor/select-totem/select-totem.component';
 import { VisorColaComponent } from './components/pages/visor/visor-cola/visor-cola.component';
 import { VisorServeComponent } from './components/pages/visor/visor-serve/visor-serve.component';
 import { TooltipComponent } from './components/shared/tooltip/tooltip.component';
+import { DatepickerComponent } from './components/shared/datepicker/datepicker.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { TooltipComponent } from './components/shared/tooltip/tooltip.component'
     SelectTotemComponent,
     VisorColaComponent,
     VisorServeComponent,
-    TooltipComponent
+    TooltipComponent,
+    DatepickerComponent
   ],
   imports: [
     // System Modules

@@ -33,10 +33,7 @@ export class KeyboardDirective implements OnInit, OnDestroy {
 
   @HostListener('blur', [ '$event' ])
   onBlur(ev: FocusEvent) {
-    ev.preventDefault();
-    ev.stopImmediatePropagation();
     StaticRef.currentInput = null;
-
     if (StaticRef.keyboards[this.name] != null) {
       StaticRef.keyboards[this.name].anime.hide();
     }

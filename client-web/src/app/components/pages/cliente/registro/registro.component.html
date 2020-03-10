@@ -11,7 +11,7 @@
         [(value)]="this.rut"
         (keyup)="this.rut = $event.target.value"
         (keyup)="this.onKeyUpRut()"
-        (focusOut)="this.onBlurRut($event)">
+        (blur)="this.onBlurRut($event)">
       <app-tooltip faIcon="far fa-question-circle" duration="4000" horAlign="left" width="calc(100vw - 6rem)">
         Se usará para brindarle una atención personalizada, identificar sus compras, y de esta forma ofrecerle promociones en base a los productos que más sule consumir.
       </app-tooltip>
@@ -24,7 +24,7 @@
         [(value)]="this.nombres"
         (keyup)="this.nombres = $event.target.value"
         (keyup)="onBlurAll()"
-        (focusOut)="this.onBlurAll()">
+        (blur)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
       <input matInput
@@ -34,7 +34,7 @@
         [(value)]="this.apellidoP"
         (keyup)="this.apellidoP = $event.target.value"
         (keyup)="onBlurAll()"
-        (focusOut)="this.onBlurAll()">
+        (blur)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
       <input matInput
@@ -44,7 +44,7 @@
         [(value)]="this.apellidoM"
         (keyup)="this.apellidoM = $event.target.value"
         (keyup)="onBlurAll()"
-        (focusOut)="this.onBlurAll()">
+        (blur)="this.onBlurAll()">
     </mat-form-field>
     <mat-form-field class="col-6">
       <div class="datePickerFG" (click)="datePicker.open()"></div>
@@ -69,7 +69,7 @@
         (keyup)="this.phone = $event.target.value"
         (keyup)="this.onKeyUpPhone($event.target)"
         (focus)="this.onFocusPhone($event.target)"
-        (focusOut)="this.onBlurPhone($event.target)">
+        (blur)="this.onBlurPhone($event.target)">
       <app-tooltip faIcon="far fa-question-circle" duration="4000">
         En caso de que coloque su número de teléfono, le enviaremos ofertas por medio de Whatsapp.
       </app-tooltip>
@@ -82,7 +82,7 @@
         [(value)]="this.email"
         (keyup)="this.email = $event.target.value"
         (keyup)="this.onBlurAll()"
-        (focusOut)="this.onBlurEmail($event.target)">
+        (blur)="this.onBlurEmail($event.target)">
       <app-tooltip faIcon="far fa-question-circle" duration="4000">
         En caso de que coloque su correo electrónico, le enviaremos ofertas por medio de éste.
       </app-tooltip>

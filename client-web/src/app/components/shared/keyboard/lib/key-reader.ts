@@ -69,6 +69,9 @@ export class KeyReader {
       this.anime.hold = false;
       this.anime.mode = 'default';
     }
+
+    const event = new KeyboardEvent('keyup');
+    StaticRef.currentInput.nativeElement.dispatchEvent(event);
   }
 
   execFunct() {

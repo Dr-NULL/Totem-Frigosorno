@@ -292,9 +292,12 @@ export class RegistroComponent implements OnInit {
         (this.fechaNac != null) &&
         (moment(new Date()).diff(this.fechaNac, 'years') >= 16) &&
         (moment(new Date()).diff(this.fechaNac, 'years') <= 110)
+      ) && (
+        (this.phoneIsValid) ||
+        (this.phone.length === 0)
       ) &&
-      (this.phoneIsValid) &&
-      (this.emailIsValid ||
+      (
+        (this.emailIsValid) ||
         (this.email.length === 0)
       )
     );

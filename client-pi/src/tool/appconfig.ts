@@ -1,4 +1,5 @@
 import { File } from './file';
+import Log from './log';
 
 interface IAppconfig {
   server: string;
@@ -45,6 +46,8 @@ export class AppConfig implements IAppconfig {
       };
 
       this.write(data);
+      Log.er('appconfig.json no encontrado!')
+      Log.ln('se ha creado una nueva copia, configúrela y vuelva a iniciar el programa.')
     }
   }
 

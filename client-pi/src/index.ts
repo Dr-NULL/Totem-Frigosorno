@@ -4,16 +4,22 @@ import { Gpio } from 'onoff';
 import { Log } from './tool/log';
 
 const CONFIG = new AppConfig();
-const BUTTON = new Gpio(CONFIG.gpio, 'in', 'falling', { debounceTimeout: 10 });
+const LED = new Gpio(CONFIG.gpioLed, 'out')
+const BUTTON = new Gpio(CONFIG.gpioBtn, 'in', 'falling', { debounceTimeout: 10 });
 const TIMEOUT = 1000
 let waiting = false
 
 Log.title('Tótem - Raspberry PI')
+LED.writeSync(1)
+
 BUTTON.watch(() => {
   if (!waiting) {
     nextCorrelat();
+    LED.writeSync(0)
+
     setTimeout(() => {
       waiting = false
+      LED.writeSync(1)
     }, TIMEOUT);
   }
 
@@ -21,5 +27,7 @@ BUTTON.watch(() => {
 });
 
 process.on('SIGINT', () => {
-  BUTTON.unexport();
+  LED.writeSync(1)
+  LED.unexport()
+  BUTTON.unexport()
 });

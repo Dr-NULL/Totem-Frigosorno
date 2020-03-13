@@ -4,7 +4,8 @@ import Log from './log';
 interface IAppconfig {
   server: string;
   totem: string;
-  gpio: number;
+  gpioBtn: number;
+  gpioLed: number;
 }
 
 export class AppConfig implements IAppconfig {
@@ -27,12 +28,21 @@ export class AppConfig implements IAppconfig {
     this.write(data);
   }
   
-  public get gpio(): number {
-    return this.read().gpio;
+  public get gpioBtn(): number {
+    return this.read().gpioBtn;
   }
-  public set gpio(v: number) {
+  public set gpioBtn(v: number) {
     const data = this.read();
-    data.gpio = v;
+    data.gpioBtn = v;
+    this.write(data);
+  }
+  
+  public get gpioLed(): number {
+    return this.read().gpioLed;
+  }
+  public set gpioLed(v: number) {
+    const data = this.read();
+    data.gpioLed = v;
     this.write(data);
   }
 
@@ -42,7 +52,8 @@ export class AppConfig implements IAppconfig {
       const data: IAppconfig = {
         server: '--HOST--',
         totem: '--IP Totem--',
-        gpio: 4
+        gpioBtn: 4,
+        gpioLed: 27
       };
 
       this.write(data);

@@ -12,7 +12,8 @@ class AppConfig {
             const data = {
                 server: '--HOST--',
                 totem: '--IP Totem--',
-                gpio: 4
+                gpioBtn: 4,
+                gpioLed: 27
             };
             this.write(data);
             log_1.default.er('appconfig.json no encontrado!');
@@ -35,12 +36,20 @@ class AppConfig {
         data.totem = v;
         this.write(data);
     }
-    get gpio() {
-        return this.read().gpio;
+    get gpioBtn() {
+        return this.read().gpioBtn;
     }
-    set gpio(v) {
+    set gpioBtn(v) {
         const data = this.read();
-        data.gpio = v;
+        data.gpioBtn = v;
+        this.write(data);
+    }
+    get gpioLed() {
+        return this.read().gpioLed;
+    }
+    set gpioLed(v) {
+        const data = this.read();
+        data.gpioLed = v;
         this.write(data);
     }
     read() {

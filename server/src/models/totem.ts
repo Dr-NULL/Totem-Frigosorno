@@ -4,6 +4,9 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 export class Totem extends BaseEntity {
     @PrimaryGeneratedColumn({ type: "int" })
     id: number;
+
+    @Column({ type: "bit", default: 1 })
+    isStandby: boolean;
     
     @Column({ type: "varchar", length: 50 })
     descripc: string;

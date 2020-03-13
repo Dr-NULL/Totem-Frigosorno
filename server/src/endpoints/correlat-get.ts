@@ -19,9 +19,10 @@ CORRELAT_GET.callback = async (req, res) => {
             })
             return
         }
-    
+
+        let cant = (totem.isStandby) ? 2 : 3
         const data = await Venta.find({
-            take: 3,
+            take: cant,
             where: {
                 totem: totem,
                 isServed: false
@@ -31,6 +32,17 @@ CORRELAT_GET.callback = async (req, res) => {
                 id: 'ASC'
             }
         })
+
+        if (data.length == 0) {
+          totem.isStandby = true
+          await totem.save()
+        }
+        if (totem.isStandby) {
+          data.unshift(null)
+        }
+        while (data.length - 3) {
+          data.push(null)
+        }
 
         res.api.send(data)
     } catch (err) {

@@ -25,7 +25,7 @@ export class VisorColaComponent implements OnInit {
     private ventaServ: VentaService,
     private route: ActivatedRoute,
     private io: Socket
-) { }
+  ) { }
 
   // Lee parámetros de la URL e inicializa el Socket
   ngOnInit() {
@@ -70,11 +70,19 @@ export class VisorColaComponent implements OnInit {
   drawElem(data: Venta[]) {
     const tmp: Voucher[] = [];
     for (const venta of data) {
-      tmp.push({
-        id: venta.id,
-        corr: venta.correlat.toString(),
-        tipo: venta.tipoAte.cod
-      });
+      if (venta == null) {
+        tmp.push({
+          id: 0,
+          corr: '--',
+          tipo: '-'
+        });
+      } else {
+        tmp.push({
+          id: venta.id,
+          corr: venta.correlat.toString(),
+          tipo: venta.tipoAte.cod
+        });
+      }
     }
 
     while (tmp.length < 3) {

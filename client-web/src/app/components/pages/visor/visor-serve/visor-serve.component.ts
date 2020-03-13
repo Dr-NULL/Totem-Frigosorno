@@ -71,17 +71,26 @@ export class VisorServeComponent implements OnInit {
   async drawElem(data: Venta[] = []) {
     const tmp: Voucher[] = [];
     for (const venta of data) {
-      const nombre = venta
-        .cliente
-        .nombres
-        .split(/\s+/gi)[0];
+      if (venta == null) {
+        tmp.push({
+          id: 0,
+          corr: '--',
+          tipo: '-',
+          nombre: '-----'
+        });
+      } else {
+        const nombre = venta
+          .cliente
+          .nombres
+          .split(/\s+/gi)[0];
 
-      tmp.push({
-        id: venta.id,
-        tipo: venta.tipoAte.cod,
-        corr: venta.correlat.toString(),
-        nombre: nombre + ' ' + venta.cliente.apellidoP
-      });
+        tmp.push({
+          id: venta.id,
+          tipo: venta.tipoAte.cod,
+          corr: venta.correlat.toString(),
+          nombre: nombre + ' ' + venta.cliente.apellidoP
+        });
+      }
     }
 
     while (tmp.length < 3) {

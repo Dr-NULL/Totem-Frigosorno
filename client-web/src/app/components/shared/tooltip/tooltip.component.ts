@@ -64,6 +64,7 @@ export class TooltipComponent implements OnInit, OnDestroy {
     }
 
     ev.stopPropagation();
+    this.show();
   }
 
   onClickOutside(ev: MouseEvent) {

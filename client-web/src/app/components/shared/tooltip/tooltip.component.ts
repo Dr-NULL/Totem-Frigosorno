@@ -75,11 +75,12 @@ export class TooltipComponent implements OnInit, OnDestroy {
     const field = new Html(ev.target as HTMLElement)
       .getAncestor('mat-form-field');
 
-    if (field == null) {
-      this.hide();
-    } else if (field.contains(this.self.nativeElement)) {
-      this.hide();
-    }
+    this.hide();
+    // if (field == null) {
+    //   this.hide();
+    // } else if (field.contains(this.self.nativeElement)) {
+    //   this.hide();
+    // }
   }
 
   show() {

@@ -30,7 +30,7 @@ export class InfoComponent implements OnInit {
       if (res.data.id != null) {
         // Encontrado
         this.descripc = res.data.descripc;
-        this.currCorr = String(res.data.currCorr);
+        this.currCorr = (res.data.currCorr) ? `${res.data.currCorr}` : '--';
         this.fecha = moment(res.data.currFecha).format('DD/MM/YYYY');
         this.printerIp = res.data.printerIp;
         this.printerName = res.data.printerName;

@@ -8,7 +8,7 @@ export async function loadTotem() {
         let test = new Totem()
         test.ip = '127.0.0.1'
         test.descripc = 'PC para pruebas locales en desarrollo'
-        test.printerName = 'printerTotem_Z_Development'
+        test.printerName = 'Microsoft Print to PDF'
         await test.save()
     
         test = new Totem()
